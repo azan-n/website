@@ -16,7 +16,7 @@ const posts = await getProjectPosts();
     rssUrl="/projects/rss.xml"
 >
     <PageHeader heading="Projects" description={PROJECTS_DESCRIPTION} />
-    <ol class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+    <ol class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
         {
             // TODO, keyboard navigation
             posts.map((post) => (

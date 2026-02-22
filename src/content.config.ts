@@ -1,5 +1,5 @@
-import { glob, type Loader } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
+import { glob, type Loader } from "astro/loaders";
 import { slug } from "github-slugger";
 import fs from "node:fs";
 import path from "node:path";
@@ -17,7 +17,7 @@ const photosLoader: Loader = {
     for (const folder of folders) {
       const indexPath = path.join(baseDir, folder, "index.md");
       const hasCaption = fs.existsSync(indexPath);
-      const body = hasCaption ? fs.readFileSync(indexPath, "utf-8") : undefined;
+      const body = hasCaption ? fs.readFileSync(indexPath, "utf-8") : "";
 
       // Parse date from folder name (YYYYMM)
       const year = parseInt(folder.slice(0, 4), 10);
@@ -43,6 +43,7 @@ const ProjectsCollection = defineCollection({
   loader: glob({
     pattern: "**/*.mdoc",
     base: "./src/data/Projects",
+    // generateId: (o) => slu
   }),
   schema: ({ image }) =>
     z

@@ -51,7 +51,7 @@ export function getPostMetadata(
   filePath?: string,
 ): { date: Date; title: string } | null {
   // Match the pattern: date-title before /index.md
-  const match = filePath?.match(/\/(\d{8}-)(.+?).mdoc$/);
+  const match = filePath?.match(/\/(\d{8})\s(.+?).mdoc$/);
   return match && match[1] && match[2]
     ? { date: yyyymmddToDate(match[1]), title: match[2] }
     : null;

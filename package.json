@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "ship": "astro build && pnpm exec wrangler pages deploy",
+    "build": "astro check && astro build",
+    "ship": "astro check && astro build && pnpm exec wrangler pages deploy",
     "playlists:get": "node --experimental-transform-types ./lib/youtubePlaylists.ts",
     "backup": "node --experimental-transform-types ./lib/backup.ts"
   },

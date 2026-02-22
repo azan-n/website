@@ -16,9 +16,8 @@ export async function getNotesRss(): Promise<RSSFeedItem[]> {
     return {
       link: `${SITE.url}/notes/${n.id}`,
       title: n.title,
-      pubDate: n.date,
+      pubDate: n.data.date,
       author: SITE.author,
     };
   });
 }
-
