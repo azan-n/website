@@ -34,7 +34,7 @@ const { Content } = await render(post);
 
 <Layout title={post.title} description="">
     <article id="article" role="article" class="post-grid">
-        <h1 class="full-bleed">{post.title}</h1>
+        <h1>{post.title}</h1>
         <div class="-mt-4 flex flex-row items-center gap-4">
             <Datetime datetime={post.data.date} showTime={false} />
             <ReadingTime renderedHtml={post.rendered?.html} />

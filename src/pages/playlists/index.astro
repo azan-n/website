@@ -1,7 +1,7 @@
 ---
 import Layout from "@/components/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { getPlaylistLastUpdate, PLAYLISTS_DESCRIPTION } from "./_playlists";
+import { getPlaylistLastUpdate, PLAYLISTS_DESCRIPTION, formatSongTitle } from "./_playlists";
 import PageHeader from "@/components/PageHeader.astro";
 import { getCollection } from "astro:content";
 
@@ -63,15 +63,26 @@ const playlists = (await getCollection("playlists")).sort(
                                 </button>
                             </span>
                             <!-- text -->
-                            <span class="max-w-prose">
-                                <span class="text-xl">{p.data.snippet.title}</span>
-                                <br />
+                            <div class="max-w-prose">
+                                <h3 class="text-xl mb-2">{p.data.snippet.title}</h3>
                                 {p.data.snippet.localized.description && (
-                                    <span class="text-sm">
+                                    <p class="text-xs leading-tight opacity-80 mb-4">
                                         {p.data.snippet.localized.description}
-                                    </span>
+                                    </p>
                                 )}
-                            </span>
+                                <ol class="!list-none pl-0 flex flex-col gap-1">
+                                    {p.data.playlist_items.items?.map((item) => (
+                                        <li class="list-none flex gap-2 text-xs">
+                                            <a
+                                                href={`https://music.youtube.com/watch?v=${item.snippet.resourceId.videoId}&list=${p.data.id}`}
+                                                class="hover:underline truncate"
+                                            >
+                                                {formatSongTitle(item.snippet.title)}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
                         </li>
                     ),
             )

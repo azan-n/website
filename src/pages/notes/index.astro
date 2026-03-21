@@ -18,7 +18,7 @@ const notes = await getNotes();
                                 <span class="text-xs text-text-muted tabular-nums">
                                     {Intl.DateTimeFormat(navigator.language, {
                                         dateStyle: "full",
-                                    }).format(note.date)}
+                                    }).format(note.data.date)}
                                 </span>
                             </span>
                         </li>
