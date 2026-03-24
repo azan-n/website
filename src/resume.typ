@@ -1,82 +1,127 @@
-#set page(paper: "a4", margin: 18mm)
-#set text(font: "Liberation Sans", size: 9pt, fill: rgb("#374151"))
-#set par(leading: 0.55em)
+#import "functions.typ": *
 
-#let ink    = rgb("#111827")
-#let muted  = rgb("#6b7280")
-#let subtle = rgb("#374151")
-#let rule-c = rgb("#999999")
+#set page(paper: "a4", margin: 12mm)
+#set text(font: "Liberation Sans", 10pt)
 #let link-c = rgb("#2563eb")
-
 #show link: set text(fill: link-c)
 
-#let section(title) = {
-  v(8pt)
-  text(size: 12pt, weight: "thin", fill: ink, title)
-  line(length: 100%, stroke: 0.5pt + rule-c)
-  v(8pt)
-}
-
-#let subtitle(company, role, period, first: false) = {
-  if not first { v(8pt) }
-  grid(
-    columns: (1fr, auto),
-    text(size: 10pt, weight: "bold",bottom-edge: 0.1em, fill: ink, company),
-    text(size: 9pt, fill: muted, bottom-edge: 0.1em, role+" | "+period),
-  )
-}
-
-
-#let kv(key, value) = {
-  text(key + " - ")
-  text(fill: subtle, value)
-  linebreak()
-}
-
-#let oss-item(name, url, desc) = {
-  [#link(url)[#text(name)]#text(fill: subtle)[ \- #desc]]
-  linebreak()
-}
-
-// Document start!
-
-#text(size: 20pt, weight: "bold", fill: ink)[Azan]
-
-#let sep = text(fill: muted)[#h(4pt) · #h(4pt)]
-#link("https://azan-n.com")[azan-n.com]#sep#link("mailto:work@azan-n.com")[work\@azan-n.com]#sep#link("https://github.com/azan-n")[github.com/azan-n]
-#v(6pt)
-
-#section("Experience")
-#subtitle("Kaafi Hai", "Remote - Consulting Software Engineer", "2025.12–Present", first: true)
-Built websites for music festivals and artists using *Astro* and *WordPress*. Developed an executive function application for neurodivergent people using *Tauri* and *React*.
-
-#subtitle([#link("cryptlex.com")[Cryptlex]], "Remote - Software Engineer", "2021.09–Present")
-Standardized sentinel values, created a subscription management system, introduced integration tests, built a feature flagging system, added Rust and Android SDK support, and built a server licensing portal, collectively driving *\$12,000 in MRR growth* and adoption by *27,000+ users*
-Enhanced monitoring with OpenTelemetry, developed a reusable component library, and empowered data-driven decisions using Metabase and PostHog.
-Led a team of *7 engineers* using Agile processes to streamline project workflows.
-
-#subtitle("Self-employed", "Remote - Freelance Software Engineer", "2019.01–Present")
-Designed and built features using Django, HTMX, and AlpineJS for an ed-tech startup. Automated workflows with Docker and GitHub Actions.
-
-#section("Open Source")
-#oss-item("reportoire", "https://github.com/azan-n/reportoire", "Open-source project to analyze test reports in JUnit XML format using DuckDB")
-#oss-item("halfsies", "https://github.com/azan-n/halfsies", "Privacy-preserving expense splitter in the browser")
-
-
-#section("Skills")
-#kv("Languages", "C#, JavaScript, Java, Rust, SQL, TypeScript, Go")
-#kv("Software Development", "AWS, Angular, Astro, EF Core, Node.js, .NET Core, PostgreSQL, React, WordPress")
-#kv("Tools", "Confluence, Docker, Figma, Git, GitHub Actions, Grafana, Metabase, Notion")
-
-#section("Education")
-#subtitle(
-  "Jamia Hamdard University",
-  first: true,
-  "Bachelor of Technology, Computer Science and Engineering",
-  "2017.06–2021.06"
+#grid(
+  columns: (3fr, 1fr),
+  align: (left + bottom, right + bottom),
+  smallcaps[
+    #text(font: "Liberation Serif", size: 30pt)[Azan]
+  ],
+  [
+    work\@azan-n.com \
+    https://azan-n.com
+  ],
 )
 
-#section("Certifications")
-#kv("Management", "Professional Scrum Master I – Scrum.org")
-#kv("Product", "Enterprise Design Thinking – IBM  ·  The Delft Design Approach – DelftX")
-#kv("Web", "Web Design: Strategy and Information Architecture – CalArts  ·  UX Design Fundamentals – CalArts")
+#line(length: 100%, stroke: 0.4pt)
+
+#sectionBlock(
+  [Experience],
+  [
+    #sectionHeading(
+      heading: [#link("kaafihai.com")[Kaafi Hai]],
+      location: [Remote],
+      role: [Consulting Software Engineer],
+      time: [2025.12 – Present],
+    )
+    - Built websites for music festivals and artists using *Astro* and *WordPress*.
+    - Developed an executive function application for neurodivergent people using *Tauri* and *React*.
+
+    #sectionHeading(
+      heading: [#link("cryptlex.com")[Cryptlex]],
+      location: [Remote],
+      role: [Software Engineer],
+      time: [2021.09 – Present],
+    )
+    - Standardized sentinel values, created a subscription management system, introduced integration tests, built a feature flagging system, added Rust and Android SDK support, and built a server licensing portal, collectively driving *\$12,000 in MRR growth* and adoption by *27,000+ users*
+    - Enhanced monitoring with OpenTelemetry, developed a reusable component library, and empowered data-driven decisions using Metabase and PostHog.
+    - Led a team of *7 engineers* using Agile processes to streamline project workflows.
+
+    #sectionHeading(
+      heading: [Independent Contractor],
+      location: [Remote],
+      role: [Software Engineer],
+      time: [2021.09 – Present],
+    )
+    - Designed and built features using Django, HTMX, and AlpineJS for ed-tech startup Goodly.
+    - Automated workflows with Docker and GitHub Actions.
+  ],
+)
+
+#sectionBlock(
+  [Talks and Workshops],
+  [
+    #sectionHeading(
+      heading: [#link("https://azan-n.com/notes/20260228-music-at-hack4play-with-strudelcc/")[Sampling using strudel.cc]],
+      location: [Kochi Bienalle],
+      time: [2026.03],
+    )
+    #sectionHeading(
+      heading: [#link("https://azan-n.com/projects/20250924-music-at-indiafoss-with-strudelcc/")[Music using strudel.cc]],
+      location: [IndiaFOSS],
+      time: [2025.09],
+    )
+  ],
+)
+
+#sectionBlock(
+  [Projects],
+  [
+    #sectionHeading(
+      heading: [#link("https://github.com/azan-n/reportoire")[reportoire]],
+    )
+    Open-source tool to analyze test reports in JUnit XML format in the browser using DuckDB WASM
+
+    #sectionHeading(
+      heading: [#link("https://github.com/azan-n/halfsies")[halfsies]],
+    )
+    Open-source, local-first, privacy-preserving expense splitter in the browser
+  ],
+)
+
+
+#sectionBlock(
+  [Skills],
+  [
+    #set terms(separator: [: ])
+    / Programming: C\#, JavaScript, Java, Rust, SQL, TypeScript, Go
+    / Software: AWS, Angular, Astro, Docker, EF Core, Figma, Node.js, Git, GitHub Actions, Grafana, Metabase, .NET Core, PostgreSQL, React, WordPress
+  ],
+)
+
+#sectionBlock(
+  [Education],
+  [
+    #sectionHeading(
+      heading: [Takshashila Institution],
+      location: [Bangalore, India],
+      role: [Graduate Certificate in Public Policy (Tech and Policy)],
+      time: [2025.09 – 2026.02],
+    )
+    #sectionHeading(
+      heading: [Jamia Hamdard University],
+      location: [New Delhi, India],
+      role: [Bachelor of Technology, Computer Science and Engineering],
+      time: [2017.06 – 2021.06],
+    )
+  ],
+)
+
+#sectionBlock(
+  [Certifications],
+  [
+    #set terms(separator: [: ])
+    / Management: Professional Scrum Master I (Scrum.org)
+    / Product: Enterprise Design Thinking (IBM),  The Delft Design Approach (DelftX)
+    / Web: Web Design: Strategy and Information Architecture (CalArts), UX Design Fundamentals (CalArts)
+  ],
+)
+
+// #section("Certifications")
+// #kv("Management", "")
+// #kv("", "")
+// #kv("Web", )
