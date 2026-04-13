@@ -231,7 +231,7 @@
     }
 
     :is(#article, .max-w-prose) :where(ol) {
-        @apply list-decimal pl-6;
+        @apply list-decimal list-inside pl-6;
     }
 
     pre {

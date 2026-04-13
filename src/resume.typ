@@ -17,7 +17,9 @@
   ],
 )
 
+Product-minded engineer with 4+ years at early-stage B2B startups. Comfortable owning the full arc from customer conversation to shipped feature. Builds and ships open-source tools.
 #line(length: 100%, stroke: 0.4pt)
+
 
 #sectionBlock(
   [Experience],
@@ -28,8 +30,8 @@
       role: [Consulting Software Engineer],
       time: [2025.12 – Present],
     )
-    - Built and open-sourced websites for music festivals and artists using *Astro* and *WordPress*.
-    - Developed an open-source executive function application for neurodivergent people using *Tauri* and *React*.
+    - Built and open-sourced websites for music festivals like #link("https://sultrymist.com")[Sultry Mist] using *Astro* and *WordPress*.
+    - Developed an open-source executive function application #link("https://github.com/kaafihai/baajit")[Baajit] for neurodivergent people using *Tauri* and *React*.
 
     #sectionHeading(
       heading: [#link("cryptlex.com")[Cryptlex]],
@@ -40,9 +42,9 @@
     Early-stage bootstrapped B2B SaaS startup (\~3 people at joining); wore many hats across the full business lifecycle.
     - *Sales & Growth:* Conducted product demos, qualified inbound leads, drafted proposals, and assisted in closing deals, contributing directly to *\$12,000 in MRR growth* and a customer base of *27,000+ users*.
     - *Product:* Gathered customer feedback through support and sales touchpoints, translated recurring pain points into feature specs, prioritized the backlog, and wrote documentation to reduce inbound friction.
-    - *Engineering:* Standardized sentinel values, built a subscription management system, introduced integration tests, implemented feature flags, added Rust and Android SDK support, and built a server licensing portal.
-    - *Observability & Data:* Enhanced monitoring with OpenTelemetry, developed a reusable component library, and enabled data-driven decisions using Metabase and PostHog.
-    - *Team:* Grew and led a team of *7 engineers* using Agile processes as the company scaled.
+    - *Engineering:* Standardized sentinel values, built a subscription management system, developed a reusable component library, introduced integration tests, implemented feature flags, added Rust and Android SDK support, and built a server licensing portal.
+    - *Observability & Data:* Enhanced monitoring with OpenTelemetry, and enabled data-driven decisions using Metabase and PostHog.
+    - *Team:* Hired and led a team of *7 engineers* using Agile processes as the company scaled.
 
     #sectionHeading(
       heading: [Independent Contractor],
@@ -90,7 +92,7 @@
       heading: [#link("https://github.com/azan-n/halfsies")[halfsies]],
       role: [TypeScript, React],
     )
-    Open-source, local-first expense splitter that encodes all state into shareable URLs — no backend, no accounts, no data retention. Licensed under AGPL-3.0.
+    Open-source, local-first expense splitter that encodes all state into shareable URLs. Licensed under AGPL-3.0.
   ],
 )
 

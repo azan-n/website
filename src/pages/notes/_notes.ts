@@ -5,7 +5,7 @@ function getNoteMetadata(filePath?: string) {
   if (!filePath) {
     throw Error("Filepath empty for note.");
   }
-  const match = filePath?.match(/\d{8}\s(.+)\.mdoc$/);
+  const match = filePath?.match(/\d{8}\s(.+?)\.(md|mdoc)$/);
 
   return match && match[1] ? { title: match[1] } : null;
 }

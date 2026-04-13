@@ -1,0 +1,103 @@
+{
+  "kind": "youtube#playlist",
+  "etag": "x4L0V-7JkXfGfWtM7FyoDGRp_iI",
+  "id": "PLxlIzqc0aEwl981oIlGRyJpkOpsjD27Do",
+  "snippet": {
+    "publishedAt": "2026-02-28T01:54:36.48922Z",
+    "channelId": "UCmsKnHGCovc_WyXXBibVeBA",
+    "title": "Paramore",
+    "description": "",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      },
+      "maxres": {
+        "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "channelTitle": "zan",
+    "localized": {
+      "title": "Paramore",
+      "description": ""
+    }
+  },
+  "contentDetails": {
+    "itemCount": 1
+  },
+  "playlist_items": {
+    "kind": "youtube#playlistItemListResponse",
+    "etag": "u04FTu6A8QfZtTtb6MlfkGGcCBE",
+    "items": [
+      {
+        "kind": "youtube#playlistItem",
+        "etag": "pZcZ8YY7Gcnph9EwQ_Lgrxo9Ebg",
+        "id": "UEx4bEl6cWMwYUV3bDk4MW9JbEdSeUpwa09wc2pEMjdEby41NkI0NEY2RDEwNTU3Q0M2",
+        "snippet": {
+          "publishedAt": "2026-02-28T01:54:36Z",
+          "channelId": "UCmsKnHGCovc_WyXXBibVeBA",
+          "title": "Paramore: This Is Why [OFFICIAL VIDEO]",
+          "description": "\"This Is Why\" Available now: https://paramore.lnk.to/tiw\nAlbum Out Now: https://paramore.lnk.to/tiwalbum\n\nVideo Credits: \nPARAMORE: Hayley Williams, Zac Farro, Taylor York\nDirector: Brendan Yates\nCast: Kayla Graninger\nCast: Zachary Gray\nCreative Director: Niki Roberton\nProduction Company: Vizionary\nProducer: Evan McGillivray\nPost Producer : Rachel Rinehardt\nDirector of Photography: Ian Hurdle\nPost: Slips Studios\nEditor: Anthony Miralles\n1st Assistant Director: Eugena Neumann\nProduction Designer: Jose Rojas\nLead Person: Peter Martinez\nProduction Assistant – Art: Alex Henery\nArt Director: Alexandria Heine\nHair Stylist: Brian O'Connor\nWardrobe Stylist: Lindsey Hartman\nWardrobe Assistant: Kelly Page\n1st Assistant Camera: Seth Lawrence\n2nd Assistant Camera: Devin Hassan\nKey Grip: Jason Gray\nBest Grip: Jay Lopez\nGrip: Robert Alvarez\nGrip: Daniel Ahumada\nGaffer: Ben Bowen\nBest Electric: Kevin Coulson\nDriver: James Beals\nDriver: Douglas Bloxton\nChoreographer: Alejandro Lara\n2nd Assistant Director: Alyssah Powell\nProduction Assistant: Kelsey Leitner\nProduction Assistant: Jyothsna Venkates\nProduction Assistnat: Kenner Clark\n\nSite: http://paramore.net\nStore: http://store.paramore.net\nSpotify: http://paramore.net/spotify\nTikTok: https://www.tiktok.com/@paramoreofficial\nFacebook: http://facebook.com/paramore\nInstagram: http://instagram.com/paramore\nTwitter: http://twitter.com/paramore\n\n[Lyrics]\nIf you have an opinion\nMaybe you should shove it\nOr maybe you could scream it\nMight be best to keep it\n \nTo yourself \n \nThis is why\nI don't leave the house\nYou say the coast is clear\nbut you won’t catch me out \nOh why?\nThis Is Why\n \nBetter have conviction\nWe want crimes of passion\nSurvival of the fittest\nYou’re either with us or you can keep it \n \nTo yourself \n \nThis is why\nI don't leave the house\nYou say the coast is clear,\nbut you won’t catch me out \nOh why?\nThis Is Why \n \nOne step beyond your door \nMight as well have been a free fall\nOne step beyond your door\nFalling down an endless hall\nOne step beyond your door\nMight as well have been a free fall\nOne step beyond your door\nAnd I’m floating like a cannonball \n \nThis is why\nI don't leave the house\nYou say the coast is clear,\nbut you won’t catch me out \nOh why?\nThis Is Why \n\n#Paramore #ThisIsWhy #OfficialVideo",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            },
+            "standard": {
+              "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/sddefault.jpg",
+              "width": 640,
+              "height": 480
+            },
+            "maxres": {
+              "url": "https://i.ytimg.com/vi/xIYJ7VaSxYY/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            }
+          },
+          "channelTitle": "zan",
+          "playlistId": "PLxlIzqc0aEwl981oIlGRyJpkOpsjD27Do",
+          "position": 0,
+          "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "xIYJ7VaSxYY"
+          },
+          "videoOwnerChannelTitle": "Paramore",
+          "videoOwnerChannelId": "UCc7_woMAIVIW2mAr1rPCsFQ"
+        }
+      }
+    ],
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 50
+    }
+  }
+}

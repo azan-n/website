@@ -12,7 +12,7 @@ const entry = await getCollection(collection, (e) => e.id.includes(id));
 
 if (!entry || entry.length !== 1) {
     throw new Error(
-        `Broken internal link: entry "${id}" not found in "${collection}" collection.`,
+        `Broken internal link: entry "${id}" not found in "${collection}" collection. Entry length ${entry.length}, ${entry?.map((e) => e.id)}`,
     );
 }
 

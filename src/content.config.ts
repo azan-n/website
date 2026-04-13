@@ -73,7 +73,7 @@ const LibraryCollection = defineCollection({
 
 const NotesCollection = defineCollection({
   loader: glob({
-    pattern: "**/*.mdoc",
+    pattern: "**/*.{md,mdoc}",
     base: "./src/data/Notes",
   }),
   schema: z.object({
@@ -190,17 +190,6 @@ const PlaylistsCollection = defineCollection({
   schema: PlaylistSchema,
 });
 
-const Synthfarm2025Collection = defineCollection({
-  loader: glob({
-    pattern: "**/*.json",
-    base: "./src/data/Synthfarm2025",
-  }),
-  schema: z.object({
-    name: z.string(),
-    url: z.string().url(),
-  }),
-});
-
 const PhotosCollection = defineCollection({
   loader: photosLoader,
   schema: z.object({
@@ -213,6 +202,5 @@ export const collections = {
   library: LibraryCollection,
   notes: NotesCollection,
   playlists: PlaylistsCollection,
-  synthfarm2025: Synthfarm2025Collection,
   photos: PhotosCollection,
 };
