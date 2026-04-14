@@ -16,33 +16,36 @@ const posts = await getProjectPosts();
     rssUrl="/projects/rss.xml"
 >
     <PageHeader heading="Projects" description={PROJECTS_DESCRIPTION} />
-    <ol class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+    <ol class="grid grid-cols-1 gap-8 mt-8">
         {
             // TODO, keyboard navigation
             posts.map((post) => (
                 <a
-                    class="no-underline group bg-elevation"
+                    class="no-underline group grid md:grid-cols-2 md:gap-4 gap-2 grid-cols-1"
                     id={post.id}
                     href={`/projects/${post.id}`}
                 >
                     <Image
-                        class="aspect-square w-full grayscale-100 group-focus:grayscale-25 group-hover:grayscale-25 object-cover m-0"
+                        class="h-64 w-full object-cover m-0"
                         src={post.data.image!}
                         alt=""
                     />
-                    <span class="block p-2">
-                        <span class="m-0 mt-4 leading-tight text-lg font-normal">
+                    <span class="block">
+                        <span class="heading-3">
                             {post.title}
                             {!post.data.publish && (
-                                <span class="m-0 font-mono body-base uppercase opacity-80">
+                                <span class="m-0 body-base text-sm uppercase text-amber-500">
                                     Draft
                                 </span>
                             )}
                         </span>
+                        <span class="block font-normal">
+                            {post.data.description}
+                        </span>
                         {post.data.tags && (
                             <span class="flex flex-wrap gap-2 mt-2">
                                 {post.data.tags.sort().map((t) => (
-                                    <span class="font-normal opacity-70">
+                                    <span class="font-mono text-sm uppercase font-thin bg-elevation rounded-full px-2 opacity-70">
                                         {t}
                                     </span>
                                 ))}

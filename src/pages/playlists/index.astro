@@ -53,7 +53,7 @@ const playlists = (await getCollection("playlists")).sort(
                                 )}
 
                                 <button
-                                    class="btn block p-4 border-0"
+                                    class="btn rounded-none block p-4 border-0"
                                     onclick={`playPlaylist('${p.data.id}')`}
                                 >
                                     <Icon
@@ -64,7 +64,7 @@ const playlists = (await getCollection("playlists")).sort(
                             </span>
                             <!-- text -->
                             <div class="max-w-prose">
-                                <h3 class="text-xl mb-2">{p.data.snippet.title}</h3>
+                                <h3 class="mb-2">{p.data.snippet.title}</h3>
                                 {p.data.snippet.localized.description && (
                                     <p class="text-xs leading-tight opacity-80 mb-4">
                                         {p.data.snippet.localized.description}

@@ -8,18 +8,29 @@ const notes = await getNotes();
 <Layout title="Notes" description="">
     <h1>Notes</h1>
     <section>
-        <ol class="grid md:grid-cols-2 gap-4">
+        <ol class="grid grid-cols-1 gap-8">
             {
                 notes.map((note) => {
                     return (
                         <li>
-                            <span class="flex flex-col gap-1">
-                                <a href={`/notes/${note.id}`}>{note.title}</a>
-                                <span class="text-xs text-text-muted tabular-nums">
+                            <span class="flex flex-col gap-2">
+                                <a class="heading-3" href={`/notes/${note.id}`}>
+                                    {note.title}
+                                </a>
+                                <span class="text-sm text-text-muted tabular-nums">
                                     {Intl.DateTimeFormat(navigator.language, {
                                         dateStyle: "full",
                                     }).format(note.data.date)}
                                 </span>
+                                {note.data.tags && (
+                                    <span class="inline-flex gap-2">
+                                        {note.data.tags?.map((t) => (
+                                            <span class="inline-flex text-sm uppercase font-mono bg-elevation rounded-full px-2">
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </span>
+                                )}
                             </span>
                         </li>
                     );

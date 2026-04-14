@@ -88,6 +88,7 @@
     --animate-flip-once: 500ms ease-out 2 flip;
 
     --radius-*: initial;
+    --font-serif: "Playfair Display", Georgia, serif;
     --color-primary-50: var(--primary-50);
     --color-primary-100: var(--primary-100);
     --color-primary-200: var(--primary-200);
@@ -135,6 +136,10 @@
     }
 }
 
+@utility eyebrow {
+    @apply text-xs font-medium uppercase tracking-widest text-text-muted;
+}
+
 @utility row--default {
     @apply flex flex-row items-center gap-2;
 }
@@ -164,7 +169,7 @@
 }
 
 @utility btn {
-    @apply border px-2 text-sm font-medium py-1 clickable text-foreground no-underline bg-elevation;
+    @apply px-4 py-2 rounded-full text-sm font-medium no-underline text-foreground bg-elevation clickable inline-block;
 }
 
 /* Generic two column grid */
@@ -197,6 +202,18 @@
     @apply grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4;
 }
 
+@utility heading-1 {
+    @apply font-serif text-5xl font-normal leading-tight tracking-tight mb-6 pb-4;
+}
+
+@utility heading-2 {
+    @apply font-serif text-3xl font-normal leading-snug;
+}
+
+@utility heading-3 {
+    @apply font-serif text-2xl font-normal;
+}
+
 @layer base {
     * {
         @apply border-border/70;
@@ -215,15 +232,15 @@
     }
 
     h1 {
-        @apply text-3xl mb-8;
+        @apply heading-1;
     }
 
     h2 {
-        @apply text-2xl;
+        @apply heading-2;
     }
 
     h3 {
-        @apply text-xl;
+        @apply font-serif text-2xl font-normal;
     }
 
     :is(#article, .max-w-prose) :where(ul) {

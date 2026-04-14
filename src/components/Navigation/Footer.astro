@@ -10,7 +10,8 @@ import { MAIN_NAVIGATION } from "./Header.astro";
         <Socials />
     </div>
     <nav class="mx-auto py-8 max-w-xl px-8 text-center">
-        <span class="inline-flex flex-wrap gap-2">
+        <p class="eyebrow mb-3">RSS Feeds</p>
+        <span class="inline-flex flex-wrap justify-center gap-2">
             {
                 [
                     ...MAIN_NAVIGATION,
@@ -19,17 +20,14 @@ import { MAIN_NAVIGATION } from "./Header.astro";
                         url: "",
                     },
                 ].map((n) => (
-                    <>
-                        <a
-                            class="text-xs  dark:text-orange-300 text-orange-600"
-                            href={new URL(`${n.url}/rss.xml`, Astro.site)}
-                        >
-                            <>
-                                <span>{n.label}</span>
-                                <Icon class="inline size-4" name="ph:rss" />
-                            </>
-                        </a>
-                    </>
+                    <a
+                        class="btn font-mono uppercase inline-flex text-orange-500 dark:text-orange-400 items-center gap-2 text-xs"
+                        href={new URL(`${n.url}/rss.xml`, Astro.site)}
+                        title={`${n.label} RSS feed`}
+                    >
+                        <Icon class="size-3.5 " name="ph:rss" />
+                        <span>{n.label}</span>
+                    </a>
                 ))
             }
         </span>

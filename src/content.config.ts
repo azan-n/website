@@ -79,6 +79,7 @@ const NotesCollection = defineCollection({
   schema: z.object({
     publish: z.boolean().optional(),
     date: z.date(),
+    tags: z.string().array().optional(),
   }),
 });
 

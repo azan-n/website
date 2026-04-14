@@ -55,19 +55,17 @@ export const MAIN_NAVIGATION = [
         >
             <Logo className="w-32" />
         </a>
-
-        <div class="flex gap-4 flex-wrap justify-center">
+        <div class="py-4 flex gap-4 flex-wrap justify-center">
             {
                 MAIN_NAVIGATION.map((l) => (
                     <a
-                        class="inline-flex justify-center items-center btn w-16 aspect-square"
+                        class="inline-flex gap-2 justify-center items-center btn"
                         title={l.label}
                         href={l.url}
                         aria-disabled={isActive(l.url)}
                     >
-                        <span class="flex flex-col gap-2 items-center">
-                            <Icon name={l.icon} />
-                        </span>
+                        <Icon name={l.icon} />
+                        <span class="font-mono uppercase">{l.label}</span>
                     </a>
                 ))
             }
