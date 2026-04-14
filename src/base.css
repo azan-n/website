@@ -115,7 +115,7 @@
     --color-neutral-950: var(--neutral-950);
 
     --color-text: var(--color-neutral-700);
-    --color-text-muted: var(--color-neutral-300);
+    --color-text-muted: var(--color-neutral-400);
 
     --color-foreground: var(--color-primary-700);
     --color-foreground-hover: var(--color-primary-900);

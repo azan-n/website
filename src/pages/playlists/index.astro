@@ -1,15 +1,21 @@
 ---
 import Layout from "@/components/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { getPlaylistLastUpdate, PLAYLISTS_DESCRIPTION, formatSongTitle } from "./_playlists";
+import {
+    getPlaylistLastUpdate,
+    PLAYLISTS_DESCRIPTION,
+    formatSongTitle,
+} from "./_playlists";
 import PageHeader from "@/components/PageHeader.astro";
 import { getCollection } from "astro:content";
 
-const playlists = (await getCollection("playlists")).sort(
-    (a, b) =>
-        new Date(getPlaylistLastUpdate(b)).getTime() -
-        new Date(getPlaylistLastUpdate(a)).getTime(),
-);
+const playlists = (await getCollection("playlists"))
+    .filter((p) => p.data.playlist_items.items?.length)
+    .sort(
+        (a, b) =>
+            new Date(getPlaylistLastUpdate(b)).getTime() -
+            new Date(getPlaylistLastUpdate(a)).getTime(),
+    );
 ---
 
 <Layout
@@ -17,117 +23,118 @@ const playlists = (await getCollection("playlists")).sort(
     description={PLAYLISTS_DESCRIPTION}
     rssUrl="/playlists/rss.xml"
 >
-    <!--  -->
-    <div id="player-container" class="fixed bottom-4 right-4 z-50">
-        <div id="player" class="overflow-hidden"></div>
-    </div>
     <PageHeader heading="Playlists" description={PLAYLISTS_DESCRIPTION} />
-    <ol class="mt-8 flex flex-col gap-8">
-        {
-            playlists.map(
-                (p) =>
-                    p.data.playlist_items.items && (
-                        <li
-                            tabindex="0"
-                            class="grid grid-cols-1 lg:grid-cols-2 gap-4 group animate-in blur-in"
-                            id={p.data.id}
-                        >
-                            <span class="relative h-full flex flex-col ">
-                                <a
-                                    class="inline-flex gap-2 absolute top-0 p-1 bg-neutral-50/80"
-                                    href={`https://music.youtube.com/playlist?list=${p.data.id}`}
-                                >
-                                    <Icon
-                                        class="size-8"
-                                        name="simple-icons:youtube"
-                                    />
-                                </a>
-                                {p.data.snippet?.thumbnails?.maxres && (
-                                    <img
-                                        src={
-                                            p.data.snippet.thumbnails.maxres.url
-                                        }
-                                        alt=""
-                                        class="object-cover aspect-square size-full"
-                                    />
-                                )}
 
-                                <button
-                                    class="btn rounded-none block p-4 border-0"
-                                    onclick={`playPlaylist('${p.data.id}')`}
+    <!-- Detail panels -->
+    <div class="mb-1 border-b">
+        <!-- Placeholder shown until a cover is clicked -->
+        <p class="detail-placeholder eyebrow text-center py-16">
+            Select a playlist below
+        </p>
+
+        {
+            playlists.map((p) => (
+                <div
+                    id={p.data.id}
+                    class="detail-panel grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6 py-6"
+                >
+                    <!-- Cover + link -->
+                    <div class="shrink-0">
+                        {p.data.snippet?.thumbnails?.maxres && (
+                            <img
+                                src={p.data.snippet.thumbnails.maxres.url}
+                                alt={p.data.snippet.title}
+                                class="size-56 object-cover"
+                            />
+                        )}
+                    </div>
+
+                    <!-- Meta -->
+                    <div class="min-w-0 flex flex-col gap-3">
+                        <div>
+                            <h2 class="mb-1 leading-snug">
+                                <a
+                                    href={`https://music.youtube.com/playlist?list=${p.data.id}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:underline"
                                 >
-                                    <Icon
-                                        class="size-6 mx-auto"
-                                        name="ph:play"
-                                    />
-                                </button>
+                                    {p.data.snippet.title}
+                                </a>
+                            </h2>
+                            {p.data.snippet.localized.description && (
+                                <p class="text-sm max-w-prose">
+                                    {p.data.snippet.localized.description}
+                                </p>
+                            )}
+                        </div>
+
+                        <p class="eyebrow">
+                            {p.data.playlist_items.items?.length} tracks
+                        </p>
+
+                        <ol class="pl-0 flex flex-wrap gap-1 divide-x">
+                            {p.data.playlist_items.items?.map((item) => (
+                                <li class="flex gap-1 items-baseline text-xs break-inside-avoid pe-1">
+                                    {formatSongTitle(item.snippet.title)}
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+    <!-- Album cover grid -->
+    <div class="mt-8 grid gap-1 cover-grid max-h-96 overflow-auto">
+        {
+            playlists.map((p) =>
+                p.data.snippet?.thumbnails?.maxres ? (
+                    <a
+                        href={`#${p.data.id}`}
+                        class="group relative block aspect-square overflow-hidden no-underline cover-link"
+                        id={`cover-${p.data.id}`}
+                    >
+                        <img
+                            src={p.data.snippet.thumbnails.maxres.url}
+                            alt={p.data.snippet.title}
+                            class="size-full object-cover transition-[opacity,filter] duration-200 group-hover:brightness-75"
+                        />
+                        <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-elevation/20 to-transparent p-2 opacity-100 transition-opacity duration-200">
+                            <span class="text-white text-xs font-medium leading-tight line-clamp-2 block">
+                                {p.data.snippet.title}
                             </span>
-                            <!-- text -->
-                            <div class="max-w-prose">
-                                <h3 class="mb-2">{p.data.snippet.title}</h3>
-                                {p.data.snippet.localized.description && (
-                                    <p class="text-xs leading-tight opacity-80 mb-4">
-                                        {p.data.snippet.localized.description}
-                                    </p>
-                                )}
-                                <ol class="!list-none pl-0 flex flex-col gap-1">
-                                    {p.data.playlist_items.items?.map((item) => (
-                                        <li class="list-none flex gap-2 text-xs">
-                                            <a
-                                                href={`https://music.youtube.com/watch?v=${item.snippet.resourceId.videoId}&list=${p.data.id}`}
-                                                class="hover:underline truncate"
-                                            >
-                                                {formatSongTitle(item.snippet.title)}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ol>
-                            </div>
-                        </li>
-                    ),
+                        </span>
+                    </a>
+                ) : null,
             )
         }
-    </ol>
-
-    <script>
-        // YouTube IFrame API singleton player
-        let player: any;
-        let isPlayerReady = false;
-
-        // Load YouTube IFrame API
-        const tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName("script")[0];
-        firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
-
-        // This function is called by the YouTube API when it's ready
-        // @ts-expect-error
-        window.onYouTubeIframeAPIReady = function () {
-            // @ts-expect-error
-            player = new YT.Player("player", {
-                height: "200",
-                width: "200",
-                playerVars: {
-                    playsinline: 1,
-                },
-                events: {
-                    onReady: onPlayerReady,
-                },
-            });
-        };
-
-        function onPlayerReady() {
-            isPlayerReady = true;
-        }
-
-        // @ts-expect-error
-        window.playPlaylist = function (playlistId: string) {
-            if (!isPlayerReady || !playlistId) return;
-            player.stopVideo();
-            player.loadPlaylist({
-                listType: "playlist",
-                list: playlistId,
-            });
-        };
-    </script>
+    </div>
 </Layout>
+
+<!-- Generated at build time: highlight the active cover when its panel is :target -->
+<style is:inline set:html={playlists.map(p =>
+    `:has(#${p.data.id}:target) #cover-${p.data.id} { outline: 2px solid var(--color-foreground); outline-offset: -2px; }`
+).join('\n')} />
+
+<style>
+    .cover-grid {
+        grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+    }
+
+    /* All detail panels hidden by default */
+    .detail-panel {
+        display: none;
+    }
+
+    /* Show whichever panel is targeted */
+    .detail-panel:target {
+        display: grid;
+    }
+
+    /* Hide placeholder once any panel is targeted */
+    :has(.detail-panel:target) .detail-placeholder {
+        display: none;
+    }
+
+</style>

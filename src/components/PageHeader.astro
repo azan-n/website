@@ -8,10 +8,6 @@ const { heading, description } = Astro.props;
 ---
 
 <section class="flex items-start justify-between">
-    <h1>{heading}</h1>
+    <h1 class="mb-0 pb-0">{heading}</h1>
 </section>
-{
-    description && (
-        <p class="-mt-4 font-serif text-lg max-w-prose">{description}</p>
-    )
-}
+{description && <p class="text-xl font-light">{description}</p>}
