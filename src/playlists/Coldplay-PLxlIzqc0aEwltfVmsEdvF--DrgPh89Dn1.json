@@ -45,7 +45,7 @@
   },
   "playlist_items": {
     "kind": "youtube#playlistItemListResponse",
-    "etag": "nLmaNqbQdfKsJ0ddhAVm8z8qmVY",
+    "etag": "OBiv94bN61auHLLDM20WQnG3gNM",
     "items": [
       {
         "kind": "youtube#playlistItem",
@@ -613,7 +613,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "OCljm4MkK3i6toXXV61T8GsDgDg",
+        "etag": "32ql4wdoAkhcXokm7PmZOLkoH-k",
         "id": "UEx4bEl6cWMwYUV3bHRmVm1zRWR2Ri0tRHJnUGg4OURuMS45ODRDNTg0QjA4NkFBNkQy",
         "snippet": {
           "publishedAt": "2025-09-01T10:49:58Z",
