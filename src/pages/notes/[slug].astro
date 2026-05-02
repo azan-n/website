@@ -8,6 +8,7 @@ import { getEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import Datetime from "@/components/Date/Datetime.astro";
 import ReadingTime from "@/components/Posts/ReadingTime.astro";
+import PageHeader from "@/components/PageHeader.astro";
 import { getNotes } from "./_notes";
 
 export async function getStaticPaths() {
@@ -32,10 +33,10 @@ if (!post) {
 const { Content } = await render(post);
 ---
 
-<Layout title={post.title} description="">
+<Layout title={post.title} description={post.data.description}>
     <article id="article" role="article" class="post-grid">
-        <h1>{post.title}</h1>
-        <div class="-mt-4 flex flex-row items-center gap-4">
+        <PageHeader heading={post.title} description={post.data.description} />
+        <div class="flex flex-row items-center gap-4 my-4">
             <Datetime datetime={post.data.date} showTime={false} />
             <ReadingTime renderedHtml={post.rendered?.html} />
         </div>

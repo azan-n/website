@@ -33,6 +33,17 @@ export default defineMarkdocConfig({
       },
       render: component("./src/components/MarkdocLink.astro"),
     },
+    video: {
+      attributes: {
+        src: { type: String, required: true },
+        caption: { type: String },
+        poster: { type: String },
+        loop: { type: Boolean, default: true },
+        muted: { type: Boolean, default: false },
+        autoplay: { type: Boolean, default: true },
+      },
+      render: component("./src/components/MarkdocVideo.astro"),
+    },
     pie: {
       attributes: {
         data: { type: Object, required: true },

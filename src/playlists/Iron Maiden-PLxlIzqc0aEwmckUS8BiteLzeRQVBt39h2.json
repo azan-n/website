@@ -45,11 +45,11 @@
   },
   "playlist_items": {
     "kind": "youtube#playlistItemListResponse",
-    "etag": "cwyRYFMzVXHQY_kLPpFG1S2Q24M",
+    "etag": "y0W2En4tHlUIB60kwvz9mPTfatY",
     "items": [
       {
         "kind": "youtube#playlistItem",
-        "etag": "wPPOfL8lN6qluYet0Iwl4YssW04",
+        "etag": "u_1X_n3ufMbacW5qzaRJZyW_qxM",
         "id": "UEx4bEl6cWMwYUV3bWNrVVM4Qml0ZUx6ZVJRVkJ0MzloMi41NkI0NEY2RDEwNTU3Q0M2",
         "snippet": {
           "publishedAt": "2025-11-23T10:27:04Z",
@@ -190,7 +190,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "12xm4ZabXItrtkxJHMZ-6s_eHxs",
+        "etag": "WzmNRbnqUrL4HTKJUa2prLnzVOE",
         "id": "UEx4bEl6cWMwYUV3bWNrVVM4Qml0ZUx6ZVJRVkJ0MzloMi41MjE1MkI0OTQ2QzJGNzNG",
         "snippet": {
           "publishedAt": "2025-11-23T10:27:22Z",
@@ -284,7 +284,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "Uw2wTIHC53k8KPSiljP-_I7nsIY",
+        "etag": "knYjcv8_OjYnfBIm_td99SiqdcE",
         "id": "UEx4bEl6cWMwYUV3bWNrVVM4Qml0ZUx6ZVJRVkJ0MzloMi4xMkVGQjNCMUM1N0RFNEUx",
         "snippet": {
           "publishedAt": "2025-11-23T10:28:25Z",
@@ -472,7 +472,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "arkj6AE5NGC1jUpZVfBysT4s6OA",
+        "etag": "sc_Q52L7lyn8koCpFCN1YRomTvQ",
         "id": "UEx4bEl6cWMwYUV3bWNrVVM4Qml0ZUx6ZVJRVkJ0MzloMi5GNjNDRDREMDQxOThCMDQ2",
         "snippet": {
           "publishedAt": "2025-11-23T10:29:03Z",
@@ -519,7 +519,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "YRHLwBtM-EUMSlMcw32pYpT7Zq8",
+        "etag": "wG0W0DmJbYU9m6BCUno9-B2ybpg",
         "id": "UEx4bEl6cWMwYUV3bWNrVVM4Qml0ZUx6ZVJRVkJ0MzloMi40NzZCMERDMjVEN0RFRThB",
         "snippet": {
           "publishedAt": "2025-11-23T10:29:11Z",
@@ -566,7 +566,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "CxD7SZNKPojaEGj7_wHeWVLv2S8",
+        "etag": "eRJFvpc9Yxy6SGKHZvNB4L3ncfM",
         "id": "UEx4bEl6cWMwYUV3bWNrVVM4Qml0ZUx6ZVJRVkJ0MzloMi5EMEEwRUY5M0RDRTU3NDJC",
         "snippet": {
           "publishedAt": "2025-11-23T10:29:16Z",

@@ -42,7 +42,7 @@ Product-minded engineer with 4+ years at early-stage B2B startups. Comfortable o
     Early-stage bootstrapped B2B SaaS startup (\~3 people at joining); wore many hats across the full business lifecycle.
     - *Sales & Growth:* Conducted product demos, qualified inbound leads, drafted proposals, and assisted in closing deals, contributing directly to *\$12,000 in MRR growth* and a customer base of *27,000+ users*.
     - *Product:* Gathered customer feedback through support and sales touchpoints, translated recurring pain points into feature specs, prioritized the backlog, and wrote documentation to reduce inbound friction.
-    - *Engineering:* Standardized sentinel values, built a subscription management system, developed a reusable component library, introduced integration tests, implemented feature flags, added Rust and Android SDK support, and built a server licensing portal.
+    - *Engineering:* Standardized sentinel values, built a subscription management system, developed a reusable #link("https://azan-n.com/projects/20250930-a-design-system-for-cryptlex/")[component library], introduced integration tests, implemented feature flags, added Rust and Android SDK support, and built a server licensing portal.
     - *Observability & Data:* Enhanced monitoring with OpenTelemetry, and enabled data-driven decisions using Metabase and PostHog.
     - *Team:* Hired and led a team of *7 engineers* using Agile processes as the company scaled.
 

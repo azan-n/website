@@ -1,0 +1,49 @@
+---
+interface Props {
+    src: string;
+    caption?: string;
+    poster?: string;
+    loop?: boolean;
+    muted?: boolean;
+    autoplay?: boolean;
+}
+
+const { src, caption, poster, loop = false, muted = false, autoplay = false } = Astro.props;
+
+const videos = import.meta.glob<{ default: string }>(
+    "/src/data/**/*.{mp4,webm,mov}",
+    { eager: true },
+);
+
+const filename = src.replace("./", "");
+let resolvedSrc: string = src;
+
+if (!src.startsWith("http") && !src.startsWith("/")) {
+    for (const [path, module] of Object.entries(videos)) {
+        if (path.endsWith(`/${filename}`)) {
+            resolvedSrc = module.default;
+            break;
+        }
+    }
+}
+---
+
+<figure class="mb-8">
+    <video
+        src={resolvedSrc}
+        poster={poster}
+        controls
+        loop={loop}
+        muted={muted || autoplay}
+        autoplay={autoplay}
+        playsinline
+        class="w-full rounded"
+    />
+    {
+        caption && (
+            <figcaption class="mt-2 mb-4 max-w-prose font-medium opacity-80">
+                {caption}
+            </figcaption>
+        )
+    }
+</figure>
