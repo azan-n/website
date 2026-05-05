@@ -137,7 +137,7 @@
 }
 
 @utility eyebrow {
-    @apply text-xs font-medium uppercase tracking-widest text-text-muted;
+    @apply text-xs font-mono font-medium uppercase tracking-widest text-text-muted;
 }
 
 @utility row--default {

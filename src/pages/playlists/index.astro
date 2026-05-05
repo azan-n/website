@@ -57,9 +57,10 @@ const playlists = (await getCollection("playlists"))
                                     href={`https://music.youtube.com/playlist?list=${p.data.id}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="hover:underline"
+                                    class="hover:underline inline-flex items-center gap-2"
                                 >
                                     {p.data.snippet.title}
+                                    <Icon name="simple-icons:youtube" class="shrink-0" />
                                 </a>
                             </h2>
                             {p.data.snippet.localized.description && (

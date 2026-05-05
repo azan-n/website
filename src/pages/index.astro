@@ -3,6 +3,9 @@ import Layout from "@/components/Layout.astro";
 import { Image } from "astro:assets";
 import i_Me_Music from "@/assets/me_music.jpg";
 import PieChart from "@/components/PieChart.astro";
+import { getPlaylists } from "./playlists/_playlists";
+
+const playlist = (await getPlaylists())[0];
 ---
 
 <Layout title="About" description={"azan-n's website"}>
@@ -15,6 +18,8 @@ import PieChart from "@/components/PieChart.astro";
                     >I'm a self-taught musician, an enjoyer of the outdoors, and
                     a software engineer.</span
                 >
+                <br />
+                <span class="eyebrow">Recently listening to <a href={`/playlists#${playlist.data.id}`}>{playlist.data.snippet.title}</a></span>
             </figcaption>
             <Image
                 src={i_Me_Music}
