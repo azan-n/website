@@ -6,7 +6,7 @@
     "publishedAt": "2026-05-04T14:10:32.129832Z",
     "channelId": "UCmsKnHGCovc_WyXXBibVeBA",
     "title": "Avenged Sevenfold",
-    "description": "",
+    "description": "I started listening to Avenged Sevenfold in school. My friend from school, at the time disapproved of metalcore and screaming for no reason but it seemed okay to me. I think Afterlife is their best song till date.",
     "thumbnails": {
       "default": {
         "url": "https://i.ytimg.com/vi/FHUsHx-doaM/default.jpg",
@@ -37,7 +37,7 @@
     "channelTitle": "zan",
     "localized": {
       "title": "Avenged Sevenfold",
-      "description": ""
+      "description": "I started listening to Avenged Sevenfold in school. My friend from school, at the time disapproved of metalcore and screaming for no reason but it seemed okay to me. I think Afterlife is their best song till date."
     }
   },
   "contentDetails": {
@@ -45,7 +45,7 @@
   },
   "playlist_items": {
     "kind": "youtube#playlistItemListResponse",
-    "etag": "y0nvznMDsIlWd6D-d1ruuNk-2VI",
+    "etag": "ChCMvT06LbexfUt0snkIgn5Zofo",
     "items": [
       {
         "kind": "youtube#playlistItem",
@@ -190,7 +190,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "86a5vqHAnZBN2yvm81BAXOTpelc",
+        "etag": "qHnUceYLS7zgTFNa9A6dekQ8G7c",
         "id": "UEx4bEl6cWMwYUV3a2JQOUdjbzRLc1NpNFhHZVJRNGsxdy41MjE1MkI0OTQ2QzJGNzNG",
         "snippet": {
           "publishedAt": "2026-05-04T14:11:02Z",
@@ -425,7 +425,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "-Ft61Uye-GHlNtDnwQkaHQwvvmw",
+        "etag": "V9W0YjjB1QPCWxL7xO9TsJ5vUsI",
         "id": "UEx4bEl6cWMwYUV3a2JQOUdjbzRLc1NpNFhHZVJRNGsxdy45NDk1REZENzhEMzU5MDQz",
         "snippet": {
           "publishedAt": "2026-05-04T14:11:33Z",
@@ -472,7 +472,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "9g81H5a0G-QvJxYE5KELrXli42M",
+        "etag": "pa2jrqy2BURDmosSprub72WUGlg",
         "id": "UEx4bEl6cWMwYUV3a2JQOUdjbzRLc1NpNFhHZVJRNGsxdy5GNjNDRDREMDQxOThCMDQ2",
         "snippet": {
           "publishedAt": "2026-05-04T14:11:37Z",
@@ -754,7 +754,7 @@
       },
       {
         "kind": "youtube#playlistItem",
-        "etag": "ce7QCyAg2yDNkSXPIBCh2GAtgqU",
+        "etag": "DSGMgkFjMxZSN6-8vY5TaoJWCWA",
         "id": "UEx4bEl6cWMwYUV3a2JQOUdjbzRLc1NpNFhHZVJRNGsxdy5EQUE1NTFDRjcwMDg0NEMz",
         "snippet": {
           "publishedAt": "2026-05-04T14:14:31Z",
