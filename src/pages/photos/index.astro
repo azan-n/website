@@ -15,24 +15,38 @@ const sortedPosts = photosCollection.sort(
     rssUrl="/photos/rss.xml"
 >
     <PageHeader heading={PHOTOS_TITLE} description={PHOTOS_DESCRIPTION} />
-    <div class="mt-8 grid grid-cols-1 gap-4">
+    <div class="grid grid-cols-1 gap-8 mt-4">
         {
-            sortedPosts.map((post) => (
-                <a
-                    href={`/photos/${post.slug}`}
-                    class="grid md:grid-cols-2 group md:gap-4 gap-2 grid-cols-1"
-                >
-                    <span class="block heading-2">{post.title}</span>
-                    {post.thumbnail && (
-                        <Image
-                            src={post.thumbnail}
-                            alt={post.title}
-                            class="w-full aspect-square object-cover"
-                            loading="lazy"
-                        />
-                    )}
-                </a>
-            ))
+            sortedPosts.map((post) => {
+                const slug = Intl.DateTimeFormat("en-us", {
+                    year: "2-digit",
+                    month: "2-digit",
+                }).format(post.data.date);
+
+                return (
+                    <div id={slug} class="grid grid-cols-1 gap-2">
+                        <div class="flex flex-col">
+                            <a
+                                href={`#${slug}`}
+                                class="heading-3 font-mono text-text-muted no-underline"
+                            >
+                                {slug}
+                            </a>
+                            <span class="max-w-prose text-sm">{post.body}</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {post.folderImages.map((image) => (
+                                <Image
+                                    src={image}
+                                    alt=""
+                                    class="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            ))}
+                        </div>
+                    </div>
+                );
+            })
         }
     </div>
 </Layout>

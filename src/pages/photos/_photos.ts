@@ -1,9 +1,5 @@
 import { getCollection } from "astro:content";
 
-function formatDateForPhotoPost(date: Date): string {
-    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-}
-
 export const PHOTOS_TITLE = "Photos";
 export const PHOTOS_DESCRIPTION = "A collection of pictures from my life";
 
@@ -14,16 +10,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 export const photosCollection = _photosCollection.map((entry) => {
-    const slug = entry.id;
     const folderImages = Object.entries(images)
-        .filter(([path]) => path.includes(`/${slug}/`))
+        .filter(([path]) => path.includes(`/${entry.id}/`))
         .map(([, module]) => module.default);
 
     return {
-        title: formatDateForPhotoPost(entry.data.date),
-        slug,
         folderImages,
-        thumbnail: folderImages[0],
         ...entry
     };
 });
