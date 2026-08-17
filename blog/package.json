@@ -19,6 +19,7 @@
     "@astrojs/sitemap": "catalog:",
     "@iconify-json/ph": "catalog:",
     "@iconify-json/simple-icons": "catalog:",
+    "@strudel/repl": "1.3.0",
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "astro-icon": "catalog:",
