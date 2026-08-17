@@ -1,0 +1,36 @@
+---
+import Layout from "./Layout.astro";
+import type { ProjectMeta } from "../pages/projects/_projects";
+
+interface Props {
+    meta: ProjectMeta;
+}
+
+const { meta } = Astro.props;
+---
+
+<Layout
+    title={meta.title}
+    description={meta.description}
+    image={meta.image.src}
+    type="article"
+    publishedDate={meta.date}
+>
+    <a class="btn" href="/">Back to projects</a>
+    <article id="article" role="article" class="type">
+        <h1 class="mb-0 mt-8 pb-0 leading-none">{meta.title}</h1>
+        <p class="text-xl font-light">{meta.description}</p>
+        <div class="flex flex-row items-center gap-4 my-4">
+            <time datetime={meta.date.toISOString()}>
+                {
+                    meta.date.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    })
+                }
+            </time>
+        </div>
+        <slot />
+    </article>
+</Layout>

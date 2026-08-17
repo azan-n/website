@@ -1,0 +1,20 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+
+export const meta = {
+    title: "The trash that is NextJS",
+    date: new Date(2025, 10, 25),
+    description:
+        "On why the App Router makes Next.js unusable for a real SPA",
+    tags: ["nextjs", "react"],
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        It is <a href="https://github.com/vercel/next.js/discussions/55393"
+            >impossible</a
+        > to build a usable SPA using the App router, hence making it a tool
+        for a hyperspecific use-case, like <em>ehm</em> MongoDB.
+    </p>
+</PostLayout>

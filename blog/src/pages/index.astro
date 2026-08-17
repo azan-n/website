@@ -1,0 +1,120 @@
+---
+import Layout from "../components/Layout.astro";
+import { Icon } from "astro-icon/components";
+import ContactLinks from "../../../portfolio/src/components/ContactLinks.astro";
+import { SITE } from "../site.config";
+import { SOCIALS } from "../../../portfolio/src/site.config";
+import { POSTS_DESCRIPTION, getPosts, type Post } from "./posts/_posts";
+import {
+    LIBRARY_DESCRIPTION,
+    getLibrary,
+    getFilenameFromPath,
+} from "./library/_library";
+
+const posts = await getPosts();
+const library = await getLibrary();
+
+const CONTACT_LINKS = [
+    ...SOCIALS,
+    {
+        icon: "ph:rss",
+        href: "/rss.xml",
+        linkTitle: "Subscribe to posts using RSS",
+        label: "RSS",
+    },
+    {
+        icon: "ph:briefcase-duotone",
+        href: "https://azan-n.com",
+        linkTitle: "My portfolio and project write-ups",
+        label: "Portfolio",
+    },
+];
+
+function formatDate(date: Date) {
+    return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+---
+
+<Layout title={SITE.title} description={SITE.description}>
+    <section id="feed">
+        <!-- About -->
+        <section class="p-4 border font-mono">
+            Hello! My name is Azan (a·zaan). I'm a self-taught musician, an
+            enjoyer of the outdoors, and a software engineer. Below is a mix of
+            things I've written myself and things I've read and wanted to share.
+            Posts are mine, reposts link out to whoever wrote the original.
+            <div class="mt-4">
+                <ContactLinks links={CONTACT_LINKS} />
+            </div>
+        </section>
+        <p class="eyebrow mt-8">
+            {POSTS_DESCRIPTION}
+        </p>
+        <ol class="grid grid-cols-2 sm:grid-cols-3 flex-col mt-8 gap-8">
+            {
+                posts.map((item) => (
+                    <li>
+                        <div class="flex text-orange-800 items-center gap-1.5 eyebrow">
+                            <Icon name="ph:pencil" class="size-3.5" />
+                            <span>Post</span>
+                        </div>
+                        <a
+                            class="no-underline text-text block"
+                            href={`/posts/${item.id}`}
+                        >
+                            <span class="block">{item.data.title}</span>
+                            <p class="font-normal">{item.data.description}</p>
+                            <time
+                                class="font-normal text-text-muted text-sm"
+                                datetime={item.data.date.toISOString()}
+                            >
+                                {formatDate(item.data.date)}
+                            </time>
+                        </a>
+                    </li>
+                ))
+            }
+        </ol>
+
+        <p class="eyebrow mt-8">
+            {LIBRARY_DESCRIPTION}
+        </p>
+        <ol class="grid grid-cols-2 sm:grid-cols-3 flex-col mt-8 gap-8">
+            {
+                library.map((item) => (
+                    <li>
+                        <div class="flex text-emerald-800 items-center gap-1.5 eyebrow">
+                            <Icon name="ph:repeat" class="size-3.5" />
+                            <span>Repost</span>
+                        </div>
+                        <a
+                            class="no-underline text-text block mt-1"
+                            href={item.data.source}
+                        >
+                            {getFilenameFromPath(item.filePath)}
+                        </a>
+                        <span class="block text-text-muted text-xs select-none">
+                            {new URL(item.data.source).hostname}
+                        </span>
+                        <time
+                            class="font-normal text-text-muted text-sm"
+                            datetime={item.data.complete!.toISOString()}
+                        >
+                            {formatDate(item.data.complete!)}
+                        </time>
+                        {item.rendered?.html && (
+                            <div
+                                class="max-w-prose text-sm mt-2"
+                                set:html={item.rendered.html}
+                            />
+                        )}
+                    </li>
+                ))
+            }
+        </ol>
+    </section>
+</Layout>

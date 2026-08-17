@@ -1,0 +1,76 @@
+---
+import Layout from "../components/Layout.astro";
+import { Image } from "astro:assets";
+import ContactLinks from "../components/ContactLinks.astro";
+import { getProjectPosts } from "./projects/_projects";
+import { SOCIALS } from "../site.config";
+
+const posts = await getProjectPosts();
+const CONTACT_LINKS = [
+    ...SOCIALS,
+    {
+        icon: "ph:file-pdf-duotone",
+        href: "/resume.pdf",
+        linkTitle: "Download my resume",
+        label: "Resume",
+    },
+    {
+        icon: "ph:rss",
+        href: "/rss.xml",
+        linkTitle: "Subscribe to posts using RSS",
+        label: "RSS",
+    },
+    {
+        icon: "ph:pencil",
+        href: "https://blog.azan-n.com",
+        linkTitle: "My personal blog about life, tech, and other things I like",
+        label: "Blog",
+    },
+];
+---
+
+<Layout title="About" description={"Azan Farooqi's website"} rssUrl="/rss.xml">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col p-4 border col-span-2">
+            <p class="m-0 font-mono text-text">
+                Hello! My name is Azan (a·zaan). I'm a self-taught musician, an
+                enjoyer of the outdoors, and a software engineer. Most of what
+                you'll find below happened at small teams, where I ended up
+                doing a bit of everything: writing, testing, design, and the
+                actual engineering, whatever the week needed.
+            </p>
+            <div class="mt-4">
+                <ContactLinks links={CONTACT_LINKS} />
+            </div>
+        </div>
+
+        <p class="col-span-2 eyebrow">Things I've built, broken, and learned from along the way</p>
+
+        {
+            posts.map((post) => (
+                <a
+                    href={`/projects/${post.id}`}
+                    class="group flex flex-col overflow-hidden no-underline"
+                >
+                    <div class="relative aspect-square overflow-hidden">
+                        <Image
+                            class="absolute inset-0 m-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            src={post.data.image}
+                            alt=""
+                        />
+                    </div>
+                    <div class="flex flex-col gap-1 py-2">
+                        <span class="text-text font-mono leading-tight">
+                            {post.data.title}
+                        </span>
+                        <span class="eyebrow">
+                            {post.data.role && post.data.role.join(" / ")}
+                            {" "}
+                            {post.data.tech && `(${post.data.tech.sort().join(',')})`}
+                        </span>
+                    </div>
+                </a>
+            ))
+        }
+    </div>
+</Layout>

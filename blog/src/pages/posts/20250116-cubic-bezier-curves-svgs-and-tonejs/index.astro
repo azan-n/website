@@ -1,0 +1,16 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import cover from "./20250116-1.png";
+
+export const meta = {
+  title: "Cubic bezier curves, SVGs, and tone.js",
+  date: new Date(2025, 0, 16),
+  description: "Sound generation that could very well have been a random number generator",
+  tags: ["frontend"],
+  image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+<p>For the hackathon at ADCx India 2025, me, and two teammates; Rahul Peter, and Ethan tried to ideate something along cubic bezier curves. I might have misunderstood what they were trying to explain to me as I went on building this project. They were interested in exploring what it would look like to map a bezier curve to an instrument channel on a DAW, quantized to a key (which they ended up building), and I went on to build a web app that has an interactive bezier curve which plays different frequencies based on random points on the curve.</p><p>It <em>is</em> fair to say this could be boiled down to a program that plays random frequencies.</p><iframe src="https://scurvee.pages.dev" width="100%" height="700px"></iframe><p>It was interesting to play with tone.js, and the team got an honorable mention at the hackathon, although likely because of what they made. Feel free to look at the code at <a href="https://github.com/azan-n/scurvee">Github</a>, and play with the demo above.</p>
+</PostLayout>

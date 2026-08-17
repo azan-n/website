@@ -1,0 +1,19 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Image } from "astro:assets";
+import cover from "./20250626-1.png";
+import img2 from "./20250626-2.png";
+import img3 from "./20250626-3.png";
+
+export const meta = {
+  title: "A new set of ambigrams",
+  date: new Date(2025, 5, 26),
+  description: "I made these for friends and stamps",
+  tags: ["ambigrams","design"],
+  image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+<p><Image src={img2} alt="" /> <Image src={img3} alt="" /> <Image src={cover} alt="" /></p>
+</PostLayout>

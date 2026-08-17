@@ -1,0 +1,68 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Image } from "astro:assets";
+import cover from "./20220202-6.png";
+import img1 from "./20220202-1.jpg";
+import img2 from "./20220202-2.jpg";
+import img3 from "./20220202-3.png";
+import img4 from "./20220202-4.png";
+import img5 from "./20220202-5.png";
+
+export const meta = {
+    title: "All the ambigrams in my notebooks",
+    date: new Date(2022, 1, 2),
+    description: "A collection of hand-drawn ambigrams from personal notebooks",
+    tags: ["ambigrams", "design"],
+    image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        Sometime in October 2021, my friend Waqar Qamri suggested that I should
+        apply to be a mentee in the <a
+            href="https://www.alphabettes.org/about/mentorship/"
+            >Alphabettes Mentorship Programme</a
+        >. Thankfully, I applied, and I was assigned a mentor later that year.
+        Alphabettes had kindly allowed me three months of time with a skilled
+        mentor. I was not sure of what to do with this time, somehow, I decided
+        to go through my reading list and I found a book named 'Ambigrams
+        Revealed' by Nikita Prokhorov. I started going through it and decided to
+        explore ambigrams for my project.
+    </p><p>
+        With the ambigrams, I started small. <strong>Literally.</strong> My mentor
+        suggested I should try <strong>drawing instead of writing</strong>,
+        which would require me to start sketching out larger forms. Grids
+        helped. As we progressed, they also suggested that I needed constraints.
+        So I was tasked to working on <strong
+            >4 words: guild, pillar, light, and ennui.</strong>
+    </p><figure>
+        <Image
+            src={img1}
+            alt="Small written letterforms for the word 'drip' with accents that would allow the symbol to be read the same when flipped vertically."
+        />
+        <figcaption>'Written' letterforms for the word 'drip'.</figcaption>
+    </figure><figure>
+        <Image src={img2} alt="" />
+        <figcaption>'Written' letterforms for the word 'drip'.</figcaption>
+    </figure><p>
+        I digitized my sketches using Adobe Illustrator. I followed methodology
+        that I learned in Jessica Hische's lettering course.
+    </p><figure>
+        <Image src={img3} alt="" />
+        <figcaption>
+            ennui – a feeling of listlessness and dissatisfaction arising from
+            a lack of occupation or excitement. I added a little bit from
+            Pink Floyd's Dogs to the graphic because I think it echoes the
+            sentiment.
+        </figcaption>
+    </figure><figure>
+        <Image src={img4} alt="" />
+        <figcaption>A geometric take on Light.</figcaption>
+    </figure><figure>
+        <Image src={img5} alt="" />
+        <figcaption>An upside down movie poster concept.</figcaption>
+    </figure><figure>
+        <Image src={cover} alt="" />
+    </figure>
+</PostLayout>

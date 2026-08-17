@@ -1,0 +1,71 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+
+export const meta = {
+    title: "A case for regulator-backed open-source tools",
+    date: new Date(2025, 11, 12),
+    description:
+        "India's DPDPA needs open-source compliance tooling, not just rules",
+    tags: ["foss", "policy"],
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        The Digital Personal Data Protection Act (DPDPA / DPDP Act) was
+        enacted on <a
+            href="https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf"
+            >11 August 2023</a
+        >, but the Government notified the subordinate DPDP Rules only on 14
+        November 2025, a gap of roughly 27 months between the Act and full
+        rules. This long lag delayed clarity on many operational
+        requirements.
+    </p><p>
+        The <a href="https://dpdpa.com/DPDP_Rules_2025_English_only.pdf"
+            >notified rules</a
+        > come into force in phases, some rules immediate, and others after 12
+        or 18 months. This means that organisations must plan for multiple milestones
+        rather than a single goal, which increases project complexity and cost.
+    </p><p>
+        <a
+            href="https://www.pwc.in/press-releases/2024/only-16-consumers-in-india-understand-the-digital-personal-data-protection-dpdp-act-only-9-indian-organisations-report-a-comprehensive-understanding-of-the-act-pwc-india-survey.html"
+            >A survey by PwC</a
+        > suggests that a mere 16% of consumers and 9% of organisations surveyed
+        understand DPDPA comprehensively. An <a
+            href="https://www.ey.com/en_in/newsroom/2023/10/ey-survey-reveals-that-50-percent-of-the-surveyed-organizations-are-yet-to-acquire-the-required-skill-sets-to-implement-dpdp-act"
+            >EY survey</a
+        > also suggests that only 50% of the surveyed organisations have the required
+        skill set to implement DPDPA.
+    </p><p>
+        The prevalence of open-source tools that implement the best
+        practices for compliance with a regulatory framework make it easier
+        and cost-effective for smaller organisations. This could include
+        tools for Access Control, Governance, Consent Management, Data
+        Classification, Auditing, or Impact Analysis.
+    </p><p>
+        Without structures support from the regulatory body, smaller
+        organisations incapable of reasonably affording paid compliance
+        consulting firms like <a href="https://sprinto.com/">Sprinto</a>, or <a
+            href="https://www.vanta.com/">Vanta</a
+        > are effectively left in the dark when attempting to operationalize regulatory
+        requirements. the implementation of these regulations.
+    </p><p>
+        The European Data Protection Board, and CNIL recognise that clear,
+        implementable guidance must be paired with practical, accessible
+        tools. As a result, they openly publish regulator-maintained
+        software, such as the EDPB's <a
+            href="https://code.europa.eu/edpb/website-auditing-tool"
+            >Website Auditing Tool</a
+        > and CNIL's <a href="https://github.com/LINCnil/pia"
+            >PIA (DPIA) Tool</a
+        >, which organisations of any size can use to audit systems, assess
+        risks, and align with legal obligations.
+    </p><p>
+        India's regulatory landscape is evolving rapidly, but without
+        regulator-backed open-source tooling, compliance remains
+        disproportionately difficult for smaller organisations and startups.
+        Open-source reference implementations are not a luxury, they are
+        essential infrastructure for fair, scalable, and enforceable
+        data-protection governance.
+    </p>
+</PostLayout>

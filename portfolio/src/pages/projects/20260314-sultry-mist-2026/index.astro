@@ -1,0 +1,43 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20260314-1.png";
+
+export const meta = {
+    title: "A festival site and a live VJ feed for Sultry Mist 2026",
+    date: new Date(2026, 2, 14),
+    description: "A phone backstage, Hydra, and a screen for the crowd",
+    tech: ["hydrajs", "astro"],
+    role: ["Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        I built <a href="https://sultrymist.com">sultrymist.com</a> for the 2026 edition
+        of Sultry Mist festival in Aldona, Goa. It was a basic Astro website with
+        lots of images. They wanted the colors to change and the background to have
+        a moving dot effect, something &quot;dance-y&quot;.
+    </p><p>
+        I built the background with a dot matrix pattern and an infinite looped
+        animation using pure CSS and the color shift on interaction was made
+        using <code>@property</code> and some JavaScript.
+    </p><p><Image src={cover} alt="" /></p><h2>The installation</h2><p>
+        VDO.ninja handled the peer-to-peer video transport. A phone backstage
+        acted as the camera source. On the display end, the stream was pulled
+        into a browser via VDO.ninja's viewer URL. Since <code
+            >s0.initStream()</code
+        > is broken in Hydra for some reason I could not debug, I used <code
+            >s0.initScreen()</code
+        > and <code>OBS Studio</code> to create the display.
+    </p><p>
+        The output ran fullscreen on a display pointed at the audience, bridging
+        the backstage energy with the crowd without any dedicated streaming
+        infrastructure or paid tooling.
+    </p><p>
+        Here's a <a
+            href="https://hydra.ojack.xyz/?code=czAuaW5pdENhbSgpJTBBJTBBc3JjKHMwKSUwQSUyMCUyMC5waXhlbGF0ZSg1MCUyQyUyMCgpJTIwJTNEJTNFJTIwKE1hdGguY29zKHRpbWUpKjUwJTIwJTJCJTIwNTApKSUwQSUyMCUyMC5jb2xvciglMEElMjAlMjAlMjAlMjAoKSUyMCUzRCUzRSUyME1hdGguc2luKHRpbWUpJTIwKiUyMDAuNSUyMCUyQiUyMDAuNSUyQyUwQSUyMCUyMCUyMCUyMCgpJTIwJTNEJTNFJTIwTWF0aC5zaW4odGltZSUyMColMjAxLjMlMjAlMkIlMjAyKSUyMColMjAwLjUlMjAlMkIlMjAwLjUlMkMlMEElMjAlMjAlMjAlMjAoKSUyMCUzRCUzRSUyME1hdGguY29zKHRpbWUlMjAqJTIwMC43KSUyMColMjAwLjUlMjAlMkIlMjAwLjUlMEElMjAlMjApJTBBJTIwJTIwLm91dCgp"
+            >preview of how one of the scenes looked.</a>
+    </p>
+</ProjectPost>

@@ -34,7 +34,7 @@ pnpm-debug.log*
 .pnp.*
 
 # Obsidian
-/src/data
+blog/src/data
 dist
 
 .wrangler

@@ -1,0 +1,73 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20230428-1.png";
+
+export const meta = {
+    title: "Setting a tone of voice for Cryptlex",
+    date: new Date(2023, 3, 28),
+    description:
+        "I was the only one on the team who could write these, so I did",
+    role: ["Writing"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        As a <em>Product Team of One</em> at Cryptlex, I took up the task of structuring
+        our content and making it uniform.
+    </p><blockquote>
+        <p>
+            A brand is always answering two questions. The first one internally
+            facing: What do we believe? The second, externally: How do we
+            behave? You must remain authentic to yourself, your core values, and
+            what you stand for. If you’re not, people will sniff you out. But
+            your brand must maintain cultural congruence — remaining relevant to
+            the times, always evolving to inspire people at large. The answers
+            to these two curiosities must always be aligned. – <a
+                href="https://www.wearecollins.com/ideas/brian-collins/"
+                >Brian Collins</a>
+        </p>
+    </blockquote><p>
+        After documentation, discussion with the team, we decided on <em
+            >Serious, Formal, Respectful, and Matter of fact</em
+        > dimensions for the content based on the <a
+            href="https://www.nngroup.com/articles/tone-of-voice-dimensions/"
+            >NNGroup's Tone of Voice framework</a
+        >.
+    </p>
+    <figure>
+        <Image src={cover} alt="" class="w-full" />
+        <figcaption>
+            A graphic I created for the 'Funny' tone of voice. A wordplay on
+            'license to kill' and 'license to chill', and since Cryptlex
+            offers 'licensing', it was meant to imply that Cryptlex is the
+            'license to chill'. While I was intrigued with having a brand
+            that is allowed to be humorous, I was also concerned about the
+            potential for misinterpretation. The 'license to chill' example
+            may not be understood by all audiences and is exclusive to a
+            certain demographic.
+        </figcaption>
+    </figure>
+    <p>
+        A content designer, information designer, or similarly specialized
+        person could do this better. However, since no one else in the team
+        could have contributed to this, I scoured the internet and forums
+        written by technical writers, to find some guidance. I leave these here
+        for anyone who might need them in the future:
+    </p><ul>
+        <li>
+            <a href="https://gist.github.com/nicoleslaw/2155621"
+                >Tiny Content Framework</a>
+        </li><li>
+            <a href="https://contentdesign.intuit.com/">Content at Intuit</a>
+        </li><li>
+            <a href="https://atlassian.design/content/"
+                >Atlassian Design System</a>
+        </li><li>
+            <a href="https://design.gitlab.com/content/terminology"
+                >Gitlab Pajamas</a>
+        </li><li><a href="https://diataxis.fr/">Diátaxis framework</a></li>
+    </ul>
+</ProjectPost>

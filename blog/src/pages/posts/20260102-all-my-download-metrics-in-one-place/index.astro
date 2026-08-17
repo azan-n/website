@@ -1,0 +1,52 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+
+export const meta = {
+    title: "All my download metrics in one place",
+    date: new Date(2026, 0, 2),
+    description:
+        "Trying to find a single view of package download stats across registries",
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        I've been working with companies that have multiple libraries in
+        different languages that get published to a bunch of repositories.
+        At Cryptlex, I developed packages for 4 platforms out of the 12 or so
+        that are supported. These get shipped to Crates.io, NuGet, npmjs, and
+        Maven Central repositories.
+    </p><p>
+        I wanted to understand how these packages are adopted and see a
+        normalized view of this data so I could prioritize which of these to
+        focus on based on adoption. As my projects often go, I wanted this to
+        be a frontend only project.
+    </p><p>After looking at the repositories, I found</p><ol>
+        <li>
+            <a href="https://docs.pypi.org/api/stats/">PyPI</a> only provides
+            stats for the top 100 packages on the repository. Alternatively, <a
+                href="https://pypistats.org/api/">pypistats</a
+            > has download data and provides a JSON API for the same. The BigQuery
+            tables are also open to be downloaded/queried.
+        </li><li>
+            The <a href="https://api.nuget.org/v3/index.json">NuGet API</a>
+            provides some statistics but the a) the CORS headers make it
+            unfavorable for the application to be frontend only, and b) the <a
+                href="https://www.nuget.org/stats/packages/Cryptlex.LexActivator?groupby=Version"
+                >data</a
+            > is only available for the past 6 weeks.
+        </li><li>
+            The npmjs registry endpoint (<code
+                >https://registry.npmjs.org/<em>package-name</em></code
+            >) was the most permissive out of the lot. No CORS, which is why
+            it powers frontend applications like <a
+                href="https://www.npmcharts.com/">npmcharts</a
+            >.
+        </li>
+    </ol><p>
+        Before I could get to crates.io or maven central, I found <a
+            href="https://libraries.io/">libraries.io</a
+        >, which seems to do exactly what I'm aiming to do here. I have yet
+        to use it, I will write more when I do.
+    </p>
+</PostLayout>

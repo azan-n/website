@@ -1,0 +1,114 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Code } from "astro:components";
+
+export const meta = {
+    title: "Music at hack4play with strudel.cc",
+    date: new Date(2026, 1, 22),
+    description:
+        "Workshop notes from Kochi Bienalle's Forplay Society programme",
+    tags: ["music"],
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        The following are notes from my workshop at the Kochi Bienalle
+        Collateral Programme, Forplay Society.
+    </p><p>
+        Use <a href="/posts/20250924-music-at-indiafoss-with-strudelcc"
+            >my talk at IndiaFOSS last year</a
+        > as a reference.
+    </p><ol>
+        <li>What kind of music do you listen to?</li>
+        <li>What programming experience do you have? Does it matter?</li>
+        <li>What do you expect to leave with after this workshop?</li>
+        <li>
+            Do we have time to jam? Use flok locally <code
+                >pnpx flok-web@1.3.0</code
+            > if we get the time.
+        </li>
+    </ol><h2>Should we turn this sad tune to upbeat dance music?</h2><ol>
+        <li>What is that <code>initHydra()</code>?</li>
+    </ol>
+    <iframe
+        src="https://strudel.cc/#c2V0Y3BtKDYwKQogIApsZXQgY2hvcmRzID0gY2hvcmQoIjxBbSBENyA8R003IENNNyBbR2FkZDksIENNN10%2BPi80IikKCiQ6IGNob3Jkcy5zdHJ1Y3QoIi0geCAtIC0iKS52b2ljaW5nKCkubW9kZSgiYmVsb3ciKS5zb3VuZCgicGlhbm8iKS5wbHkoMikuc2xvdygyKS5fcGlhbm9yb2xsKCkgLy8gcGxheSBub3RlcyBmcm9tIGNob3JkIHZvaWNpbmdzCiQ6IGNob3Jkcy52b2ljaW5nKCkKICAgIC5zdXBlcmltcG9zZSh4PT54LmFkZCguMDQpKSAvLyBhZGQgc2Vjb25kLCBzbGlnaHRseSBkZXR1bmVkIHZvaWNlCiAgICAuYWRkKHBlcmxpbi5yYW5nZSgwLC41KSkgLy8gcmFuZG9tIHBpdGNoIHZhcmlhdGlvbgogICAgLnMoJ2dtX2VsZWN0cmljX2d1aXRhcl9jbGVhbicpIC8vIHNvdW5kIGJhbmsgCiAgICAuZmFzdCg0KQogICAgLmdhaW4oLjE2KSAvLyB0dXJuIGRvd24KICAgIC5jdXRvZmYoNTAwKSAvLyBmaXhlZCBjdXRvZmYKICAgIC5hdHRhY2soMSkgLy8gc2xvd2x5IGZhZGUgaW4KCiQ6IHMoYG9oITIgfmApCiAgLmF0dGFjaygwLjcpCiAgLmRlY2F5KDAuMikKICAuaHBmKDMwMDApCiAgLmdhaW4oMC41KQoKJDogcyhgcmltITMgfmApCiAgLmRlY2F5KDAuMikKICAuaHBmKDMwMDApCiAgLmdhaW4oMC4zKQoKLy8gU2hvdWxkIHdlIHR1cm4gdGhpcyBhcm91bmQgaW50byBhIGRpZmZlcmVudCBraW5kIG9mIHRyYWNrPwovLyAkOiBzKCJiZCBiZCBiZCBiZCIpLmxwZigzMDApCgovLyAkOiBzKCJqYXp6IikucGx5KDgpLmdhaW4oMC4yKQoKbGV0IHBhdHRlcm4gPSAiMCAxIDMgMSB8IDMgMSAwIDEgfCAwIDEgNSAzIHwgNiA3IDMgMSIKLy8gTmljZSBhbmQgZHJlYW15CiQ6IG4ocGF0dGVybikKICAgIC5zZXQoY2hvcmRzKQogICAgLm9mZnNldCgtNikKICAgIC52b2ljaW5nKCkKICAgIC5zb3VuZCgiZ21fZWxlY3RyaWNfZ3VpdGFyX2NsZWFuIikKICAgIC5zdXBlcmltcG9zZSh4PT54LmFkZCguMDYpKSAvLyBhZGQgc2Vjb25kLCBzbGlnaHRseSBkZXR1bmVkIHZvaWNlCiAgICAuc3VzdGFpbigzKQogICAgLmRlbGF5KDAuNSkKICAgIC5scGYoMzAwMCkKICAgIC5kaXN0b3J0KHJhbmQucmFuZ2UoMSwyKSkKICAgIC5nYWluKHBlcmxpbi5yYW5nZSgwLjEsIDAuMykpCgoKLy8gbm9pc2UoMTAsIDAuMSkubXVsdChvc2MoSChwYXR0ZXJuKSkpLmRpZmYoZ3JhZGllbnQoMCkucG9zdGVyaXplKFsxXSwwLjUpKS5vdXQobzAp"
+        width="100%"
+        height="500"
+    ></iframe><h2>Samples 101</h2>
+    <iframe
+        src="https://strudel.cc/#CnNhbXBsZXMoJ3NoYWJkYS9zcGVlY2g6Zm9ycGxheSxzb2NpZXR5JykKCnNldGNwbSg2MCkKCiQ6IHMoYGZvcnBsYXlgKQogICAgLnNsaWNlKDgsICIwIDEgMiAzIDQgNSA2IDciKQogICAgLmZpdCgpCiAgICAuZmFzdCgyKQogICAgLm5vdGUoIjxlMiBnMiBhMj4iKQogICAgLmhwZigzMDAwKQogICAgLl9zY29wZSgpCgokOiBzKCJzb2NpZXR5IikKICAgIC5zbGljZSgzLCAiMCAxIDIiKQogICAgLmZpdCgpCiAgICAubm90ZSgiZzIgZTIgYzMiKQogICAgLmdhaW4oMC4zKQo%3D"
+        width="100%"
+        height="500"
+    ></iframe><h2>Samples again (?)</h2>
+    <iframe
+        src="https://strudel.cc/#c2FtcGxlcygnZ2l0aHViOnRpZGFsY3ljbGVzL2RpcnQtc2FtcGxlcycpCgpzZXRjcG0oNjApCgokOiBzKGByYXZlYCkKICAgIC5zbGljZSg4LCAiNCA1IDYgNyA4IikKICAgIC5mYXN0KDEpCiAgICAuaHBmKDMwMDApCiAgICAuX3Njb3BlKCkKJDogcygiYmQhOCIpLmdhaW4oc2luZSkKCiQ6IHMoImNyb3ciKQogICAgLnNsaWNlKDQsICIwIDIgMCAxIikKICAgIC5nYWluKDAuMykKCiQ6IG4oIjEgMyA0IDUiKQogICAgLnNldChjaG9yZCgiRyBFYWRkOSIpKQogICAgLm9mZnNldCgtMikKICAgIC52b2ljaW5nKCkKICAgIC5zKCJzYXd0b290aCIpCiAgICAuZ2FpbihzaW5lLnJhbmdlKDAsMC4zKSkKCiQ6IHMoImhoITgiKS5wbHkoc2xpZGVyKDEsMSw0LDEpKQoKLy8gRHJvcD8KJDogcygiYmF0dGxlcy8yIikuZ2FpbihzbGlkZXIoMCwgMCwgMSwgMSkpCg%3D%3D"
+        width="100%"
+        height="500"
+    ></iframe><h2>Try some of these</h2>
+    <Code lang="text" code={`$: s("bd bd cp@2")`} />
+    <Code lang="text" code={`$: s("bd hh bd hh")`} />
+    <Code
+        lang="text"
+        code={`_$: s("bd*4\\)
+_$: s("hh*8")
+_$: ("~ sd")`}
+    />
+    <Code
+        lang="text"
+        code={`$: s("bd sd [~ bd] sd, hh*6").bank("RolandTR909")`}
+    /><h2>Glossary</h2><blockquote>
+        <p>
+            To set a specific bpm, use <code>setcpm(bpm/bpc)</code> bpm: the
+            target beats per minute, bpc: the number of perceived beats per
+            cycle. <code>setcpm(110/4) s("bd sd bd rim, hh*8")</code> could
+            be interpreted as 4/4 time with a tempo of 110bpm.
+        </p>
+    </blockquote><blockquote>
+        <p>
+            Tempo is based on perception. The choice of sounds also has an
+            impact on the tempo feel. This is why the same CPM can produce
+            different perceived tempos.
+        </p>
+    </blockquote><blockquote>
+        <p>
+            Playing more than one note at a time is generally called a <code
+                >chord</code
+            >. Notes are discernible sounds.
+        </p>
+    </blockquote><blockquote>
+        <p>
+            Slow down using <code>/</code>, Alternate using <code
+                >&lt;&gt;</code
+            >, Elongate using <code>@</code>, Replicate using <code
+                >!</code
+            >, Parallel using <code>,</code>, Speed up using <code
+                >*</code
+            >, Sub-sequence using <code>[]</code>, Rest using <code
+                >~</code
+            >.
+        </p>
+    </blockquote><blockquote>
+        <p>Filters help shape a sound</p>
+    </blockquote><blockquote>
+        <p>
+            <code>bd</code> = <strong>b</strong>ass <strong>d</strong>rum, <code
+                >sd</code
+            > = <strong>s</strong>nare <strong>d</strong>rum, <code
+                >rim</code
+            > = <strong>rim</strong>shot, <code>hh</code> = <strong
+                >h</strong
+            >i<strong>h</strong>at, <code>oh</code> = <strong>o</strong>pen <strong
+                >h</strong
+            >ihat, <code>lt</code> = <strong>l</strong>ow tom, <code
+                >mt</code
+            > = <strong>m</strong>iddle tom, <code>ht</code> = <strong
+                >h</strong
+            >igh tom, <code>rd</code> = <strong>r</strong>i<strong
+                >d</strong
+            >e cymbal, <code>cr</code> = <strong>cr</strong>ash cymbal, <code
+                >cp</code
+            > = <strong>c</strong>la<strong>p</strong>
+        </p>
+    </blockquote>
+</PostLayout>

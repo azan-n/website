@@ -1,0 +1,44 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Code } from "astro:components";
+
+export const meta = {
+    title: "Markdown is actually not _that_ extensible",
+    date: new Date(2026, 3, 4),
+    description: "Where Markdown's HTML/directive hybrids fall apart",
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        This came about from a <a
+            href="/posts/20260404-hot-takes-from-indiewebclub-in-the-absence-of-tanvi"
+            >hot take</a
+        > mentioned at <a href="https://blr.indiewebclub.org">IndieWebClub</a>
+        by Luna. Sure, markdown is extensible but it is quite bad with extensibility.
+    </p><p>
+        I used to think you can write HTML in Markdown but it doesn't quite
+        work well in that the hybrid of HTML and Markdown are quite bad. For
+        example when writing a figure, the figcaption in the below directive
+        no longer supports markdown or HTML. So this doesn't quite work for
+        adding links to captions or making text italics.
+    </p>
+    <Code
+        lang="mdx"
+        code={`:::figure{.full-bleed}
+![Alt text!!](./20250425-1.png)
+:figcaption[My figcaption works]
+:::`}
+    /><p>
+        This is similarly limiting in Markdoc, which is a super-set of
+        Markdown which I use for my website.
+    </p>
+    <Code
+        lang="php"
+        code={`{% figure src="./20220202-3.png" alt="" caption="Make this a figcaption." /%}`}
+    /><p>
+        This is why I want to write all my documents using typst, which has
+        a good set of tools for diagrams, layouts, exporting to PDF, and is
+        quite fast.
+    </p>
+</PostLayout>

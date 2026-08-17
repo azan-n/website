@@ -1,0 +1,35 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+
+export const meta = {
+    title: "A weeknote because Tanvi is scary - II",
+    date: new Date(2026, 1, 21),
+    description:
+        "Workshops, an SMTP client in a Cloudflare Worker, and being tired",
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        A friend got me to design a workshop for Hack4play at <a
+            href="https://forplay-society.org/">Forplay Society</a
+        > in Kochi. I will be teaching it to children around 1st or 2nd
+        March. Initially, I thought I wanted it to be for musicians only
+        where I played math-y prog-rock or jazz tunes, so it could be a more
+        advanced version of <a
+            href="/posts/20250924-music-at-indiafoss-with-strudelcc"
+            >my talk at IndiaFOSS last year</a
+        >. I realize that I won't always have control over my audience and
+        the best I can do is try to share whatever I know, in the correct
+        format for the audience.
+    </p><p>
+        I tried writing an SMTP client in Cloudflare Workers, which seems
+        difficult but not impossible. I want to use it for managing email
+        subscriptions on my website and possibly also extend it to other
+        use cases.
+    </p><p>
+        I've been tired of all the work I'm doing and I think I need a
+        break. Maybe I should write Rust, maybe I should record music, there
+        are so many options and it is exhausting.
+    </p>
+</PostLayout>

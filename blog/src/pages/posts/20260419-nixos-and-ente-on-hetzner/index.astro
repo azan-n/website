@@ -1,0 +1,197 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Code } from "astro:components";
+export const meta = {
+    title: "NixOS and Ente on Hetzner",
+    date: new Date(2026, 3, 19),
+    description:
+        "My experience installing NixOS on a cheap Hetzner VPS and hosting Ente on it using Docker Compose",
+    tags: ["nix", "self-host"],
+};
+---
+
+<PostLayout meta={meta}>
+    <h2>NixOS</h2><p>
+        Last week, I decided to run an experiment to self-host <a
+            href="https://ente.com">ente</a
+        > on the cheapest $4.99/mo machine on Hetzner. I used the <a
+            href="https://wiki.nixos.org/wiki/Install_NixOS_on_Hetzner_Cloud"
+            >following guide</a
+        > to install NixOS on my machine.
+    </p>
+    <Code
+        lang="sh"
+        code={`parted /dev/sda --script mklabel msdos
+parted /dev/sda --script mkpart primary ext4 1MiB 513MiB
+parted /dev/sda --script set 1 boot on
+mkfs.ext4 -L boot /dev/sda1
+parted /dev/sda --script mkpart primary linux-swap 513MiB 8577MiB
+mkswap -L swap /dev/sda2
+swapon /dev/sda2
+# The 100% might not work, use parted print to look at the actual block end
+parted /dev/sda --script mkpart primary ext4 8577MiB 100%
+mkfs.ext4 -L nixos /dev/sda3
+# Mount the partitions to /mnt and /mnt/boot.
+mount /dev/disk/by-label/nixos /mnt
+mkdir /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
+# Generate configuration.nix
+nixos-generate-config --root /mnt
+# Install
+sudo nixos-install`}
+    /><h2>Ente</h2><p>
+        I used <code>compose</code> and <code>docker secrets</code> to configure
+        the server.
+    </p>
+    <Code
+        lang="yml"
+        code={`services:
+    museum:
+        image: ghcr.io/ente-io/server
+        ports:
+            - 8080:8080 # API
+        depends_on:
+            postgres:
+                condition: service_healthy
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+            - |
+                sed \\
+                  -e "s|__DB_PASSWORD__|$$(cat /run/secrets/db_password)|g" \\
+                  -e "s|__S3_KEY__|$$(cat /run/secrets/s3_access_key)|g" \\
+                  -e "s|__S3_SECRET__|$$(cat /run/secrets/s3_secret_key)|g" \\
+                  -e "s|__ENCRYPTION_KEY__|$$(cat /run/secrets/encryption_key)|g" \\
+                  -e "s|__HASH_KEY__|$$(cat /run/secrets/hash_key)|g" \\
+                  -e "s|__JWT_SECRET__|$$(cat /run/secrets/jwt_secret)|g" \\
+                  /museum.yaml.template > /museum.yaml
+                exec /museum
+        volumes:
+            - ./museum.yaml.template:/museum.yaml.template:ro
+            - ./data:/data:ro
+        secrets:
+            - db_password
+            - s3_access_key
+            - s3_secret_key
+            - encryption_key
+            - hash_key
+            - jwt_secret
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "wget",
+                    "--quiet",
+                    "--tries=1",
+                    "--spider",
+                    "http://localhost:8080/ping",
+                ]
+            interval: 60s
+            timeout: 5s
+            retries: 3
+            start_period: 120s
+
+    web:
+        image: ghcr.io/ente-io/web
+        ports:
+            - 3000:3000 # Photos web app
+            - 3001:3001 # Accounts
+            - 3002:3002 # Public albums
+            - 3003:3003 # Auth
+            - 3004:3004 # Cast
+            - 3005:3005 # Share
+            - 3006:3006 # Embed
+            - 3008:3008 # Paste
+        # Modify these values to your custom subdomains, if using any
+        environment:
+            ENTE_API_ORIGIN: https://api.ente.azan-n.com
+            ENTE_ALBUMS_ORIGIN: https://albums.ente.azan-n.com
+            ENTE_PHOTOS_ORIGIN: https://web.ente.azan-n.com
+
+    postgres:
+        image: postgres:15
+        environment:
+            POSTGRES_USER: pguser
+            POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+            POSTGRES_DB: ente_db
+        secrets:
+            - db_password
+        healthcheck:
+            test: pg_isready -q -d ente_db -U pguser
+            start_period: 40s
+            start_interval: 1s
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+
+secrets:
+    db_password:
+        file: ./secrets/db_password
+    s3_access_key:
+        file: ./secrets/s3_access_key
+    s3_secret_key:
+        file: ./secrets/s3_secret_key
+    encryption_key:
+        file: ./secrets/encryption_key
+    hash_key:
+        file: ./secrets/hash_key
+    jwt_secret:
+        file: ./secrets/jwt_secret
+
+volumes:
+    postgres-data:`}
+    /><p>This is what the <code>museum.yaml</code> looked like:</p>
+    <Code
+        lang="yml"
+        code={`s3:
+      b2-eu-cen:
+         are_local_buckets: false
+         key: __S3_KEY__
+         secret: __S3_SECRET__
+         endpoint: hel1.your-objectstorage.com
+         region: hel1
+         bucket: bucketzia`}
+    /><p>
+        Adding a cors.json to the S3 bucket was necessary to make things
+        work.
+    </p>
+    <Code
+        lang="json"
+        code={`{
+    "CORSRules": [
+        {
+            "AllowedOrigins": ["*"],
+            "AllowedHeaders": ["*"],
+            "AllowedMethods": ["GET", "HEAD", "POST", "PUT", "DELETE"],
+            "MaxAgeSeconds": 3000,
+            "ExposeHeaders": ["Etag"]
+        }
+    ]
+}`}
+    /><p>
+        The <a href="https://ente.com/help/self-hosting/administration/cli"
+            >steps needed to be taken using Ente CLI</a
+        > were done after a simple <code>nix-shell -p ente-cli</code>.
+    </p>
+    <Code
+        lang="nix"
+        code={`services.caddy = {
+	enable = true;
+    virtualHosts = {
+      "api.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:8080";
+      "web.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3000";
+      "accounts.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3001";
+      "albums.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3002";
+      "auth.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3003";
+      "cast.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3004";
+      "share.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3005";
+      "embed.ente.azan-n.com".extraConfig = "reverse_proxy http://localhost:3006";
+    };
+  };`}
+    /><p>I eventually switched to managed ente because</p><ol>
+        <li>Managing backups for S3 + Database is overhead</li>
+        <li>
+            Even with the cheapest machine ($4.99/mo) and the cheaper S3
+            pricing ($7.6/TB/month) with no replication or backups, the
+            managed ente is cheaper ($9.16/TB/mo).
+        </li>
+    </ol>
+</PostLayout>

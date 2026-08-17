@@ -1,0 +1,38 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+
+export const meta = {
+    title: "A weeknote because Tanvi is scary",
+    date: new Date(2026, 0, 3),
+    description:
+        "Finishing a course, switching to swaywm, and losing a friend",
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        I finished all the work for my Public Policy course. It was a lot of
+        work and it was tiring because I didn't really connect with the
+        coursework. I'm happy I don't have to work on it anymore.
+    </p><p>
+        I switched from hyprland to swaywm. I know that the longer I use
+        something, I feel the need to contribute to it's development and I'd
+        rather not put that energy into hyprland, given how toxic the
+        community is. This has broken my workflow a little but I'm hoping
+        I'll make it work in due time. Notably, swaywm does not have opacity
+        controls or animations out of the box, which is bugging me quite a
+        bit.
+    </p><p>
+        I am no longer friends with someone I once held very dear to my
+        person. It feels rough. They continued to ignore me and not
+        communicate with me and wanted to continue being friends with me
+        &quot;passively&quot; but that didn't sound too appealing to me. I'm
+        still angry but I know I can't be for too long.
+    </p><p>
+        I found Nemo's post about why he left Bangalore while I was writing
+        about PROGA and I've been panicking since. We have gotten used to
+        these instances of incompetence in the system we pay to run and I
+        worry that I will settle for this unfixable, unquestionable
+        incompetence in the world.
+    </p>
+</PostLayout>

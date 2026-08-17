@@ -1,0 +1,19 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Image } from "astro:assets";
+import cover from "./20230612-3.jpg";
+import img1 from "./20230612-1.jpg";
+import img2 from "./20230612-2.jpg";
+
+export const meta = {
+  title: "An ambrigram of my name",
+  date: new Date(2023, 5, 12),
+  description: "The process of creating a symbol for my name",
+  tags: ["ambigrams","design"],
+  image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+<p>Before publishing this website, I wanted to try sketching out an ambigram of my name to use as a logo for the website. I digitized my ideas using Affinity Designer 2 and while I made sure the axis for the letters is correct, the widths were eye-balled. <em>Something to fix in the next iteration, I guess.</em></p><div><Image src={img1} alt="" /> <Image src={img2} alt="" /> <Image src={cover} alt="" /></div>
+</PostLayout>

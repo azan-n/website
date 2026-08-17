@@ -1,0 +1,674 @@
+---
+import ContactLinks from "../../../portfolio/src/components/ContactLinks.astro";
+import { SOCIALS } from "../../../portfolio/src/site.config";
+import Layout from "../components/Layout.astro";
+import StrudelEditor from "../components/StrudelEditor.astro";
+
+const CONTACT_LINKS = [
+    ...SOCIALS,
+    {
+        icon: "ph:pencil",
+        href: "https://blog.azan-n.com",
+        linkTitle: "My blog",
+        label: "Blog",
+    },
+];
+
+const drums = [
+    `$: s("bd ~ sd ~ bd ~ [sd, sd] ~")`,
+    `$: s("bd bd cp@2")`,
+    `$: s("bd hh bd hh")`,
+    `$: s("bd*4")
+$: s("hh*8")
+$: ("~ sd")`,
+    `$: s("bd sd [~ bd] sd, hh*6").bank("RolandTR909")`,
+    `$: s("oh!2 ~").attack(0.7).decay(0.2).hpf(3000)
+$: s("rim!3 ~").decay(0.2).hpf(3000)`,
+    `$: s("<bd(3,8) bd(5,8)>").lpf(900).gain(slider(1,0,1))`,
+    `samples('github:tidalcycles/dirt-samples')
+$: s("breaks165").fit().chop(4).sometimes(ply(2)).cut(1)`,
+    `$: s("bd bd ~ rim,hh*3")`,
+    `$: s("hh(3,8)!2").hpf(7000)
+$: s("rim!4").ply(slider(2,0,4,2)).lpf(800).gain(slider(0.326))`,
+    `setcpm(70/4)
+
+$: stack(
+  s("bd").beat("0,3,6,10", 16).bank("RolandTR808"),
+  s("sd").beat("4,12", 16),bank("RolandTR808"),
+  s("hh*4").bank("RolandTR808").gain(0.8).late(0.25).ply("2 | 3 | 4 "),
+  s("oh").beat("7", 8).bank("RolandTR808").gain(0.6)
+).lpf(3000).coarse(4).shape(0.3)`,
+
+    `setcpm(80/4)
+
+$: stack(
+  s("bd bd ~ ~ ~ bd*2 ~ bd").bank("9000"),
+  s("sd").beat("1,2", 4).bank("9000")
+).lpf(6000).shape(0.3)`,
+    `setcpm(80/4)
+
+$: s("rim(5,16)").bank("9000").room(0.7)
+$: s("[~ perc:1*2] [~ perc:3*2]").fast(2).bank("yamaharm50")`,
+];
+
+const melodies = [
+    `$: chord("<EM7 E7 B7 AM7 B>").s("gm_piano").superimpose(x => x.detune(.5)).voicing()`,
+    `$: n("0 3 2 [1 4]".add("<7 0 1>")).scale("c:minor").s("gm_acoustic_bass").attack(1)`,
+    `$: chord("<C#m C#m7 B9 AM7>").voicing().s("gm_epiano1")`,
+    `let chords = chord("<Am D7 <GM7 CM7>>/4")
+$: n("2 1 0 1").set(chords).voicing().s("gm_piano:19").room(0.25).trans("12")
+$: n("0 - 0 0 - -").set(chords).voicing().transpose("-12").s("gm_acoustic_bass")`,
+    `setcpm(180/4)
+$: n("<[4 [4 -]] [5 4 7] [6@2 4 4] [5 4 8] [7@2 4 4] [11 2 0] [6 5 3 3] [2 0 1] 0@2>").scale("C:major")`,
+    `setcpm(70/4)
+let chords = chord("<AM7 B C#m7 E B AM7 C#m7 B A F#m7 B C#m7 A>")
+$: chords.voicing().s("gm_epiano1:4").lpf(600)`,
+    `setcpm(60)
+let chords = chord("<Am D7 <GM7 CM7 [Gadd9, CM7]>>/4")
+$: chords.struct("- x - -").voicing().mode("below").sound("piano").ply(2).slow(2)`,
+    `samples('shabda/speech:jstor,killed')
+setcpm(60)
+$: s("jstor").slice(8, "0 1 2 3 4 5 6 7").fit().fast(2).note("<e2 g2 a2>").hpf(3000)
+$: s("killed").slice(3, "0 1 2").fit().note("g2 e2 c3").gain(0.3)`,
+    `let chords = chord("<Am D7 <GM7 CM7 [Gadd9, CM7]>>/4")
+let pattern = "0 1 3 1 | 3 1 0 1 | 0 1 5 3 | 6 7 3 1"
+// Nice and dreamy
+$: n(pattern).set(chords).offset(-6).voicing().sound("gm_electric_guitar_clean")
+    .superimpose(x=>x.add(.06))
+    .sustain(3)
+    .delay(0.5)
+    .lpf(3000)
+    .distort(rand.range(1,2))
+    .gain(perlin.range(0.1, 0.3))`,
+    `samples('github:tidalcycles/dirt-samples')
+setcpm(60)
+$: s("rave").slice(8, "4 5 6 7 8")
+$: s("bd!8").gain(sine)
+$: s("crow").slice(4, "0 2 0 1").gain(0.3)`,
+];
+
+const my_patches = [
+    `samples('shabda:callmeback')
+samples({ voice:'https://cdn.freesound.org/previews/790/790475_16393410-lq.mp3'})
+setcpm(72/4)
+
+$: stack(
+  s("bd").beat("0,9,10",16).bank("akailinn").lpf(2000),
+  s("mt(7,16)").bank("akailinn").lpf(200).gain(0.7),
+  s("tb").beat("7", 8).bank("akailinn")
+).gain(0.3)
+
+$: chord("<C#m C#m7 B9 AM7>").voicing().s("gm_epiano1").room(0.9).lpf(2000).gain(0.2)
+
+$: s("callmeback").slice(4, "0 [1 - -] - 1").room(1).crush(8).postgain(0.1)
+
+$: s("voice").scrub(".25@3 0.7!2 <0.8:1.5>").lpf(900).room(0.5).pan(sine.slow(2)).phaser(2)`,
+    `/**
+* @title chv
+*/
+const verseC = "<Em F Am G> | <Am Am G Em>"
+const bass = "<Em F Am G>"
+
+const verse = stack(
+chord(verseC).voicing().sound("gm_electric_guitar_muted").room(.5).gain(0.5),
+n("0 2 3 7").set(chord(bass).offset(-4)).voicing().gain(0.3)
+)
+
+const hookC = "<F Am G G Am Am G Em>"
+
+const hook = stack(
+chord(hookC).voicing().sound("gm_distortion_guitar").superimpose(x => x.add(0.4)).bpf(800, 6000).gain(0.4),
+n("0 2 3 4 5").set(chord(hookC)).voicing().fast(2).delay(0.75).s("gm_electric_guitar_muted").degradeBy(0.7),
+s("bd!4").cutoff(rand.range(800,1000)).gain(0.4)
+)
+
+const outroC = "<Em [F,Am] G Am G Em>"
+
+const outro = stack(
+s("bd!8").cutoff(800).gain(0.3),
+chord(outroC).voicing().sound("gm_electric_guitar_muted").gain(0.3),
+n("0 2 3 4 4 3 | 0 2 4 5 4 2 | 2 4 3 5 3 4").set(chord(outroC)).voicing().fast(2).room(0.75).s("vibraphone_soft").gain(0.6)
+)
+
+arrange(
+[32, verse],
+[32, hook],
+[32, outro]
+)`,
+    `/**
+@title (?)
+**/
+setcpm(180/4)
+
+let x = slider(1,0,1)
+
+$: s("<bd(3,8) bd(5,8)>").room(2).cutoff(900).gain(sine.range(0.2,0.4)).duckorbit(2)
+$: s("sh").bank("yamaharm50").sometimes(x => x.hush())
+
+$: n("[0 1 2] [- 0 1] [0 0 2]").scale("C:minor").transpose("-24").s("supersaw")
+  .crush(rand.range(3, 8)).sometimes(x => x.superimpose(x => x.add(2))).sometimes(x => x.speed(2))
+  .gain(x.range(0,1))._scope()
+
+_$: s("pink").gain(0.3).pan("<0.1 0.44 0.8 1>")
+
+$: n("[3 4 4] [1 0 0] [9 0 0] [7 - -] [- 6 0] [2 - 4]").scale("C:minor")
+  .sound("organ_full").gain(x.range(1,0)).orbit(2)
+
+$: n("[- 0 -] [2 - 2] [- 4 -]").scale("C:minor").transpose(12).room(3).s("tubularbells")
+  .gain(slider(0.224,0,1))`,
+    `// @title my rath
+$: s("bd bd ~ rim,hh*3").delay(0.3).room(0.7)
+  .gain(slider(0))
+$: n(irand(8).struct("<x x!2>*8,16"))
+  .fast(slider(2, 1, 4, 1))
+  .sometimes(x => x.offset(-2)).chord("C#m").voicing().s("gm_overdriven_guitar:3")
+  .gain(slider(0))
+  ._pianoroll()
+$: s("rim@2").bank("RolandTR707").gain(slider(0.246))
+$: s("AlesisSR16_perc").room(2)
+  .gain(slider(0))`,
+    `// @title crying FOSS in my mic
+// @by azan-n <https://azan-n.com>, nikochiko <https://kaustubh.page>
+// @license CC BY-NC-SA
+setcpm(120)
+let chords = "<C#m B7 AM7 E7b5 G#m7 B>"
+$: chord(chords)
+  .sound("supersaw")
+  .voicing()
+  .room(0.5)
+  .lpf(200)
+  .vib(slider(0, 0, 20))
+  .gain(slider(0.498))
+  .delay(slider(0.314))
+  ._scope()
+$drum: sound("bd | hh!2")
+  .bank("RolandTR909")
+  .fast(4).lpf(900)
+  .gain(slider(0.581))
+  ._punchcard()
+$lead: n("6 2 4 7").chord(chords).voicing()
+  .slow(2)
+  .room(2).delay(.1)
+  .gain(slider(0.678)).phaser("1")
+  ._scope()
+
+$gunshot: sound("cowbell:2")
+  .gain(slider(0.352))`,
+    `// @title call me on my payphone
+setcps(0.75)
+
+let chords = "<Bbm9 Fm7> | <Bbm6 Fm>"
+
+$piano:chord(chords).offset(-1).voicing().s("gm_epiano1").phaser(4).room(.5).gain(0.1)
+$bass_drum: s("RolandTR707_bd").ply(slider(2, 1, 2, 1))
+  .lpf(700).gain(slider(0.485)).release(0.2)
+
+$shaker: s("shaker_large!2").release(0.1).gain(0.3)
+
+$: n("0 3 5 7").set(chord(chords)).offset(-5).voicing()
+  .s("gm_acoustic_bass:1").gain(slider(0.678)).attack(0.1)
+
+$: s("hh(3,8)!2")
+  .hpf(7000).room(0.5).delay(0.1)
+  .gain(slider(1))._punchcard()
+$: s("rim!4")
+  .degradeBy(0.2).ply(slider(2,0,4,2))
+  .lpf(800).gain(slider(0.326)).pan(0.1)._punchcard()
+
+$: n("0 1 3 1 | 3 1 0 1").set(chord(chords)).offset(-1).voicing().s("gm_clarinet")
+  .gain(slider(0.36))._pianoroll()
+
+$: s("gm_telephone:1").degradeBy(0.9).room(0.2).gain(slider(0.458))
+
+$: n(irand(8).struct("x!2 - x x 2"))
+  .slow(slider(3,1,3,1)).chord(chords).offset(2).voicing()
+  .s("gm_acoustic_guitar_nylon").gain(slider(0.405))._pianoroll()`,
+];
+
+const found_patches = [
+    {
+        code: `// @title Covenant Trance
+// @by tzwaan
+
+setCpm(128/4)
+
+$PRELOAD_SAMPLES: s("gong:2,gm_choir_aahs:6").gain(0)
+
+const bassDrum = s("gm_taiko_drum:4").beat("0,5",12).o(1).release(.7).note("e3").distort("1")
+._scope()
+
+const snare = s("gm_melodic_tom:7").beat("3,9",12).o(2).gain(.8).room(.1).distort("1").note("bb2").lpf(4000)
+._scope()
+
+const toms = s("gm_melodic_tom*12").n(irand(5).rib(20,2)).velocity(tri.fast(2).range(.2, .5)).pan(rand)
+._scope()
+
+const bassDrumPatterns = [
+  "<x x x [x x*6]>",
+  "<[x -@4 x -@6] [x -@4 x -@5 x]!3>"
+]
+const bassDrum2 = (i) => s("gm_taiko_drum:8").struct(bassDrumPatterns[i]).note("e2,e3").decay(1).sustain(.3).velocity(itri.range(0, 1)).release(1).distort("1:1.2")
+._scope()
+const bassDrumRiser = s("gm_taiko_drum:4*12").velocity(saw.range(0,1).slow(4).sub(saw.range(0, .4).seg(12).fast(4))).gain(1.5).release(2)
+._scope()
+
+const tomsIntro = n("6 - 3 7 - <- 5> - - - 8 - -").s("gm_melodic_tom").note("b2").o(3).echo(4, 1/6, .4).velocity(.7).release(.2).room(0).lpf(1500).pan(rand)
+._scope()
+const tomPattern = n("6 3 6 7 - 2 3 8 3 7 - -").s("gm_melodic_tom").note("b2").o(3).echo(2, 1/6, .5).velocity(.6).release(.2).room(0).lpf(1500).pan(rand)
+._scope()
+
+const choir = stack(
+  note("<- - - - e4@6 - ->").s("gm_choir_aahs:6").attack(2).gain(1.2),
+  note("<[e,g] [e,a] [f#,b] [e,g,c#4] [e,g,b] [e,a,c#4] [f#,b,d4] [[e@2 -],[g@2 -],c#4@3]@3 - ->").s("gm_choir_aahs:6").attack(.3),
+).o(3).room(3).release(.7).gain(.7)
+  // Fix out-of-tune choir
+  .add(note("0.2"))
+._scope()
+
+const choir2 = stack(
+  note(\`<
+    0@2 [[2 _ _ 3 _ _ 2 _ _ 5 _ _ 3 _ _ 2 _ _ _ _]]@2 0@2 -
+    [7 _ _ 9 _ _ 10 _ _ _ _ _ _ _ _ 9 _ _ 5 _ _ 9 _ _ 7 _ _ _ _ _ _ _]@4 -
+    [-5 _ _ -2 _ _ 0 _ _ _ 3 _ _ _ 5 _ _ _ 2 _ _ _ _ _ _ _ _ _ _ _ - - - - - 0 _ _ 3 _ _ 2 _ _ 0 _ _ _ 2 _ _ _ -2 _ _ _ _ _]@6 0@2 -
+  >\`).add(note("e3").add(note("0,12"))).s("gm_choir_aahs:6").attack(.5)
+  .mul(speed("1,1.01,.99,1.03"))
+  .begin("0,.01,.02,.07")
+  .clip(1)
+).o(3).room(4).release(1).gain(.2).penv(.4).pdecay(.2)
+  .lpf(2500).lpq(1)
+  .hpf(300)
+._scope()
+
+_$: choir2
+
+const melody = note("<[0 _ 12 0 7 12]!3 [<15 17> <14 15> 10]>*2").add(note("e2")).s("gm_pizzicato_strings").decay(.15).sustain(.2).room(.7).delay(.2).lpf(500).gain(1.2).o(4).pan("<.5 [.5 [1 0 1]]>")
+  // Fix out-of-tune strings
+  .add(note("-0.2"))
+._scope()
+
+const rumble = s("brown").lpf(100).attack(.05).decay(.05).sustain(.8).gain(1.2)
+._scope()
+
+const chords = note("<[e2,e3,b3]@2 [c3,e3,g4] [[b2,e3,f#4] [g2,e3,d4]]>").s("gm_epiano1").clip(.9).attack(.7).release(1).room(1.4).gain(.5)
+._scope()
+
+const drone = s("supersaw").struct("[x - x x x x] [x - x - x -]").note("e1").detune(rand).distort("1.5:.8").clip(.9).lpf(600).lpq(3).o(5)
+._scope()
+
+const kick = s("sbd*4").duck("3:4:5").duckattack(.2).duckdepth(.7)
+._scope()
+
+const stringPattern = [
+  "[e3 e3 e3] <e4 f#4 g4 [a4 [e4 a4 e4 a4 g4 f#4]@2]>@3",
+  "[[e3 e3 e3] <e4 f#4 g4 [a4 g4 f#4]>]*2",
+]
+
+const strings = note(stringPattern[0].add("-12")).s("gm_string_ensemble_1").n("3,5").release("0.05").room(".7:10").distort("1:.5")
+._scope()
+const stringsFast = note(stringPattern[1].add("-12")).s("gm_string_ensemble_1").n("3,5").release("0.05").room(".7:10").distort("1:.5")
+._scope()
+
+const strings3 = stack(
+  note("<e4!3 [e4 [f#4 g4]] [a4] [b4]@4>").pan(.2),
+  note("<[- - - [f#4 g4]]@2 [a4] [b4] [c#5] [d5 [e5 f#5]] [g5 a5] b5>").pan(.8),
+).struct("x*6").s("gm_string_ensemble_1:[2,0]").release("0.7").room(".7:10").gain(saw.slow(8).range(.3, .7))
+._scope()
+
+const strings2 = stack(
+  note("<e2 e2 e2 e2>").struct("[x - -] [x - -]").s("gm_string_ensemble_1:6").velocity(1.4),
+  note("<[[- e4 -] [e4 _ e4] [- g4 -] [g4 _ g4]] [[- a4 -] [a4 _ a4] [- g4 -] [g4 f#4 e4]]>").s("gm_string_ensemble_1:5").pan(.7),
+  note("<[b2,e3] [c#3,g3] [c3,a3] [d3,g3]>*2").struct("[- x -] [x _ x] [- x -] [x _ x]").s("gm_string_ensemble_1:[2,4]").pan(.3),
+).release(.2).room("1:4").distort("1:.5").gain(.6)
+._scope()
+
+const stringLead = stack(
+  note(\`<[b4 [- b4 c#5] d5 [- b4 d5]] [[c#5 b4 a4] [f#4 _ e4] [a4 b4 c#5] [b4 a4 e4]]
+    [b4 [- c#5 d5] e5 [- e5 e5]] [[e5 d5 c#5] [d5 c#5 b4] [e5 d5 c#5] [b4 d5 e5]]
+    [[f#5 d5 b4] [a5] [- a5 -] [a5 - a5]] [[f#5 d5 b4] [a5] [- d5 e5] [f#5 g5 a5]]
+    [b4 [- b4 c#5] d5 [- d4 c#5]] [[d5 c#5 b4] [c#5 b4 b4] [a4 a4 b4]@2]
+    [b4 [- c#5 d5] e5 [- c#5 d5]] [[e5 d5 c#5] [d5 c#5 b4] [e5 d5 c#5] [b4 a4 g4]]
+  >\`).s("gm_string_ensemble_2:1").pan(.7),
+  note(\`<
+    - -
+    - -
+    [[d5 d4 f#4] [e4] [- e4 -] [e4 - e4]] [[d5 d4 f#4] [e4] [- e4 -] [e4 - e4]]
+    [e5 [- e5 f#5] g5 [- e5 f#5]] [[g5 f#5 e5] [f#5 e5 d5] [c#5 d5 e5]@2]
+    [e5 [- e5 f#5] g5 [- g5 b5]] [[c#7 b5 a5] [g5 e5 f#5] [g5 e5 g5] [a5 g5 f#5]]
+  >\`).s("gm_string_ensemble_2:1").pan(.3),
+  note("< - - [- e4@3] [- a4@3] [f#4 [- f#4 g4] a4@2] [f#4 [- f#4 g4] a4@2] [a5 - a5 -] [[a5 -] [a5 -] [a5 - a5 - a5 -]@2] [b5 - b5 -] [[b5 -] [b5 -] [b5 - b5 - b5 -]@2]>").s("gm_string_ensemble_2:1").velocity(.8).pan(.9),
+).release(.1).room("1.5:4").gain(.8)
+._scope()
+
+const stringLead2 = stack(
+  note("<[[b4 - e5] [- f#5 - ] [g5 f#5 e5] [d5 _ b4]] [[e5 b4 f#5] [b4 g5 b4] [a5 _ g5] [f#5 e5 d5]]>").s("gm_string_ensemble_2:1").gain(.8).pan(.2),
+  note("<[[b4 - e5] [- f#5 - ] [g5 f#5 e5] [d5 _ b4]] [[e5 b4 f#5] [b4 g5 b4] [a5 _ g5] [f#5 e5 d5]]>").add(note("12")).s("gm_string_ensemble_1:0").gain(.5).pan(.8),
+).release(.1).room("1.5:4")
+._scope()
+
+const stringIntermezzo = stack(
+  note("<[[g4 d5 g5] [g4 d5 c5] [g5 g4 d5] [c5 g5 g4]] [[d5 c5 g5] [g4 d5 c5] [g5 a5 bb5] [c6 bb5 a5]] [[a4 e5 a5] [a4 e5 d5] [a5 a4 e5] [d5 a5 a4]] [[e5 d5 a5] [a4 e5 d5] [a5 f#5 g5] [f#5 e5 d5]]>").s("gm_string_ensemble_2:1").release(.1).room("1.5:4").gain(.8).pan(.4),
+  note("< - - [[d6 - a5] [- d6 -] [a5 - d6] [- a5 -]] [[d6 - a5] [- d6 -] [a5 - -] [- - -]]>").s("gm_string_ensemble_2:1").release(.1).room("1.5:4").gain(.8).pan(.9),
+  note("<[- g2 _ _ _ _ _ _]@2 [- a2 _ _ _ _ _ _]@2>".add("0,-5")).s("gm_string_ensemble_2:0").release(.1).room("1.5:4").gain(.8).pan(.7),
+  note("<[- g1 _ _ _ _ _ _]@2 [- a1 _ _ _ _ _ _]@2>").add(note("-1")).s("gong:2").release(1).gain(1.5).pan(.5)
+)
+._scope()
+
+//tracker style arrangement
+window.track2 = function(...input) {
+  const patterns = input.shift()
+  let mods = Array.isArray(input.at(-1)) ? input.pop() : undefined
+  if (input.length % 2 !== 0) {
+    throw new Error('Arrange needs a length parameter for each pattern (length, pattern, length, pattern)');
+  }
+  let sects = [];
+  let total = 0;
+  for (let i = 0; i < input.length; i += 2) {
+    let inp = [input.at(i)].flat()
+    let cycles = inp.at(0);
+    let start = inp.at(1) ?? 0
+
+    total += cycles;
+
+    let cpat = input.at(i + 1).innerBind((str, pat) => {
+
+      const pats = []
+      str.split(/-+/).forEach((val, index) => {
+        if (val === '0') {
+          return
+        }
+        let offset = parseFloat(val)
+        if (Number.isNaN(offset)) {
+          offset = 1
+        }
+        offset--
+        let newPat = patterns.at(index);
+        newPat = newPat.early(offset)
+        mods?.forEach(([mod, callback]) => {
+          if (val.includes(mod)) {
+            newPat = callback(cycles, newPat)
+          }
+        });
+        pats.push(newPat)
+      })
+      return stack(...pats)
+    });
+
+    sects.push([cycles, cpat.ribbon(start, cycles).fast(cycles)]);
+  }
+  return stepcat(...sects).slow(total);
+}
+
+$: track2(
+      [tomsIntro, tomPattern, bassDrum, bassDrum2(0), bassDrum2(1), bassDrumRiser, snare, rumble, choir, melody, chords, kick, drone, strings, stringsFast, strings2, strings3, stringLead, stringLead2, stringIntermezzo],
+7,         "1----------0----------0---------0-------------0-----------0------------0-------0------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+1,         "0----------1----------0---------0-------------0-----------0------------0-------0------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------0-----------0------------1-------0------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------0-----------0------------1-------1------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+8,         "0----------1----------1---------1-------------0-----------0------------1-------1------1------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------1------------1-------1------9------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------0----------0---------0-------------0-----------0------------0-------1------0------1---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "1----------0----------0---------0-------------0-----------0------------0-------1------0------1---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------0---------0-------------0-----------0------------0-------1------0------1---------1----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------0-----------0------------1-------1------0------1---------1----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------0-----------0------------1-------1------0------1---------1----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+8,         "0----------1----------1---------1-------------0-----------0------------1-------1------1------1---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------1------------1-------1------9------1---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+
+  // Trance start
+4,         "0----------0----------1---------0-------------0-----------0------------0-------1------0------1---------0----0------I--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------0-----------0------------0-------1------0------1---------0----0------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------1-------------0-----------0------------0-------1------0------1---------0----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------1------------0-------1------0------1---------0----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------1---------0----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------1---------1----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------1---------1----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------1----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------1------------1-------1------0------0---------1----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+8,         "0----------1----------1---------1-------------0-----------0------------0-------1------1------0---------0----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------1------------0-------1------9------0---------0----1------1--------0--------0------------0--------0-----------0------------0-------------0",
+4,         "1----------0----------1---------0-------------0-----------1------------0-------1------0------0---------0----0------1--------0--------0------------0--------0-----------0------------0-------------0",
+
+// Main theme
+4,         "0----------1----------1---------0-------------1-----------0------------0-------1------0------0---------0----0------0--------1--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------0-------1------0------0---------0----0------0--------1--------0------------0--------1-----------0------------0-------------0",
+3.75,      "0----------1----------1---------0-------------1-----------1------------0-------1------0------0---------0----0------0--------1--------0------------0--------5-----------0------------0-------------0",
+[.25,3.75],"0----------F----------F---------0-------------F-----------F------------0-------F------0------0---------0----0------0--------F--------0------------0--------5F----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------0----1------1--------0--------0------------1--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------0----1------1--------0--------0------------1--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------0----1------1--------1--------0------------0--------0-----------1------------0-------------0",
+6,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------0----1------1--------0--------1------------0--------0-----------5------------0-------------0",
+
+4,         "0----------0----------0---------0-------------0-----------0------------0-------0------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------1",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------0----1------1--------0--------0------------1--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------1-------1------0------0---------0----1------1--------0--------0------------1--------0-----------0------------1-------------0",
+4,         "0----------0----------0---------0-------------0-----------0------------0-------0------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------1",
+4,         "0----------1----------1---------0-------------1-----------0------------0-------1------1------0---------0----F------1--------1--------0------------0--------0-----------0------------0-------------0",
+4,         "0----------1----------1---------0-------------1-----------0------------0-------1------5------0---------0----0------F--------F--------0------------0--------1-----------0------------0-------------0",
+2,         "0----------0----------0---------0-------------0-----------0------------0-------0------9------0---------0----0------0--------0--------0------------0--------5-----------0------------0-------------0",
+2,         "0----------0----------0---------0-------------0-----------0------------0-------0-----11------0---------0----0------0--------0--------0------------0--------7-----------0------------0-------------0",
+8,         "0----------0----------0---------0-------------0-----------0------------0-------0------0------0---------0----0------0--------0--------0------------0--------0-----------0------------0-------------0",
+
+  [
+    ['F', (cycles, x) => x.postgain(isaw.slow(cycles))],
+    ['I', (cycles, x) => x.postgain(saw.slow(cycles))],
+  ]
+
+)//.early(100)`,
+    },
+    {
+        code: `// vardavar - tigran hamasyan
+
+setcpm(140/4)
+
+const PatternProto = Object.getPrototypeOf(reify("0"));
+
+PatternProto.pluck = function (from, to = from) {
+  if (from < 1 || to < from) {
+    return reify("~");
+  }
+
+  const start = from - 1;
+  const len   = to - from + 1;
+  return this.drop(start).take(len);
+};
+
+const head = "0 4"
+const tail = "8 9 13"
+
+const a = stepcat(head, tail)
+const b = stepcat(a.take(1).add(7), a.pluck(3), tail)
+const c = b.take(3).add("-7 0 0")
+const d = a.add(1)
+const e = b.add(1)
+const f = d.take(-4)
+const g = stepcat("3", d.pluck(3, 4), tail.take(2).add(7))
+
+const phrase = stepcat(a, b, c, d, e, f, g)
+
+$: n(phrase)
+  .scale("c2:major")
+  .pace(16)
+  .s("gm_piano").orbit(2)
+  .room(1).size(0.9)
+  ._pianoroll()
+
+$: stack(
+  s("bd").struct("1@5  ~@5  1@3  1@5  ~@5  1@3 1  ~@2 1@3"),
+  s("sd").struct("~@5  1@5  ~@3  ~@5  1@5  ~@4  1@3 1 1"),
+  s("hh").struct("1@2 1 1@2  1@2 1 1@2  1@2 1  1@2 1 1@2  ~@2 1 1@2  1@2 1 1  ~@2 1 1@2")
+).pace(16).bank("tr909")
+
+$: n(phrase.filterValues(v => v < 7))
+  .scale("c1:major")
+  .pace(16)
+  .s("gm_fretless_bass")`,
+        src: "https://codeberg.org/uzu/strudel/issues/1733",
+    },
+    {
+        code: `/*
+@title goooooood morning
+@by simar
+*/
+
+setcpm(200/4)
+
+samples('github:laguna-dream/strudel-samples')
+
+// frida meooooow
+
+$: s("meow:1")
+.gain(slider( 0.571, 0, 1))
+  .lpf(slider( 763, 0, 1000))
+  .chop(slider(8,0,10,2))
+.jux(press)
+//.stretch("<0.5 0 0.2 1>")
+//.crush(rand.range(0,16))
+//.vowel("<a e i <o u>>")
+
+
+$: n("<[<0 1>,<6? 2>,<5 4>] [1,<2 3*3>,<10*2 6 <2 0>>]>").arp("0 1 2 1").scale("c:minor").s("gm_celesta").trans(8)//.bpf(slider(872,0,1000))
+
+
+$: n("<[2 4 0 2] [<6 0> 4 2 <1 0>]>*2").scale("a:major").s("triangle:3, triangle:10").lpf(slider(1000,0,1000)).gain(2)
+
+$: chord("<A C# E G#>").voicing().lpf(slider(1000,0,1000)).gain(1).rev()
+
+_$: s("bd sd [~ bd] sd,hh*6").n("<0 [1,2]>")
+
+$: sound("[brr:0, bd] sd:2 [~ [brr:0, bd]] sd:2, <hihat*12 ~ hihat*6>").duckorbit(2).duckdepth(10)
+
+$: s("pink*8").clip(1).orbit(2)
+
+_$: sound(\`
+[-  -  sd  - ] [-  sd sd  - ] [-  -  sd  - ] [-  - sd - ],
+[hh - hh -] [hh - hh -] [hh - hh -] [hh - hh -],
+[- - bd  - ] [-  -  bd - ] [bd bd - bd ] [-  bd  -  - ]
+\`).bank("RolandTR505").lpf(2000).gain(slider(0.956, 0, 1))
+  .duckorbit(2).duckattack(0.15).duckdepth(1)`,
+    },
+    {
+        code: `// "coastline" @by eddyflux
+// @version 1.0
+samples('github:eddyflux/crate')
+setcps(.75)
+let chords = chord("<Bbm9 Fm9>/4").dict('ireal')
+stack(
+  stack( // DRUMS
+    s("bd").struct("<[x*<1 2> [~@3 x]] x>"),
+    s("~ [rim, sd:<2 3>]").room("<0 .2>"),
+    n("[0 <1 3>]*<2!3 4>").s("hh"),
+    s("rd:<1!3 2>*2").mask("<0 0 1 1>/16").gain(.5)
+  ).bank('crate')
+  .mask("<[0 1] 1 1 1>/16".early(.5))
+  , // CHORDS
+  chords.offset(-1).voicing().s("gm_epiano1:1")
+  .phaser(4).room(.5)
+  , // MELODY
+  n("<0!3 1*2>").set(chords).mode("root:g2")
+  .voicing().s("gm_acoustic_bass"),
+  chords.n("[0 <4 3 <2 5>>*2](<3 5>,8)")
+  .anchor("D5").voicing()
+  .segment(4).clip(rand.range(.4,.8))
+  .room(.75).shape(.3).delay(.25)
+  .fm(sine.range(3,8).slow(8))
+  .lpf(sine.range(500,1000).slow(8)).lpq(5)
+  .rarely(ply("2")).chunk(4, fast(2))
+  .gain(perlin.range(.6, .9))
+  .mask("<0 1 1 0>/16")
+)
+.late("[0 .01]*4").late("[0 .01]*2").size(4)`,
+    },
+];
+---
+
+<Layout
+    title="strudel.cc w/ Azan"
+    description="Notes and material for a strudel.cc workshop"
+>
+    <style>
+        @font-face {
+            font-family: "BigBlue Terminal";
+            src: url("/BigBlue_TerminalPlus.TTF") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            font-family: "BigBlue Terminal", monospace;
+        }
+    </style>
+    <script src="https://unpkg.com/@strudel/repl@latest"></script>
+    <article class="space-y-4">
+        <section class="p-4 border mb-8">
+            Hello! My name is Azan (a·zaan). I'm a self-taught musician and a
+            software engineer. This page is a reference you can return to
+            throughout the workshop. Use it to explore different approaches to
+            playing sounds and building patterns in Strudel.
+            <div class="mt-4">
+                <ContactLinks links={CONTACT_LINKS} />
+            </div>
+        </section>
+        <h1>Your first beat!</h1>
+        <p>
+            The following are some examples of beats I have
+            authored, along with others I have repurposed from the <a
+                href="https://strudel.cc/workshop/getting-started/"
+                >Strudel documentation</a
+            >.
+        </p>
+        <p>
+            bd = bass drum, sd = snare drum, rim = rimshot, hh = hihat, oh =
+            open hihat, lt = low tom, mt = middle tom, ht = high tom, rd = ride
+            cymbal, cr = crash cymbal, cp = clap
+        </p>
+        <section class="flex flex-col gap-4 mb-8">
+            {drums.map((d) => <StrudelEditor code={d} />)}
+        </section>
+        <h1>Patterns</h1>
+        <p></p>
+        <p>
+            Slow down using <code>/</code>, Alternate using <code>{"<>"}</code>,
+            Elongate using <code>@</code>, Replicate using <code>!</code>,
+            Parallel using <code>,</code>, Speed up using <code>*</code>,
+            Sub-sequence using <code>[]</code>, Rest using <code>~</code>.
+        </p>
+        <section class="flex flex-col gap-4 mb-8">
+            {melodies.map((d) => <StrudelEditor code={d} />)}
+        </section>
+        <h1>Patches I have written</h1>
+        <section class="grid grid-cols-2 gap-4 mb-8">
+            {my_patches.map((d) => <StrudelEditor code={d} />)}
+        </section>
+        <h1>Patches I have found</h1>
+        <p>
+            From personal websites, strudel’s Codeberg issues, and friends. I
+            like these because each patch shows a different way of thinking
+            about and playing with Strudel. The <a
+                href="https://strudel.cc/intro/showcase/">strudel.cc Showcase</a
+            > is also great to look at.
+        </p>
+        <section class="flex flex-col gap-4 mb-8">
+            {found_patches.map((p) => <StrudelEditor code={p.code} />)}
+        </section>
+        <h1>Community and playing together!</h1>
+        <p>
+            I've enjoyed playing with other people using <a
+                href="https://flok.cc">flok.cc</a
+            >, and sometimes taking turns to write a line on the same computer
+            feels much better.
+        </p>
+        <p>
+            Communities like <a href="https://www.instagram.com/algorave_india"
+                >Algorave India</a
+            >, <a href="https://www.instagram.com/livecode.blr">livecode.blr</a> are
+            active in Bangalore. <a href="https://blog.toplap.org/">TOPLAP</a> is
+            quite an old organization operating around livecoding and they have an
+            active discord server. The <a
+                href="https://tidalcycles.org/docs/community/"
+                >TidalCycles community</a
+            > also has a very active forum and discord server.
+        </p>
+        <p>Go out there and play!</p>
+    </article>
+</Layout>

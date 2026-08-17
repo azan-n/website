@@ -1,0 +1,10 @@
+@import "../../portfolio/src/base.css";
+
+/* Tailwind's automatic content detection for this build is rooted at this
+   package's own Vite project root (blog/) — it never looks outside blog/.
+   `./` is redundant with that auto-detection but kept for clarity; the
+   portfolio path is NOT auto-scanned and must be listed explicitly, since
+   shared components (Shell.astro, Head.astro, ...) that use Tailwind
+   classes live there and get imported cross-package into this build. */
+@source "./";
+@source "../../portfolio/src";

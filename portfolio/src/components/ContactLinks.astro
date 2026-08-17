@@ -1,0 +1,33 @@
+---
+import { Icon } from "astro-icon/components";
+
+export interface ContactLink {
+    icon: string;
+    href: string;
+    linkTitle: string;
+    label: string;
+}
+
+export interface Props {
+    links: ContactLink[];
+}
+
+const { links } = Astro.props;
+---
+
+<div class="flex flex-row w-full gap-2 flex-wrap">
+    {
+        links.map((link) => (
+            <a
+                aria-label={link.linkTitle}
+                class="flex btn m-0 items-center justify-center gap-1"
+                href={link.href}
+                title={link.linkTitle}
+                target="_blank"
+            >
+                <Icon class="size-4" name={link.icon} />
+                <span class="font-mono uppercase">{link.label}</span>
+            </a>
+        ))
+    }
+</div>

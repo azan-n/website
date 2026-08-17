@@ -1,0 +1,48 @@
+---
+import { SITE } from "../site.config";
+import "../base.css";
+import Head from "./Head.astro";
+import Shell from "./Shell.astro";
+
+export interface Props {
+    title?: string;
+    author?: string;
+    description: string;
+    rssUrl?: string;
+    image?: string;
+    type?: "website" | "article";
+    publishedDate?: Date;
+    modifiedDate?: Date;
+}
+
+const {
+    title,
+    author,
+    description,
+    rssUrl,
+    image,
+    type,
+    publishedDate,
+    modifiedDate,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <Head
+            site={SITE}
+            title={title}
+            author={author}
+            description={description}
+            rssUrl={rssUrl}
+            image={image}
+            type={type}
+            publishedDate={publishedDate}
+            modifiedDate={modifiedDate}
+        />
+    </head>
+    <Shell>
+        <slot />
+    </Shell>
+</html>

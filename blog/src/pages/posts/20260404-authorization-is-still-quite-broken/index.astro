@@ -1,0 +1,80 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Code } from "astro:components";
+
+export const meta = {
+    title: "Authorization is still quite broken",
+    date: new Date(2026, 3, 4),
+    description:
+        "Modelling permissions in OpenFGA and why check() isn't enough",
+    tags: ["authorization"],
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        I've been thinking about authorization systems. RBAC, ABAC, Re-BAC,
+        all that jazz. I've been fascinated with the <a
+            href="https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/"
+            >Zanzibar paper</a
+        > ever since I read it. I'm not as interested so much in the scale as
+        I am in the granularity and flexibilty in modelling relationships. Solutions
+        like OpenFGA and <a
+            href="https://authzed.com/docs/spicedb/getting-started/discovering-spicedb"
+            >SpiceDB</a
+        > aim to implement something that resembles Zanzibar but they feel broken
+        in their own ways and this has been on my mind for quite some time.
+    </p><p>
+        To begin with, here's me trying to model Fleet, an MDM in OpenFGA.
+    </p>
+    <Code
+        lang="text"
+        code={`type device
+  relations
+    define seller: [business]
+    define can_delete: [business#member] or owner from seller
+    define can_revoke: [business#member] or owner from seller
+    define can_read: [business#member] or owner from seller`}
+    /><p>
+        The statement <code>owner from seller</code> would mean that the business
+        owner has full access. In this case, I could also not check for authorization
+        when I already know that the user authenticated is the owner but that
+        doesn't leave an audit trail, which is part of why we're using an authorization
+        service. Alternatively, I could also model the business owner as a member
+        of the business, making the <code>check()</code> call simpler.
+    </p>
+    <Code
+        lang="text"
+        code={`type device
+  relations
+    define can_delete: [business#member]
+    define can_revoke: [business#member]
+    define can_read: [business#member]`}
+    /><p>
+        When using the latest SDK (<code>0.9.0</code> at the time), the only
+        relevant information the <code>check()</code> method returns is a
+        boolean value <code>allowed</code>. This prevents me from generating
+        a useful error message for the end user if they do not have access
+        to a resource. I found an example of a <a
+            href="https://github.com/grafana/grafana/blob/main/pkg/services/authz/zanzana/schema/schema_subresource.fga"
+            >complex schema at Grafana</a
+        > but I couldn't help but think that this is still limiting with auditing.
+    </p>
+    <Code
+        lang="js"
+        code={`const { allowed } = await openFga.check({
+  object: 'usage',
+  relation: 'can_create',
+  user: 'undefined?'
+})`}
+    /><p>
+        Could this be done better using error codes? Did we peak at <a
+            href="https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html"
+            >XACML</a
+        >? Am I doing this wrong?
+    </p><p>
+        I don't know but I dislike how we do authorization and I'd like to
+        find better ways to do it that is fast, transparent, and prevents
+        redundancies between application and authorization databases.
+    </p>
+</PostLayout>

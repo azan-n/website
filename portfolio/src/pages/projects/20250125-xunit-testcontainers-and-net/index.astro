@@ -1,0 +1,70 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20250125-1.png";
+
+export const meta = {
+    title: "Realistic .NET integration tests with xunit and testcontainers",
+    date: new Date(2025, 0, 25),
+    description: "Spinning up real Postgres and Redis instead of mocking them",
+    tech: [".NET", "Postgres"],
+    role: ["Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        Unit tests leave much to be desired when writing tests for a server
+        linked to a database. I wanted an easy way to test a server to improve
+        maintainability and the velocity of shipping. After evaluation of
+        available options, I chose to write tests using <a
+            href="https://xunit.net/docs/getting-started/v3/getting-started"
+            >xunit.v3</a
+        > and spinning up dependencies like Postgres and Redis using <a
+            href="https://dotnet.testcontainers.org/">testcontainers</a
+        >.
+    </p><h2>Test runner; run the tests</h2><p>
+        The <a href="https://xunit.net/docs/shared-context#assembly-fixture"
+            >AssemblyFixture</a
+        > in xunit.v3 has been a life-saver for having singletons across the test
+        runner. The following is the standard setup for a <code
+            >WebApiFixture</code
+        > modified to our requirements.
+    </p><p>
+        In this project, both <code>Collections</code> and <code>TestCases</code
+        > are run in alphabetical order, sequentially. Parallel execution of tests
+        is turned off since that model of running tests is not compatible with having
+        a single database instance.
+    </p><h2>Abstracting away basic CRUD tests</h2><p>
+        With the generic reflection-based <code>Faker</code>, CRUD operations
+        can be done easily without having to define any of the parameters. This
+        also serves as a good test for how well the <code>[Attributes]</code> handle
+        the inputs since the Faker can add some <em>flakiness</em> to the tests.
+    </p><p>
+        With how the <code>CrudIntegrationTest</code> abstract class is written, tests
+        that inherit the class will always run a series of CRUD actions on the endpoint
+        provided in the constructor. This makes authoring a basic set of tests very
+        easy for endpoints that behave similarly, which was most of the code-base
+        in this case.
+    </p><p>
+        Furthermore, having a running instance of the production server,
+        database, and Faker helped me test locale support, new
+        database versions, and SQL query stability across ORM upgrades.
+    </p><p>
+        <Image
+            src={cover}
+            alt="An open IDE window shows sequential tests in Alphabetical order passing."
+            class="w-full"
+        />
+    </p><h2>Next steps</h2><ol>
+        <li>
+            While this worked well for a monolithic system, I'm not sure how
+            well this approach works for a microservice architecture.
+        </li><li>
+            Intuitively, I feel like there has to be a point where the
+            testcontainers set-up becomes impractical/limited compared to a
+            conventional Docker Compose based runner.
+        </li>
+    </ol>
+</ProjectPost>

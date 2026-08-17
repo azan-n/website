@@ -1,0 +1,46 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import cover from "./20251101-1.png";
+
+export const meta = {
+    title: "halfsies: splitting bills with no backend",
+    date: new Date(2025, 10, 1),
+    description:
+        "For those of us who don't want to give Splitwise our data or money",
+    tech: ["react"],
+    role: ["Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        For those of you who follow an honour system, and don't split bills
+        between friends and colleagues at all, this might be a good time to turn
+        back because I'll be talking about an expense splitting application.
+    </p><p>
+        In college, most people I knew used Splitwise to split expenses. This
+        carried on to life after it. This was quite annoying to me because,
+    </p><ol>
+        <li>Not everyone is on Splitwise</li><li>
+            Ads and feature-gating on the free version got too much after a
+            point
+        </li><li>
+            I'm not exactly happily giving away data about how I spend my money
+            to Splitwise
+        </li>
+    </ol><p>So here is what I want,</p><ol>
+        <li>
+            Something that everyone with a smartphone can use, without having to
+            login, or create a new account
+        </li><li>
+            No ads, or feature-gating for something as simple as division
+        </li><li>No data collection</li>
+    </ol><p>
+        I imagined this to be quite easy so I built it and called it <a
+            href="https://halfsies.azan-n.com">halfsies</a
+        >. It uses URL fragments for storing state which can be sent around
+        using an encrypted messaging app like Signal and all this comes for
+        &quot;free&quot;.
+    </p>
+</ProjectPost>

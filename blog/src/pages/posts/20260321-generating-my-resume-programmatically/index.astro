@@ -1,0 +1,33 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+
+export const meta = {
+    title: "Generating my resume programmatically",
+    date: new Date(2026, 2, 21),
+    description: "Moving from LaTeX to typst for my resume",
+};
+---
+
+<PostLayout meta={meta}>
+    <p>
+        My resume was earlier written in LaTeX and exported from Overleaf,
+        added to my git repository manually and then served statically. This
+        was quite cumbersome. The current version is generated using typst,
+        and it took a few steps to get here.
+    </p><p>
+        I started off writing this in <a href="https://pdfkit.org/"
+            >pdfkit</a
+        > and then in <a href="https://github.com/parallax/jsPDF">jsPDF</a>.
+        However, I don't like how much work I have to do to typeset the PDF,
+        so possibly these libraries are a not abstracted enough for the
+        amount of work I am willing to do. I then found <a
+            href="https://typst.app/">typst</a
+        >, which arguably causes me a little bit of annoyance because it
+        will have to live in my nix-shell which, I feel better about using
+        over <a href="https://pptr.dev/">puppeteer</a> to generate a PDF.
+    </p><p>
+        You can find the source code for this on my <a
+            href="https://github.com/azan-n/website">website repo</a
+        >
+    </p>
+</PostLayout>

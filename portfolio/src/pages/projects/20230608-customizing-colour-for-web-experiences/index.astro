@@ -1,0 +1,148 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20230608-1.png";
+
+export const meta = {
+    title: "White-labeling Angular Material with OKLCH",
+    date: new Date(2023, 5, 8),
+    description:
+        "Customers wanted their own colours. Angular Material made that harder than it should be",
+    tech: ["Angular", "Sass"],
+    role: ["Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        <Image
+            src={cover}
+            alt="A webpage on Stripe's website that showcases it's customization ability with the tagline &quot;Your brand, your Checkout&quot;"
+        />
+    </p><p>
+        Cryptlex's customers want the web applications facing their customers to
+        be customized. <a href="https://stripe.com/en-in/payments/checkout"
+            >Stripe Checkout</a
+        > is a similar web application that is customer facing. It showcases the customization
+        with the tagline &quot;Your brand, your Checkout&quot;.
+    </p><p>
+        After evaluating customer requirements and the available market
+        solutions, I narrowed solutions down to the following:
+    </p><ul>
+        <li>
+            <p>
+                Allow customers to create their own components for building a
+                web experience for their customers - While this is already
+                possible through the REST API, most of our customers sell
+                desktop software and are not well-versed with web technologies,
+                and are unlikely to have their own design systems or UI
+                libraries. This implies that we will have to find/build a
+                low-code solution like <a href="https://retool.com/">Retool</a> to
+                allow our customers to build their components with great flexibility.
+                We did not explore this further due to the high effort and low confidence
+                of the initiative.
+            </p>
+        </li><li>
+            <p>
+                Allow customers to set a colour palette for our components - We
+                gathered that most, if not all our customers would be able to
+                set a colour palette for us to mirror their visual identity to
+                some extent. This is a common pattern that we noticed in similar
+                businesses like <a href="https://www.paddle.com/">Paddle</a>.
+                However, when working with RGB, this approach can cause serious
+                usability issues and requires our customers to do a fair share
+                of visual testing because our components are built on
+                interaction rules that might not work for all colours. With the
+                increasing <a
+                    href="https://caniuse.com/mdn-css_types_color_oklch"
+                    >browser support for OKLCH</a
+                > and the <a
+                    href="https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl"
+                    >predictable lightness</a
+                > it provides, it would be perfect for a use case such as this. It
+                would prevent accessibility issues while however compromising on the
+                perceived hue.
+            </p>
+        </li>
+    </ul><p>
+        Using OKLCH looked straight-forward and it seemed that it would allow
+        building a preview of the colour change in a relatively simple manner.
+    </p><h2>OKLCH implementation</h2><p>
+        Since the OKLCH solution, in theory, required the lowest effort, I
+        decided to build a proof of concept for the same. The resulting color
+        palettes/ramps were to be used with <a
+            href="https://material.angular.io/">Angular Material</a
+        >.
+    </p><p>
+        <a href="https://nerdy.dev/">Adam Argyle</a> shows a modern and <a
+            href="https://web.dev/shows/gui-challenges/6aCsAMgwnjE/"
+            >performant approach</a
+        > to generating colour palettes in a web application with OKLCH, that I found
+        to be perfect for the use case.
+    </p><p>
+        The Angular documentation website has a <a
+            href="https://github.com/angular/material.angular.io/tree/1c3e1227b39ca9af578f065eb28e874931276dec/src/app/shared/theme-picker"
+            >'theme' switching mechanism</a
+        > that swaps out multiple bundles of CSS to switch themes. All of these bundles
+        contain the same rules with a different set of colours, set using a SCSS map
+        at compile time. This approach has no regard for performance.
+    </p><p>
+        With the integration with Angular Material, I faced the following
+        problems:
+    </p><ul>
+        <li>
+            Angular Material determines colour from a Sass map created by the <code
+                >mat.define-light-theme($theme)</code
+            > or <code>mat.define-dark-theme($theme)</code>. This approach to
+            creating your own palettes recommended by the Angular Material
+            documentation gives no control over how the background and
+            foreground colours are set. By studying the map generated by <code
+                >mat.define-#-theme()</code
+            >, I had to build the map manually, which owes to how inflexible the
+            UI library is.
+        </li><li>
+            A lot of the properties in the map are hardcoded like shadow colors,
+            density, and input field borders. This forced me to create a
+            separate CSS bundles for dark and light mode.
+        </li>
+    </ul><p>
+        To my disappointment, the density cannot be set using a CSS variable
+        which would have come in handy to create a Relaxed, Normal, and Compact
+        view switch.
+    </p><div style="padding:48.56% 0 0 0;position:relative;">
+        <iframe
+            src="https://player.vimeo.com/video/1091711750?h=e5229d2214&badge=0&autopause=0&player_id=0&app_id=58479"
+            frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+            style="position:absolute;top:0;left:0;width:100%;height:100%;"
+            title="Color customization"></iframe><script
+            src="https://player.vimeo.com/api/player.js"></script>
+    </div><h2>Next steps</h2><ul>
+        <li>
+            <p>
+                The form that allows changing hue could possibly show a little
+                more of a preview - While the current proof-of concept shows the
+                colours change as the slider value is modified, setting the
+                right context for this change could provide a better signal.
+            </p>
+        </li><li>
+            <p>
+                Integration with environments that don't use OKLCH will need
+                conversions to HEX - The OKLCH system is new to browsers and
+                solves issues that RGB and HSL could not. However, since it is
+                relatively new, adjustments in Design Token stores like <a
+                    href="https://forum.figma.com/t/support-oklab-and-oklch/18287"
+                    >Figma</a
+                >, <a
+                    href="https://github.com/amzn/style-dictionary/issues/643#issuecomment-1721126445"
+                    >Style Dictionary</a
+                >, and even the <a
+                    href="https://github.com/drwpow/cobalt-ui/discussions/122#discussioncomment-7047930"
+                    >W3C Design Token specification</a
+                > are yet to be made. Currently, the only way to continue working
+                with these libraries would be to convert between OKLCH and RGB/HSL.
+            </p>
+        </li>
+    </ul>
+</ProjectPost>

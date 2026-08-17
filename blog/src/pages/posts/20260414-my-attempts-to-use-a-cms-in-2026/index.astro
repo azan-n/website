@@ -1,0 +1,85 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Image } from "astro:assets";
+import cover from "./20260414-1.png";
+import img2 from "./20260414-2.png";
+
+export const meta = {
+    title: "My attempts to use a CMS in 2026",
+    date: new Date(2026, 3, 14),
+    description:
+        "CMS' are difficult to get right and all my clients want a WYSIWYG",
+    tags: ["cms", "frontend", "astro"],
+    image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+    <h2>EmDash</h2><p>
+        <a href="https://www.emdashcms.dev/">EmDash CMS</a> has been all the hype
+        on the web lately. It seems like a reasonable project to replace Wordpress.
+        I've been working with Astro for a while and I think it fits very well for
+        the problem. Excitedly, I took exports from a WordPress website I help administer,
+        <a href="https://inversejournal.com">Inverse Journal</a>. After trying
+        many variations, the imports would not work at all. So I thought, well,
+        working with D1 and R2 aren't my first choice in life anyway, how about
+        I look at other ways to do this that are local-only.
+    </p><h2>No EmDash, Local!</h2><p>
+        No EmDash, what then? How about something local?
+    </p><p>
+        <code
+            >WYSIWYG (reads /assets and /content) --&gt; Serializes content to
+            JSON -&gt; Save files to the file-system --&gt; Astro content
+            collections --&gt; Block renderer --&gt; Static HTML</code>
+    </p><p>
+        So after looking a bunch of formats that are more extensible than
+        Markdown, like <a href="https://www.portabletext.org/">PortableText</a>,
+        I decided to settle on handling this with just the pure <a
+            href="https://tiptap.dev/docs/guides/output-json-html"
+            >Tiptap WYSIWYG JSON output</a
+        >.
+    </p><figure>
+        <Image src={cover} alt="" /><figcaption>
+            The website I created in a few hours in Astro.
+        </figcaption>
+    </figure><p>
+        So all my posts were structured as the Tiptap block JSON, rendered by
+        Astro, and edited using a React based project. All running locally. This
+        could be extended to a CMS-like setup with a Github App.
+    </p><figure>
+        <Image src={img2} alt="" /><figcaption>
+            The React editor interface built using Tiptap.
+        </figcaption>
+    </figure><p>
+        I don't think I quite have the right idiom for this but I think I'm
+        close to figuring out how I'd want a WYSIWYG editor to look like for me,
+        if I used or recommended one.
+    </p><p>
+        The local approach is horrible for non-technical folks and
+        collaboration. I think my frontend-first approach to solving problems
+        fails in this context. So let's look at CMS'.
+    </p><h2>Strapi</h2><p>
+        Strapi can't do live edits on collection types/components.
+    </p><h2>Payload</h2><p>
+        Payload CMS is too basic to be called a CMS, has no opinions on how
+        media/content should be done.
+    </p><h2>PocketBase</h2><p>
+        PocketBase is an interesting choice because it can do a lot more than
+        just create a posts collection with media uploads and a rich-text editor
+        (which, out-of-the-box is already a little better than Payload).
+    </p><h2>Ghost</h2><p>
+        Ghost isn't quite a CMS. It only supports Posts as a collection and
+        Wordpress migration is still patchy (definitely not as bad as EmDash).
+        The editor leaves much to be desired and I kept reaching to create my
+        own handlebars templates. Something as simple as a dropcap on paragraph
+        start can't be implemented straightforwardly, granted, this cannot be
+        done on any of the other I have tried so far, except Strapi. Ghost also
+        does not have a media library for all the assets you create so the
+        wordpress migration is even worse to handle.
+    </p><h2>Wordpress</h2><p>
+        I guess the verdict is out, and I hate to say it but Wordpress remains
+        the best CMS out there. The plugin system is horrible, the sites are
+        sluggish, but it works. It has complex editors like Divi and can do a
+        lot more than create a Substack clone.
+    </p>
+</PostLayout>

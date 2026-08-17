@@ -1,0 +1,133 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20250930-1.png";
+import img4 from "./20250930-4.png";
+import vid1 from "./20250930-1.webm";
+import vid2 from "./20250930-2.webm";
+import vid3 from "./20250930-3.webm";
+import vid4 from "./20250930-4.webm";
+import vid5 from "./20250930-5.webm";
+import vid6 from "./20250930-6.webm";
+import vid7 from "./20250930-7.webm";
+
+export const meta = {
+    title: "Rebuilding Cryptlex's design system in React",
+    date: new Date(2025, 8, 30),
+    description:
+        "My third attempt at a Cryptlex design system. Hopefully the last",
+    tech: ["react", "tailwindcss"],
+    role: ["Design", "Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        I rewrote the Cryptlex component library using React and built a Next.js <code
+            >output: static</code
+        > website with it. Most of what Next is being used for is the router, which
+        might just be replaced by Tanstack Router if I can get it to prerender pages.
+    </p><figure>
+        <video
+            src={vid6}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            Website hero sections
+        </figcaption>
+    </figure><figure>
+        <video
+            src={vid4}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            Documentation built using MDX files replaced GitBook
+        </figcaption>
+    </figure><figure>
+        <video
+            src={vid7}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            Small animated snippet showcasing customization capabilities
+        </figcaption>
+    </figure><figure>
+        <video
+            src={vid5}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            Web API documentation built using the OpenAPI spec and the web
+            components
+        </figcaption>
+    </figure><figure>
+        <video
+            src={vid1}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            I like when checkboxes are as big as every other input and fit in
+            flush.
+        </figcaption>
+    </figure><figure>
+        <video
+            src={vid2}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            Notion-like filtering system.
+        </figcaption>
+    </figure><figure>
+        <video
+            src={vid3}
+            controls
+            loop
+            muted
+            autoplay
+            playsinline
+            class="w-full"
+        />
+        <figcaption>
+            Sidebars for dashboards and table based layouts, which make up
+            most of the applications.
+        </figcaption>
+    </figure><h2>Previous iterations</h2><p>
+        Previous iterations written by me over the years failed to be
+        performant, represent brand elements in the visual style, and were
+        painful to maintain due to the growing size and absence of templating.
+    </p><figure><Image src={cover} alt="" /></figure><figure><Image
+        src={img4}
+        alt=""
+    /></figure>
+</ProjectPost>

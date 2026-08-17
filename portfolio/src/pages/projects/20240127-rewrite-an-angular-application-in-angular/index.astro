@@ -1,0 +1,271 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20240127-4.png";
+import img3 from "./20240127-3.png";
+import img5 from "./20240127-5.png";
+import img6 from "./20240127-6.png";
+import img7 from "./20240127-7.png";
+import img8 from "./20240127-8.png";
+
+export const meta = {
+    title: "Splitting one Angular app into three",
+    date: new Date(2024, 0, 27),
+    description:
+        "Three products, one Angular codebase, and a lot of if-elses to untangle",
+    tech: ["angular"],
+    role: ["Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        <strong>Why rewrite?</strong>
+        <a href="https://cryptlex.com">Cryptlex</a> is software licensing service
+        that independent software vendors (ISV) embed into their software to enforce
+        entitlements in their software. Cryptlex's web applications primarily serves
+        three audiences: Managers and developers at the ISV, Resellers of the software,
+        Customers who have bought software from the ISV.
+    </p><p>
+        The above users have diverse and disjoint needs. The existing Angular
+        SPA had a lot of botched if-elses to accomodate the above mentioned
+        users. However, as we started shipping new features more frequently it
+        became difficult to maintain the application for all three user personas
+        when the feature could be affecting just one persona. The existing
+        application also contained a lot of technical debt. We decided to
+        rewrite the application in phases and split the application into three
+        applications, the <code>admin-portal</code>, <code>reseller-portal</code
+        >, and <code>customer-portal</code>.
+    </p><p>
+        <strong>Why Angular?</strong> The CTO and the frontend engineers have been
+        working with Angular since the start and wanted to continue using the framework.
+        I made the decision to stick to prototyping directly in code <a
+            href="https://world.hey.com/dhh/design-for-the-web-without-figma-4bc3a218"
+            >instead of creating an abstraction in Figma</a
+        > due to the small size of the team. However, I was still quite keen on finding
+        effective ways to document design decisions.
+    </p><p>
+        So it was established that we will build three Angular applications, and
+        a component library that is shared across the three. We decided to base
+        the user interfaces on the Material Design spec since I was fairly
+        familiar with all iterations of the <a href="https://m3.material.io/"
+            >specification</a
+        > and consider it to be mature specification for building mobile-first applications.
+    </p><p>Using Angular comes with a lot of woes, let's talk about them.</p><h3
+    >
+        Angular Material follows the old Material design spec
+    </h3><p>
+        Despite Google's design team parting ways with the <a
+            href="https://mediu<h2>Angular? WHY?</h2>m.com/google-design/the-evolution-of-material-designs-text-fields-603688b3fe03"
+            >underline input field</a
+        >, <a
+            href="https://m3.material.io/components/buttons/overview#388f6096-c34d-4a22-8b1f-11ad69963f7c"
+            >all caps text in buttons</a
+        >, and many other design flaws in the design specification, a large
+        portion of the library <a
+            href="https://github.com/angular/components/issues?q=is%3Aopen+is%3Aissue+label%3A%22material+spec%22"
+            >has not evolved past these issues</a
+        >. This forced me to start with creating a custom button, tabs, and
+        stepper component.
+    </p><div class="post-two-col">
+        <figure class="mb-8">
+            <Image
+                src={img3}
+                alt="Angular Material using an earlier implementation of the Tabs in the Material Design specification"
+            />
+            <figcaption class="mt-2 mb-4 max-w-prose font-medium opacity-80">
+                The default tabs have translucent buttons on the tabs with
+                inadequate affordances. These proposed to work with all caps,
+                which is no longer acceptable by the design system.
+            </figcaption>
+        </figure><figure class="mb-8">
+            <Image src={cover} alt="" />
+            <figcaption class="mt-2 mb-4 max-w-prose font-medium opacity-80">
+                My implementation of the tabs aims to represent the active state
+                better. Icons are made mandatory to support the button
+                transparency, and the underline serves as an additional
+                affordance. It took quite a lot of elbow grease to allow the
+                component to look for error states in the form and navigate to
+                the tab/step with the error. It is still an open ticket in our
+                project to implement a way to scroll down to the field with the
+                error after navigating to the tab/step with the error.
+            </figcaption>
+        </figure>
+    </div><h3>Angular Material isn't customizable</h3><p>
+        <a href="https://material.angular.io/">Angular Material</a> contains a decent
+        set of components to build applications and a component development kit (CDK)
+        to build custom components. However, the styling system based on SCSS variables
+        is dated and implementing something like a dark mode switch, which is considered
+        trivial in modern CSS with variables, <a
+            href="https://github.com/angular/material.angular.io/tree/main/src/app/shared/theme-picker"
+            >is not very straightforward</a
+        >. This also affected the development of a <a
+            href="/projects/20230608-customizing-colour-for-web-experiences"
+            >colour customization</a
+        > system for the <code>reseller-portal</code> and the <code
+            >customer-portal</code
+        >.
+    </p><p>
+        To be fair, the developers of Angular Material discourage <a
+            href="https://material.angular.io/guide/customizing-component-styles#internal-component-elements"
+            >overriding styles</a
+        > but this makes it difficult to leave the door open for the library to be
+        themed to fit the brand image in the future.
+    </p><p>
+        The <a
+            href="https://angular.dev/roadmap#improve-angular-material-and-the-cdk"
+            >Angular Roadmap</a
+        > does mention the following, which is a change to look forward to.
+    </p><blockquote>
+        <p>
+            To provide better customization of our Angular Material components
+            and enable Material 3 capabilities, we'll be collaborating with
+            Google's Material Design team on defining token-based theming APIs.
+            As of Q4 2023, we're refactor.ing components to use the new API,
+            finalizing the comprehensive set of tokens, and updating the Sass
+            API based on the new tokens.
+        </p>
+    </blockquote><h3>Angular lacks headless libraries</h3><p>
+        In a team small teams that I have worked in, getting things done right
+        and getting things done fast are both high priority objectives. Both the
+        Angular CDK and <a href="https://www.spartan.ng/">spartan.ng</a> can be thought
+        of as headless UI libraries which can be used to build your own custom components.
+        However, the functionality that they provide is quite basic when compared
+        to projects like <a href="https://www.bits-ui.com/docs/introduction"
+            >Bits UI</a
+        > for Svelte, and <a href="https://www.radix-ui.com/">Radix UI</a> for React.
+    </p><p>
+        Alternatively, instead of Angular Material and the CDK, we could have
+        use a larger component library like <a href="https://primeng.org/"
+            >PrimeNG</a
+        > or <a href="https://ng.ant.design/">NGZORRO</a>. However, both of them
+        fall short in ways similar to Angular Material. They cannot be
+        customized to fit a certain visual language and building custom
+        components is not supported. PrimeNG does show promise with their <a
+            href="https://primeng.org/theming">move toward better theming</a
+        >.
+    </p><h3>Tooling for Angular libraries is dated</h3><p>
+        <a href="https://angular.io/guide/creating-libraries"
+            >Angular libraries</a
+        >
+        <a href="https://github.com/ng-packagr/ng-packagr/issues/1471"
+            >do not support PostCSS</a
+        > which would prevent us from using <a href="https://tailwindcss.com/"
+            >TailwindCSS</a
+        >, which the team has grown very fond of. On top of this, using Angular
+        libraries with npm workspaces turned out to be a bit of a struggle so we
+        had to co-locate the project using <a
+            href="https://nx.dev/angular-tutorial/1-code-generation">Nx</a
+        > which provides adequate tooling to build an Angular library that can be
+        reused while still using PostCSS, and as an extension, TailwindCSS. <strong
+            >I'm not a critic of bundlers but having a build system felt like
+            overkill for something like this.</strong
+        >
+    </p><h3>Storybook doesn't quite work</h3><p>
+        I am very drawn to the paradigm of UI development that <a
+            href="https://storybook.js.org/">Storybook</a
+        > brings to the table. It also allows documentation to live closer to the
+        developer which is one of the goals I wanted to achieve with this rewrite.
+        However, to my disappointmen.t, it is <a
+            href="https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3Aangular"
+            >not very well supported in Angular</a
+        >.
+    </p><h3>Forms aren't truly declarative</h3><p>
+        Angular is known for being a batteries included framework and it has
+        been praised for having a declarative form library called <a
+            href="https://angular.io/guide/reactive-forms">ReactiveForms</a
+        > similar to <a href="https://formik.org/">Formik</a> inbuilt. Consider the
+        following comparisons between form handling in React and Angular:
+    </p><p>
+        A simple <a href="https://www.npmjs.com/package/yup">Yup</a> or <a
+            href="https://www.npmjs.com/package/zod">Zod</a
+        > schema works with popular form handling libraries in the React ecosystem
+        like Formik and react-hook-form. Setting up validation and error messages
+        is extremely easy using Formik or <a
+            href="https://react-hook-form.com/get-started#Applyvalidation"
+            >react-hook-form</a
+        >. Defining schemas in Angular's ReactiveForms is similar. Defining
+        validation states and displaying messages is complicated. Conditional
+        validation with <a
+            href="https://github.com/colinhacks/zod/discussions/938">Zod</a
+        > and <a
+            href="https://stackoverflow.com/questions/49394391/conditional-validation-in-yup"
+            >Yup</a
+        > is <em>relatively</em> straight-forward.
+    </p>
+    <p>
+        Conditional validation with ReactiveForms requires a validator on the
+        whole FormGroup, and a lot of imperative code. Due to <a
+            href="https://angular.io/guide/change-detection-zone-pollution#resolving-zone-pollution"
+            >how Angular does change detection</a
+        >, this method also performs horribly and may cause the tab's memory to
+        run out in complex configurations.
+    </p><h2>Was it worth it?</h2>
+    <figure>
+        <Image src={img5} alt="" />
+        <figcaption>
+            We expect an increase in product awareness with the newer navigation
+            bars. The information has better semantics and aims to showcase the
+            product's capabilities better.
+        </figcaption>
+    </figure><figure>
+        <Image src={img6} alt="" />
+        <figcaption>
+            The older navigation made less semantic sense when trying to explain
+            hierarchies in the service.
+        </figcaption>
+    </figure>
+    <figure>
+        <Image
+            src={cover}
+            class="w-full"
+            alt='"Multiple tabs in a form with a warning symbol signifying an error on the tab."'
+        />
+        <figcaption>
+            With adequate signalling of error states on tabs and inputs,
+            previously unavailable, we expect better completion rates.
+        </figcaption>
+    </figure>
+    <figure>
+        <div class="grid grid-cols-2">
+            <Image
+                src={img7}
+                class="w-full h-full"
+                alt='"A lighthouse performance score of 66 with a 2 second FCP, 8.7 second LCP, 200ms blocking time, and 0 CLS."'
+            />
+            <Image
+                src={img8}
+                alt='"A lighthouse performance score of 81 with a 1.6 second FCP, 1.6 second LCP, 370ms blocking time, and 0.016 CLS."'
+            />
+        </div>
+        <figcaption>
+            The reduction in bundle sizes and other optimizations contributed to
+            a better Lighthouse performance score on the newer application but
+            there remains a lot more to optimize.
+        </figcaption>
+    </figure><h2>What would I do differently today?</h2><p>
+        Small startups like Cryptlex usually have quick iteration cycles and
+        require a certain speed of work to achieve them. With this in mind, it
+        is always great to have an extendable set of visually consistent
+        components to start with.
+    </p><p>
+        All frameworks that I have used so far have their idiosyncrasies. In my
+        time writing React, I can say that it is equally difficult to understand
+        and work with the framework (read <a
+            href="https://legacy.reactjs.org/docs/hooks-effect.html"
+            >useEffect</a
+        >) as it is with Angular (read <a
+            href="https://angular.io/api/forms/ControlValueAccessor"
+            >ControlValueAccessor</a
+        >, <a href="https://angular.io/api/common/NgTemplateOutlet"
+            >NgTemplateOutlet</a
+        >).
+    </p><p>
+        However, React has a rich ecosystem of libraries like <a
+            href="https://ui.shadcn.com/">shadcn/ui</a
+        > and <a href="https://tanstack.com/table/latest">Tanstack Table</a> that
+        make it easier to build UIs with it. If I was building today, I would probably
+        pick React, or Svelte, despite their set of limitations and issues.
+    </p>
+</ProjectPost>

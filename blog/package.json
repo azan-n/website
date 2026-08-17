@@ -1,0 +1,33 @@
+{
+  "name": "@azan-n/blog",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "astro build && pnpm exec wrangler pages deploy",
+    "playlists:get": "node --experimental-transform-types ./lib/youtubePlaylists.ts",
+    "backup": "node --experimental-transform-types ./lib/backup.ts"
+  },
+  "dependencies": {
+    "@astrojs/rss": "catalog:",
+    "@astrojs/sitemap": "catalog:",
+    "@iconify-json/ph": "catalog:",
+    "@iconify-json/simple-icons": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "astro": "catalog:",
+    "astro-icon": "catalog:",
+    "sharp": "catalog:",
+    "tailwindcss": "catalog:",
+    "tw-animate-css": "catalog:",
+    "wrangler": "catalog:"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

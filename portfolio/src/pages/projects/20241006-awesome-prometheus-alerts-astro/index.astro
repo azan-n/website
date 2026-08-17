@@ -1,0 +1,114 @@
+---
+import ProjectPost from "../../../components/ProjectPost.astro";
+import { Image } from "astro:assets";
+import cover from "./20241006-1.png";
+
+export const meta = {
+    title: "Rebuilding awesome-prometheus-alerts in Astro",
+    date: new Date(2024, 9, 6),
+    description: "A take-home assignment for a job I was interviewing for",
+    tech: ["astro", "react"],
+    role: ["Engineering"],
+    image: cover,
+};
+---
+
+<ProjectPost meta={meta}>
+    <p>
+        I was interviewing for a front-end engineer gig with a startup using
+        React and Astro for their marketing projects that I would work on. As an
+        assignment, they wanted me to recreate <a
+            href="https://github.com/samber">samber</a
+        >'s <a href="https://github.com/samber/awesome-prometheus-alerts"
+            >awesome-prometheus-alerts</a
+        > with a new design. The <a
+            href="https://github.com/azan-n/prometheus-alerts"
+            ><strong>source code</strong></a
+        > for the rewritten website is up on GitHub. The website is hosted at <a
+            href="https://awesome-prometheus.azan-n.com"
+            >awesome-prometheus.azan-n.com</a
+        >
+    </p><p>
+        I started the project by studying the Jekyll based <a
+            href="https://github.com/samber/awesome-prometheus-alerts"
+            >awesome-prometheus-alerts</a
+        > project to figure out how it was using the YAML data from <a
+            href="https://raw.githubusercontent.com/samber/awesome-prometheus-alerts/refs/heads/master/_data/rules.yml"
+            >rules.yml</a
+        > to JSON using <code>yq</code>, and eventually through a set of
+        templates, generating HTML files.
+    </p><p>
+        I started by using <a
+            href="https://bundlephobia.com/package/js-yaml@4.1.0">js-yaml</a
+        > to fetch the data source <code>rules.yml</code> and convert it to JSON on
+        build time. I made the following observations:
+    </p><ol>
+        <li>
+            It might be a good idea to convert the <code>rules.yml</code> to JSON
+            and store it in the git repository instead of fetching it every time we
+            build, and re-fetch periodically since it is the only variable data source.
+            (The original project does the same in the <a
+                href="https://github.com/samber/awesome-prometheus-alerts/blob/35596c866f129e3134f7ac705e90f50002dae073/.github/workflows/dist.yml#L32"
+                >build step</a
+            >, <em
+                >I wonder why they store the default in YAML if they end up
+                converting it to JSON anyway</em
+            >)
+        </li><li>
+            <a href="https://simpleicons.org/">Simple Icons</a> when used with <a
+                href="https://www.astroicon.dev/getting-started/">astro-icon</a
+            > has no color by default, which isn't an acceptable state.
+        </li><li>
+            I never noticed this before but Astro components and <code
+                >&lt;script&gt;</code
+            > tags within them cannot share variables directly which is a bit of a
+            pain.
+        </li><li>
+            I ran into <a href="https://github.com/npm/cli/issues/4828"
+                >npm issues</a
+            > with <code>package-lock.json</code> not handling OS-specific dependencies
+            correctly. Using pnpm fixed the <code>package-lock.json</code> issue,
+            not sure how.
+        </li>
+    </ol><h2>Async flashbacks</h2><p>
+        I hadn't explored the React integration with Astro in a while and wanted
+        to see if I could borrow some React components into the project.
+        However, as of 10/06/2024, React in Astro is like async in JS, you make
+        one function async and everything ends up being async. You make one
+        component JSX/TSX and almost everything ends up being JSX/TSX.
+    </p><p>
+        With the React integration, the architecture of how to use Astro
+        components and React components together has to be made carefully since <a
+            href="https://docs.astro.build/en/guides/framework-components/#can-i-use-astro-components-inside-my-framework-components"
+            >framework components</a
+        > cannot use Astro components within them. I wanted syntax-highlighting to
+        be done using <a href="https://shiki.matsu.io/">Shiki</a> on build-time because
+        the code being highlighted does not change on the client. I was able to make
+        this work by passing a statically rendered Astro component as a child to a
+        React dialog. The <a
+            href="https://docs.astro.build/en/guides/integrations-guide/react/#children-parsing"
+            ><code>experimentalReactChildren: true</code></a
+        > property seems promising but it is rightly marked as experimental.
+    </p>
+    <h2>Searching</h2>
+    <p>
+        Using React for handling the searching would, in the possibilities that
+        I explored, make the Astro project a regular React SPA, with the pain
+        points of the <code>@astro/react</code> integration. To prevent the same,
+        I implemented searching using vanilla JS and HTML data attributes.
+    </p>
+
+    <h2>Looking ahead</h2>
+    <figure>
+        <Image class="w-full" src={cover} alt="" />
+        <figcaption>
+            The lighthouse score is pretty good for something that uses React,
+            and was built in a day or so.
+        </figcaption>
+    </figure><p>
+        JSX is great, it is expressive, components are functions and functions
+        can be passed around and rendered, this allows for flexible composition,
+        which I miss when using Astro components. I look forward to a time where
+        I can do actual SSG using React components.
+    </p>
+</ProjectPost>

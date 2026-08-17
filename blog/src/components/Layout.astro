@@ -1,0 +1,52 @@
+---
+import { SITE, LOCALE } from "../site.config";
+import "../base.css";
+import Logo from "../../assets/logo.svg";
+import Head from "../../../portfolio/src/components/Head.astro";
+import Shell from "../../../portfolio/src/components/Shell.astro";
+
+export interface Props {
+    title: string;
+    description: string;
+    /** Absolute or site-relative path to a social preview image. Defaults to the site favicon. */
+    image?: string;
+    /** "article" for blog posts, "website" for everything else. */
+    type?: "website" | "article";
+    publishedDate?: Date;
+    modifiedDate?: Date;
+    /** Keep this page out of search results. */
+    noindex?: boolean;
+}
+
+const {
+    title,
+    description,
+    image,
+    type,
+    publishedDate,
+    modifiedDate,
+    noindex,
+} = Astro.props;
+---
+
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <Head
+            site={SITE}
+            title={title}
+            description={description}
+            image={image}
+            locale={LOCALE}
+            type={type}
+            publishedDate={publishedDate}
+            modifiedDate={modifiedDate}
+            noindex={noindex}
+            rssUrl="/rss.xml"
+        />
+    </head>
+    <Shell>
+        <slot />
+    </Shell>
+</html>

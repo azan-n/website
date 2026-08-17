@@ -1,0 +1,27 @@
+{
+  "name": "@azan-n/portfolio",
+  "version": "0.0.3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "deploy": "astro build && pnpm exec wrangler pages deploy"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/sitemap": "3.7.3",
+    "@iconify-json/ph": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "@types/node": "^22.19.11",
+    "astro": "catalog:",
+    "astro-icon": "catalog:",
+    "googleapis": "167.0.0",
+    "sharp": "catalog:",
+    "tailwindcss": "catalog:",
+    "tw-animate-css": "catalog:",
+    "typescript": "5.3.3",
+    "wrangler": "catalog:"
+  }
+}

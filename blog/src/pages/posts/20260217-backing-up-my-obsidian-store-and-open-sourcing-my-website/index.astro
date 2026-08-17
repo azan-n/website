@@ -1,0 +1,16 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import cover from "./20260217-1.png";
+
+export const meta = {
+  title: "Backing up my Obsidian store and open-sourcing my website",
+  date: new Date(2026, 1, 17),
+  description: "Restic on local and Cloudflare R2",
+  tags: ["backups"],
+  image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+<blockquote><p>TL;DR Used <a href="https://restic.readthedocs.io/">restic</a> to setup de-duplicated backups on local and Cloudflare R2 and wrote a <a href="https://github.com/azan-n/website/blob/2d8e02a3e7af13ada176e067b2bc3420d9a588eb/lib/backup.ts">script to do it</a></p></blockquote><p>My Obsidian store used to be tracked under my website's git repository but I decided to open-source the website and couldn't have <strong>all</strong> my notes visible. A large chunk of my website is generated from notes and clippings from my Obsidian store which <a href="/posts/20250425-migrating-from-notion-to-obsidian">is synced</a> to my phone using <a href="https://syncthing.net/">Syncthing</a>. This part of the process still works well enough for me, however, now that the notes were not tracked in a git repo, I needed to have persistent backups of my store, and a different build story.</p><h2>Build</h2><p>Initially, my website was linked to Cloudflare pages using my GitHub repository which would automatically get generated when I pushed to main. Later, I stored the built website in my repository which seemed wasteful storage wise but faster to build on my local.</p><p>Now that I wanted to do neither of the above, I chose to build locally and push to Cloudflare Pages using wrangler.</p><h2>Backup</h2><p>The first thing I tried to use was Kopia. It was recommended by a colleague and seemed mature enough to be trusted. Setting it up was easy and straightforward but the UI kept crashing and I gave up on it after. The next tool I tried was <a href="https://restic.readthedocs.io/">restic</a>. It worked similarly to kopia but didn't have schedules out of the box. Granted, as the restic documentation also suggests, <a href="https://restic.readthedocs.io/en/stable/040_backup.html#scheduling-backups">scheduling backups can be done with systemd or cron</a>.</p><p>First, I setup the local repository and then created a copy of the repository on R2 using the <a href="https://restic.readthedocs.io/en/stable/045_working_with_repos.html#ensuring-deduplication-for-copied-snapshots">suggested method</a>. Now, all that I need is to run the <a href="https://github.com/azan-n/website/blob/2d8e02a3e7af13ada176e067b2bc3420d9a588eb/lib/backup.ts">Node script</a> periodically. The script is written in a way that it will ask for a password prompt, which I feel more comfortable with than keeping S3 secrets <strong>and</strong> the password in my environment variables.</p>
+</PostLayout>

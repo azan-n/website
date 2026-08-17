@@ -1,0 +1,102 @@
+---
+import { Icon } from "astro-icon/components";
+interface Props {
+    code: string;
+}
+const { code } = Astro.props;
+---
+
+<div
+    class="group flex flex-col border border-border"
+    data-strudel
+    data-code={code}
+>
+    <div
+        class="flex items-center gap-2 px-2 py-1.5 bg-elevation border-b border-border"
+    >
+        <button
+            class="btn rounded-none text-xs px-3 py-1 disabled:opacity-40 disabled:cursor-not-allowed"
+            data-toggle
+            aria-label="Toggle playback"
+            disabled
+        >
+            Play
+        </button>
+        <button
+            class="btn rounded-none text-xs px-3 py-1 ml-auto"
+            data-copy
+            aria-label="Copy code"
+        >
+            Copy
+        </button>
+    </div>
+    <div class="max-h-96 overflow-auto">
+        <strudel-editor code={code}></strudel-editor>
+    </div>
+</div>
+
+<script>
+    function whenReady(el: any): Promise<any> {
+        return new Promise((resolve) => {
+            const check = () =>
+                el.editor ? resolve(el.editor) : requestAnimationFrame(check);
+            check();
+        });
+    }
+
+    document.querySelectorAll<HTMLElement>("[data-strudel]").forEach((root) => {
+        const el = root.querySelector("strudel-editor") as any;
+        const toggleBtn =
+            root.querySelector<HTMLButtonElement>("[data-toggle]")!;
+        const copyBtn = root.querySelector<HTMLButtonElement>("[data-copy]")!;
+
+        whenReady(el).then((editor) => {
+            editor.changeSetting("theme", "bbedit");
+            editor.changeSetting("fontFamily", "BigBlue Terminal");
+            toggleBtn.disabled = false;
+        });
+
+        el.addEventListener("update", (e: CustomEvent) => {
+            const playing = !!e.detail?.started;
+            root.dataset.playing = String(playing);
+            toggleBtn.textContent = playing ? "Stop" : "Play";
+        });
+
+        toggleBtn.addEventListener("click", () => {
+            const isPlaying = root.dataset.playing === "true";
+            if (!isPlaying) {
+                document
+                    .querySelectorAll<HTMLElement>(
+                        "[data-strudel][data-playing='true']",
+                    )
+                    .forEach((other) => {
+                        if (other !== root) {
+                            (
+                                other.querySelector("strudel-editor") as any
+                            )?.editor?.stop();
+                        }
+                    });
+            }
+            el.editor.toggle();
+        });
+
+        copyBtn.addEventListener("click", async () => {
+            const text = el?.editor?.code ?? root.dataset.code ?? "";
+            try {
+                await navigator.clipboard.writeText(text);
+                copyBtn.textContent = "Copied!";
+                setTimeout(() => {
+                    copyBtn.textContent = "Copy";
+                }, 1200);
+            } catch {
+                console.warn("Clipboard write failed");
+            }
+        });
+    });
+</script>
+
+<style>
+    .cm-lineNumbers {
+        visibility: hidden;
+    }
+</style>

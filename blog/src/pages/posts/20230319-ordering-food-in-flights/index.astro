@@ -1,0 +1,26 @@
+---
+import PostLayout from "../../../components/PostLayout.astro";
+import { Image } from "astro:assets";
+import cover from "./20230319-4.png";
+import img1 from "./20230319-1.png";
+import img2 from "./20230319-2.png";
+import img3 from "./20230319-3.png";
+import img5 from "./20230319-5.png";
+import img6 from "./20230319-6.png";
+import img7 from "./20230319-7.png";
+import img8 from "./20230319-8.png";
+import img9 from "./20230319-9.png";
+import img10 from "./20230319-10.png";
+
+export const meta = {
+  title: "Ordering food in flights",
+  date: new Date(2023, 2, 19),
+  description: "Navigating UX design for an airline meal service",
+  tags: ["design"],
+  image: cover,
+};
+---
+
+<PostLayout meta={meta}>
+<p>This project was part of a design assignment given to me when I was applying to <a href="https://crib.in/">Crib</a>.</p><div><figure><Image src={cover} alt="" /></figure><figure><Image src={img5} alt="" /></figure><figure><Image src={img6} alt="" /></figure><figure><Image src={img7} alt="" /></figure></div><div><figure><Image src={img9} alt="" /></figure><figure><Image src={img10} alt="" /></figure><figure><Image src={img8} alt="" /></figure></div><p>Based on the above existing designs and the basics of layouts, I drew the following wireframes for the layout</p><div><Image src={img1} alt="A wireframe with a persistent sidebar and a large hero section." /> <Image src={img2} alt="A wireframe with no navigation." /> <Image src={img3} alt="A wireframe with a sidebar for categories, similar to a modern McDonald's self-serve." /></div>
+</PostLayout>

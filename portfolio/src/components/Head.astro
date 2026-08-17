@@ -1,0 +1,161 @@
+---
+export interface SiteConfig {
+    url: string;
+    title: string;
+    author: string;
+}
+
+export interface Props {
+    site: SiteConfig;
+    title?: string;
+    description: string;
+    author?: string;
+    image?: string;
+    locale?: string;
+    type?: "website" | "article";
+    publishedDate?: Date;
+    modifiedDate?: Date;
+    noindex?: boolean;
+    rssUrl?: string;
+}
+
+const {
+    site,
+    title,
+    description,
+    author = site.author,
+    image = "/favicon.svg",
+    locale = "en-US",
+    type = "website",
+    publishedDate,
+    modifiedDate,
+    noindex = false,
+    rssUrl,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+const pageTitle =
+    !title || title === site.title ? site.title : `${title} | ${site.title}`;
+
+const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.title,
+    url: site.url,
+    description,
+    author: {
+        "@type": "Person",
+        name: author,
+    },
+};
+
+const articleSchema =
+    type === "article" && publishedDate
+        ? {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: title ?? site.title,
+              description,
+              image: imageURL.toString(),
+              datePublished: publishedDate.toISOString(),
+              ...(modifiedDate && {
+                  dateModified: modifiedDate.toISOString(),
+              }),
+              author: {
+                  "@type": "Person",
+                  name: author,
+              },
+              publisher: {
+                  "@type": "Person",
+                  name: author,
+              },
+              mainEntityOfPage: {
+                  "@type": "WebPage",
+                  "@id": canonicalURL.toString(),
+              },
+          }
+        : null;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Canonical + indexing -->
+<link rel="canonical" href={canonicalURL} />
+<meta
+    name="robots"
+    content={noindex ? "noindex, nofollow" : "index, follow"}
+/>
+<meta name="generator" content={Astro.generator} />
+
+<!-- Discovery -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+{
+    rssUrl && (
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title={`${site.title} RSS Feed`}
+            href={new URL(rssUrl, Astro.site)}
+        />
+    )
+}
+
+<!-- Primary Meta Tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:site_name" content={site.title} />
+<meta property="og:locale" content={locale} />
+{
+    type === "article" && publishedDate && (
+        <meta
+            property="article:published_time"
+            content={publishedDate.toISOString()}
+        />
+    )
+}
+{
+    type === "article" && modifiedDate && (
+        <meta
+            property="article:modified_time"
+            content={modifiedDate.toISOString()}
+        />
+    )
+}
+{
+    type === "article" && <meta property="article:author" content={author} />
+}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+
+<!-- Structured data -->
+<script
+    type="application/ld+json"
+    set:html={JSON.stringify(websiteSchema)}
+/>
+{
+    articleSchema && (
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(articleSchema)}
+        />
+    )
+}
