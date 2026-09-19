@@ -1,0 +1,108 @@
+---
+import { Icon } from "astro-icon/components";
+import FocusDialog from "./FocusDialog.astro";
+
+interface Props {
+    dialogId: string;
+    minutes?: number;
+}
+
+const { dialogId, minutes } = Astro.props;
+---
+
+<button
+    class="btn"
+    onclick={`document.getElementById('${dialogId}')?.showModal()`}
+    aria-label="Open slide"
+>
+    <Icon name="ph:presentation" />
+</button>
+
+<FocusDialog id={dialogId}>
+    <div class="flex flex-col items-center gap-12 w-full text-center">
+        <div class="text-5xl leading-relaxed [&_code]:bg-elevation [&_code]:px-1">
+            <slot />
+        </div>
+        {minutes !== undefined && (
+            <div
+                class="flex flex-col items-center gap-6"
+                data-timer
+                data-seconds={minutes * 60}
+            >
+                <div
+                    class="font-mono tabular-nums"
+                    style="font-size: clamp(3rem, 15vw, 8rem)"
+                    data-display
+                >
+                    {String(minutes).padStart(2, "0")}:00
+                </div>
+                <div class="flex gap-4">
+                    <button class="btn px-6 py-2" data-action="start">Start</button>
+                    <button class="btn px-6 py-2" data-action="reset">Reset</button>
+                </div>
+                <div class="text-sm opacity-40" data-status>Ready</div>
+            </div>
+        )}
+    </div>
+</FocusDialog>
+
+<script>
+    document.querySelectorAll<HTMLElement>("[data-timer]").forEach((timerEl) => {
+        const display = timerEl.querySelector<HTMLElement>("[data-display]")!;
+        const statusEl = timerEl.querySelector<HTMLElement>("[data-status]")!;
+        const startBtn = timerEl.querySelector<HTMLButtonElement>('[data-action="start"]')!;
+        const resetBtn = timerEl.querySelector<HTMLButtonElement>('[data-action="reset"]')!;
+
+        const initialSeconds = parseInt(timerEl.dataset.seconds!);
+        let remaining = initialSeconds;
+        let interval: ReturnType<typeof setInterval> | null = null;
+        let running = false;
+
+        const fmt = (s: number) =>
+            `${Math.floor(s / 60).toString().padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
+
+        function render() {
+            display.textContent = fmt(remaining);
+        }
+
+        function stop() {
+            if (interval) clearInterval(interval);
+            interval = null;
+            running = false;
+        }
+
+        function reset() {
+            stop();
+            remaining = initialSeconds;
+            render();
+            statusEl.textContent = "Ready";
+            startBtn.textContent = "Start";
+        }
+
+        function toggle() {
+            if (running) {
+                stop();
+                startBtn.textContent = "Resume";
+                statusEl.textContent = "Paused";
+            } else {
+                if (remaining <= 0) return;
+                running = true;
+                startBtn.textContent = "Pause";
+                statusEl.textContent = "Running";
+                interval = setInterval(() => {
+                    remaining--;
+                    render();
+                    if (remaining <= 0) {
+                        stop();
+                        startBtn.textContent = "Start";
+                        statusEl.textContent = "Done!";
+                    }
+                }, 1000);
+            }
+        }
+
+        startBtn.addEventListener("click", toggle);
+        resetBtn.addEventListener("click", reset);
+        timerEl.closest("dialog")?.addEventListener("close", reset);
+    });
+</script>

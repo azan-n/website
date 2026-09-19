@@ -1,9 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
+import { nextId } from "../lib/strudel-id";
 interface Props {
     code: string;
 }
 const { code } = Astro.props;
+const id = nextId();
 ---
 <script>import '@strudel/repl'</script>
 <div
@@ -22,6 +24,7 @@ const { code } = Astro.props;
         >
             Play
         </button>
+        <span class="text-xs opacity-50">{id}</span>
         <button
             class="btn rounded-none text-xs px-3 py-1 ml-auto"
             data-copy

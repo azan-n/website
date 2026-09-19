@@ -1,0 +1,52 @@
+---
+export interface Props {
+    id?: string;
+}
+
+const { id = "focus-dialog" } = Astro.props;
+---
+
+<dialog
+    id={id}
+    class="fixed inset-0 w-screen h-screen max-w-none max-h-none p-0 m-0 backdrop:hidden open:flex open:flex-col open:items-center open:justify-center"
+>
+    <div class="w-full h-full flex flex-col items-center justify-center bg-background">
+        <button
+            class="btn absolute top-4 right-4 z-10"
+            aria-label="Close dialog"
+            onclick="this.closest('dialog')?.close()"
+        >
+            ✕
+        </button>
+        <div class="w-full h-full flex flex-col items-center justify-center px-8 py-8 overflow-auto">
+            <slot />
+        </div>
+    </div>
+</dialog>
+
+<script>
+    // Close dialog with Escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            const dialog = document.getElementById("{id}") as HTMLDialogElement;
+            if (dialog?.open) {
+                dialog.close();
+            }
+        }
+    });
+</script>
+
+<style>
+    dialog {
+        border: none;
+        outline: none;
+    }
+
+    dialog::backdrop {
+        display: none;
+    }
+
+    dialog[open] {
+        display: flex !important;
+    }
+</style>

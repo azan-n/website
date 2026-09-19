@@ -51,70 +51,49 @@ function formatDate(date: Date) {
                 <ContactLinks links={CONTACT_LINKS} />
             </div>
         </section>
-        <p class="eyebrow mt-8">
-            {POSTS_DESCRIPTION}
-        </p>
-        <ol class="grid grid-cols-2 sm:grid-cols-3 flex-col mt-8 gap-8">
-            {
-                posts.map((item) => (
-                    <li>
-                        <div class="flex text-orange-800 items-center gap-1.5 eyebrow">
-                            <Icon name="ph:pencil" class="size-3.5" />
-                            <span>Post</span>
-                        </div>
-                        <a
-                            class="no-underline text-text block"
-                            href={`/posts/${item.id}`}
-                        >
-                            <span class="block">{item.data.title}</span>
-                            <p class="font-normal">{item.data.description}</p>
-                            <time
-                                class="font-normal text-text-muted text-sm"
-                                datetime={item.data.date.toISOString()}
-                            >
-                                {formatDate(item.data.date)}
-                            </time>
-                        </a>
-                    </li>
-                ))
-            }
+        <p class="eyebrow mt-8">{POSTS_DESCRIPTION}</p>
+        <ol class="grid-lines grid grid-cols-2 sm:grid-cols-3 flex-col mt-8 gap-8">
+            {posts.map((item) => (
+                <a
+                    href={`/posts/${item.id}`}
+                    class="no-underline text-text flex flex-col p-4"
+                >
+                    <div class="flex text-orange-800 items-center gap-2 my-2 eyebrow">
+                        <Icon name="ph:pencil" class="size-3.5" />
+                        <span>Post</span>
+                        <time datetime={item.data.date.toISOString()}>
+                            {formatDate(item.data.date)}
+                        </time>
+                    </div>
+                    <div>
+                        <span class="block">{item.data.title}</span>
+                        <p class="font-normal mb-4">{item.data.description}</p>
+                    </div>
+                </a>
+            ))}
         </ol>
 
-        <p class="eyebrow mt-8">
-            {LIBRARY_DESCRIPTION}
-        </p>
+        <hr class="my-32" />
+        <p class="eyebrow mt-8">{LIBRARY_DESCRIPTION}</p>
         <ol class="grid grid-cols-2 sm:grid-cols-3 flex-col mt-8 gap-8">
-            {
-                library.map((item) => (
-                    <li>
-                        <div class="flex text-emerald-800 items-center gap-1.5 eyebrow">
-                            <Icon name="ph:repeat" class="size-3.5" />
-                            <span>Repost</span>
-                        </div>
-                        <a
-                            class="no-underline text-text block mt-1"
-                            href={item.data.source}
-                        >
-                            {getFilenameFromPath(item.filePath)}
-                        </a>
-                        <span class="block text-text-muted text-xs select-none">
-                            {new URL(item.data.source).hostname}
-                        </span>
-                        <time
-                            class="font-normal text-text-muted text-sm"
-                            datetime={item.data.complete!.toISOString()}
-                        >
+            {library.map((item) => (
+                <a
+                    class="no-underline text-text block mt-1"
+                    href={item.data.source}
+                >
+                    <div class="flex text-emerald-800 items-center gap-2 eyebrow">
+                        <Icon name="ph:repeat" class="size-3.5" />
+                        <span>Reposted</span>
+                        <time datetime={item.data.complete!.toISOString()}>
                             {formatDate(item.data.complete!)}
                         </time>
-                        {item.rendered?.html && (
-                            <div
-                                class="max-w-prose text-sm mt-2"
-                                set:html={item.rendered.html}
-                            />
-                        )}
-                    </li>
-                ))
-            }
+                    </div>
+                    <span>{getFilenameFromPath(item.filePath)}</span>
+                    <span class="block text-text-muted text-xs select-none">
+                        {new URL(item.data.source).hostname}
+                    </span>
+                </a>
+            ))}
         </ol>
     </section>
 </Layout>

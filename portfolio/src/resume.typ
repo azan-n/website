@@ -9,15 +9,17 @@
   columns: (3fr, 1fr),
   align: (left + bottom, right + bottom),
   smallcaps[
-    #text(font: "Liberation Serif", size: 30pt)[Azan]
+    #text(font: "Liberation Serif", size: 30pt)[Azan Farooqi]
   ],
   [
     work\@azan-n.com \
-    https://azan-n.com
+    https://azan-n.com \
+    Bengaluru, India \
+    +919971988392
   ],
 )
 
-Product-minded engineer with 4+ years at early-stage B2B startups. Comfortable owning the full arc from customer conversation to shipped feature. Builds and ships open-source tools.
+Product-minded engineer with 5+ years at early-stage B2B startups. Comfortable owning the full arc from customer conversation to shipped feature. Builds and ships open-source tools.
 #line(length: 100%, stroke: 0.4pt)
 
 
@@ -25,18 +27,9 @@ Product-minded engineer with 4+ years at early-stage B2B startups. Comfortable o
   [Experience],
   [
     #sectionHeading(
-      heading: [#link("kaafihai.com")[Kaafi Hai]],
-      location: [Remote],
-      role: [Consulting Software Engineer],
-      time: [2025.12 – Present],
-    )
-    - Built and open-sourced websites for music festivals like #link("https://sultrymist.com")[Sultry Mist] using *Astro* and *WordPress*.
-    - Developed an open-source executive function application #link("https://github.com/kaafihai/baajit")[Baajit] for neurodivergent people using *Tauri* and *React*.
-
-    #sectionHeading(
       heading: [#link("cryptlex.com")[Cryptlex]],
       location: [Remote],
-      role: [Staff Engineer],
+      role: [Founding Engineer],
       time: [2021.09 – Present],
     )
     Early-stage bootstrapped B2B SaaS startup (\~3 people at joining); wore many hats across the full business lifecycle.
@@ -53,6 +46,8 @@ Product-minded engineer with 4+ years at early-stage B2B startups. Comfortable o
       time: [2021.09 – Present],
     )
     End-to-end design, development, and research for early-stage startups without dedicated product or design teams.
+    - Built and open-sourced websites for music festivals like #link("https://sultrymist.com")[Sultry Mist] using *Astro* and *WordPress*.
+    - Developed an open-source executive function application #link("https://github.com/kaafihai/baajit")[Baajit] for neurodivergent people using *Tauri* and *React*.
     - Designed and built features using Django, HTMX, and AlpineJS for ed-tech startup Goodly; conducted user research to inform feature direction.
     - Automated workflows with Docker and GitHub Actions, reducing manual overhead for small teams operating lean.
   ],
