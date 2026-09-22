@@ -28,4 +28,11 @@ export const SOCIALS: SocialObjects = [
     linkTitle: ` ${SITE.title} on GitHub`,
     label: "GitHub",
   },
+  {
+    icon: "ph:mastodon-logo-duotone",
+    href: "https://social.toplap.org/@azan",
+    linkTitle: ` ${SITE.title} on Mastodon`,
+    label: "Mastodon",
+  },
+
 ];

@@ -8,6 +8,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: SITE.url,
   integrations: [icon(), sitemap()],
+  redirects: {
+    "/playlists": "https://www.youtube.com/@azan-n0",
+  },
   vite: {
     plugins: [tailwindcss()],
   },

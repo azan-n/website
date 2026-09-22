@@ -13,48 +13,63 @@ const CONTACT_LINKS = [
         linkTitle: "My blog",
         label: "Blog",
     },
+    {
+        icon: "ph:instagram-logo-duotone",
+        href: "https://instagram.com/qualbatukh",
+        linkTitle: "Instagram",
+        label: "Instagram",
+    },
+    {
+        icon: "ph:cassette-tape",
+        href: "https://qualbatukh.bandcamp.com",
+        linkTitle: "Bandcamp",
+        label: "Bandcamp",
+    },
 ];
 
 const drums = [
-    `$: s("bd ~ sd ~ bd ~ [sd, sd] ~")`,
-    `$: s("bd bd cp@2")`,
+    `// the '~' is a rest, this is a comment
+$: s("bd ~ sd ~ bd ~ [sd, oh] ~")`,
+    `// for the sports bars out there!
+$: s("bd bd cp@2")`,
     `$: s("bd hh bd hh")`,
     `// the $ is for separate tracks, they play in parallel
+// the '_' behind the '$' prevents the track from playing
 $: s("bd*4")
-$: s("hh*8")
+_$: s("hh*8")
 $: s("~ sd")`,
-    `$: s("bd sd [~ bd] sd, hh*6").bank("RolandTR909")`,
-    `$: s("oh!2 ~").attack(0.7).decay(0.2).hpf(3000)
+    `// bank() sets sounds from a drum machine available in the sound library
+$: s("bd sd [~ bd] sd, hh*6").bank("RolandTR909")`,
+    `// attack(), decay(), and hpf() are "effects" chained/applied on to the sound to be played
+$: s("oh!2 ~").attack(0.7).decay(0.2).hpf(3000)
 $: s("rim!3 ~").decay(0.2).hpf(3000)`,
-    `$: s("<bd(3,8) bd(5,8)>").lpf(900).gain(slider(1,0,1))`,
+    `// all code changes need to be applied to show up but slider changes apply as you make them
+// here the bass drum is alternating two euclidian rhythms called tressilo (3/8) and cinquillo (5/8) respectively
+$: s("<bd(3,8) bd(5,8)>").lpf(900).gain(slider(1,0,1))`,
     `// you can use all kinds of samples in strudel, the following imports a known library of samples
 samples('github:tidalcycles/dirt-samples')
 // fit() makes sure the sample fits the current cycles per minute
 $: s("breaks165").fit().chop(4).sometimes(ply(2)).cut(1)`,
-    `$: s("bd bd ~ rim,hh*3")`,
-    `$: s("hh(3,8)!2").hpf(7000)
-$: s("rim!4").ply(slider(2,0,4,2)).lpf(800).gain(slider(0.326))`,
     `setcpm(70/4)
-
+// stacks are useful when you want to control a group of sounds together
 $: stack(
-  s("bd").beat("0,3,6,10", 16).bank("RolandTR808"),
-  s("sd").beat("4,12", 16).bank("RolandTR808"),
-  s("hh*4").bank("RolandTR808").gain(0.8).late(0.25).ply("2 | 3 | 4 "),
-  s("oh").beat("7", 8).bank("RolandTR808").gain(0.6)
-).lpf(3000).coarse(4).shape(0.3)`,
+  // beat() is useful when you want to write beats like in a drum machine
+  s("bd").beat("0,3,6,10", 16),
+  s("sd").beat("4,12", 16),
+  s("hh*4").gain(0.8).late(0.25).ply("2 | 3 | 4 "),
+  s("oh").beat("7", 8).gain(0.6)
+).bank("RolandTR808").lpf(3000).coarse(4)`,
     `setcpm(80/4)
-
-$: stack(
-  s("bd bd ~ ~ ~ bd*2 ~ bd").bank("9000"),
-  s("sd").beat("1,2", 4).bank("9000")
-).lpf(6000).shape(0.3)`,
-    `setcpm(80/4)
-
 $: s("rim(5,16)").bank("9000").room(0.7)
+// most of these sounds are samples
+// some of them have more than one variant, like 'perc' here
 $: s("[~ perc:1*2] [~ perc:3*2]").fast(2).bank("yamaharm50")`,
     `setcpm(70/4)
 stack(
   s("bd ~ ~ ~ ~ ~ ~ ~").room(.6),
+  // degradeBy() is randomly muting this sound 60% of the time (0.6)
+  // The gain() is randomly moving between .2 and .7
+  // Bitcrushing is alternating between 8, 16, and 4
   s("hh*16").degradeBy(.6).gain(rand.range(.2,.7)).crush("<8 16 4>"),
   s("rim(5,16)").off(.125, x => x.speed(2).gain(.4)).delay(.5)
 ).bank("RolandTR707")`,
@@ -69,46 +84,52 @@ stack(
 stack(
   s("bd ~ ~ [~ bd] ~ ~ bd ~"),
   s("~ ~ ~ ~ sd ~ ~ ~"),
-  s("hh*8").sometimesBy(.35, x => x.ply("<2 3 4>")).gain(.6)
+  // ~35% of the time, this sound is played twice, thrice, or four times
+  s("hh*8").sometimesBy(.35, x => x.ply("2 | 3 | 4")).gain(.6)
 ).bank("RolandTR808")`,
 ];
 
 const melodies = [
+    `// a scale is just a bunch of frequencies we've come to like
+$: n("0 1 2 3 4 5 6 7").scale("C:major")`,
+    `// this could make a 🔥 drill beat
+$: n("0 3 2 [1 4]".add("<7 0 1>")).scale("c:minor").s("gm_acoustic_bass").attack(1)`,
+    `setcpm(180/4)
+$: n("<[4 [4 ~]] [5 4 7] [6@2 4 4] [5 4 8] [7@2 4 4] [11 2 0] [6 5 3 3] [2 0 1] 0@2>").scale("C:major")`,
+    `// chords are sets of frequencies played together (3 or more)
+// these are generally picked from within a scale
+$: chord("<C#m C#m7 B9 AM7>").voicing().s("gm_epiano1")`,
+    `setcpm(70/4)
+$: chord("<AM7 B C#m7 E B AM7 C#m7 B A F#m7 B C#m7 A>").voicing().s("gm_epiano1:4").lpf(600)`,
     `// superimpose essentially makes a copy of the pattern and plays it on top with the parameters defined
 $: chord("<EM7 E7 B7 AM7 B>").s("gm_piano").superimpose(x => x.detune(.5)).voicing()`,
-    `$: n("0 3 2 [1 4]".add("<7 0 1>")).scale("c:minor").s("gm_acoustic_bass").attack(1)`,
-    `$: chord("<C#m C#m7 B9 AM7>").voicing().s("gm_epiano1")`,
     `let chords = chord("<Am D7 <GM7 CM7>>/4")
+// melodies can be derived from the chords you are playing
 $: n("2 1 0 1").set(chords).voicing().s("gm_piano:19").room(0.25).trans("12")
-$: n("0 - 0 0 - -").set(chords).voicing().transpose("-12").s("gm_acoustic_bass")`,
-    `setcpm(180/4)
-$: n("<[4 [4 -]] [5 4 7] [6@2 4 4] [5 4 8] [7@2 4 4] [11 2 0] [6 5 3 3] [2 0 1] 0@2>").scale("C:major")`,
-    `setcpm(70/4)
-let chords = chord("<AM7 B C#m7 E B AM7 C#m7 B A F#m7 B C#m7 A>")
-$: chords.voicing().s("gm_epiano1:4").lpf(600)`,
-    `setcpm(60)
-let chords = chord("<Am D7 <GM7 CM7 [Gadd9, CM7]>>/4")
-$: chords.struct("- x - -").voicing().mode("below").sound("piano").ply(2).slow(2)`,
-    `samples('shabda/speech:jstor,killed')
-setcpm(60)
-$: s("jstor").slice(8, "0 1 2 3 4 5 6 7").fit().fast(2).note("<e2 g2 a2>").hpf(3000)
-$: s("killed").slice(3, "0 1 2").fit().note("g2 e2 c3").gain(0.3)`,
+$: n("0 ~ 0 0 ~ ~").set(chords).voicing().transpose("-12").s("gm_acoustic_bass")`,
+
     `let chords = chord("<Am D7 <GM7 CM7 [Gadd9, CM7]>>/4")
 let pattern = "0 1 3 1 | 3 1 0 1 | 0 1 5 3 | 6 7 3 1"
 // Nice and dreamy
-$: n(pattern).set(chords).offset(-6).voicing().sound("gm_electric_guitar_clean")
-    .superimpose(x=>x.add(.06))
+$: n(pattern).set(chords).voicing().sound("gm_electric_guitar_clean")
+    .transpose(-12)
     .sustain(3)
     .delay(0.5)
     .lpf(3000)
     .distort(rand.range(1,2))
-    .gain(perlin.range(0.1, 0.3))`,
+    .gain(sine.range(0.3, 0.5))`,
     `samples('github:tidalcycles/dirt-samples')
 setcpm(60)
+// samples can be sliced up and played
 $: s("rave").slice(8, "4 5 6 7 8")
 $: s("bd!8").gain(sine)
 // my favourite sample
 $: s("crow").slice(4, "0 2 0 1").gain(0.3)`,
+    `samples('shabda/speech:jstor,killed')
+// vocal samples are easy to get
+setcpm(60)
+$: s("jstor").slice(8, "0 1 2 3 4 5 6 7").fit().fast(2).note("<e2 g2 a2>").hpf(3000)
+$: s("killed").slice(3, "0 1 2").fit().note("g2 e2 c3").gain(0.3)`,
 ];
 
 const my_patches = [
@@ -196,7 +217,7 @@ $shaker: s("shaker_large!2").release(0.1).gain(0.3)
 $: n("0 3 5 7").set(chord(chords)).offset(-5).voicing()
   .s("gm_acoustic_bass:1").gain(slider(0.678)).attack(0.1)
 
-$: s("hh(3,8)!2")
+$: s("hh(3,8)")
   .hpf(7000).room(0.5).delay(0.1)
   .gain(slider(1))
 $: s("rim!4")
@@ -579,6 +600,22 @@ _$: sound(\`
 [- - bd  - ] [-  -  bd - ] [bd bd - bd ] [-  bd  -  - ]
 \`).bank("RolandTR505").lpf(2000).gain(slider(0.956, 0, 1))
   .duckorbit(2).duckattack(0.15).duckdepth(1)`,
+    `/*
+@title hello cutie
+@by simar
+*/
+
+samples('shabda/speech/fr-FR/f:hello,cutie')
+
+$: stack(
+  s("bd bd bd bd ").lpf("600"),
+  s("- hh - hh*2 - hh*2 - hh").lpf(2000)).bank("Rolandmc303").gain("5")
+
+$: note("[<5*2 7> <10 15> <8*2 9 10> <12*2 15 16*5>]*2").scale("a:major").s("triangle:8").room(slider(2,0,2)).lpf(1000).rev()
+
+$: chord("A Bm C#m D").voicing().s("sine").arp("10 12 16 12 11 15 16 13").jux(rev).sometimes(x=> x.add("120, 105, 300"))
+
+$: s("hello cutie").speed("1.5").chop(2).rev()`,
     `// "coastline" @by eddyflux
 // @version 1.0
 samples('github:eddyflux/crate')
@@ -631,41 +668,61 @@ stack(
     </style>
     <article class="space-y-4">
         <section class="p-4 border mb-8">
-            Hello! My name is Azan (a·zaan). I'm a self-taught musician and a
-            software engineer. This page is a reference you can return to
-            throughout the workshop. Use it to explore different approaches to
-            playing sounds and building patterns in Strudel. This workshop aims
-            to be a crash-course in playing music with strudel.cc regardless of
-            your experience with music theory or programming.
+            Hello! My name is Azan (a·zaan). I play music as qualbatukh. This
+            page is a reference for the workshop. The{" "}
+            <a href="https://github.com/azan-n/website">source code</a> for this
+            website is licensed under AGPL-3 but some of the examples mentioned
+            here might be subject to different licenses.
             <div class="mt-4">
                 <SlideButton dialogId="settling">
-                    Grab some water, plug in a charger (if you need it), wear your earphones/headphones, open
-                    two tabs with <br /><a href="#">blog.azan-n.com/strudel</a>
-                    <br />and <br /><a href="https://strudel.cc">strudel.cc</a>
+                    Grab some water, plug in a charger (if you need it),
+                    plug/pair your earphones/headphones, open two tabs with{" "}
+                    <br />
+                    <a href="#">blog.azan-n.com/strudel</a>
+                    <br />
+                    and <br />
+                    <a href="https://strudel.cc">strudel.cc</a>
                 </SlideButton>
             </div>
             <div class="mt-4">
                 <ContactLinks links={CONTACT_LINKS} />
             </div>
         </section>
-        <h1>
-            Your first beat!<SlideButton dialogId="intro">
-                Tell me about yourselves! What brings you here?
-            </SlideButton>
-        </h1>
+        <h1>Step 1: Your first beat!</h1>
         <p>
             The following are some examples of beats I have authored, along with
-            others I have repurposed from the <a
-                href="https://strudel.cc/workshop/getting-started/"
-                >Strudel documentation</a
-            >. <SlideButton dialogId="why-strudel">Why Strudel?</SlideButton>
+            others I have repurposed from the{" "}
+            <a href="https://strudel.cc/workshop/getting-started/">
+                strudel documentation
+            </a>
+            . The sounds section in the editor has a wide range of samples built
+            in.
         </p>
-        <p><code>Ctrl + Enter</code> to play, <code>Ctrl + .</code> to stop</p>
-        <p>
-            bd = bass drum, sd = snare drum, rim = rimshot, hh = hihat, oh =
-            open hihat, lt = low tom, mt = middle tom, ht = high tom, rd = ride
-            cymbal, cr = crash cymbal, cp = clap
-        </p>
+        <dl class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1">
+            {[
+                ["patch", "a complete piece"],
+                ["pattern", "a sequence of sounds"],
+                ["editor", "the strudel.cc page"],
+                ["Ctrl + Enter", "play"],
+                ["Ctrl + .", "stop"],
+                ["bd", "bass drum"],
+                ["sd", "snare drum"],
+                ["rim", "rimshot"],
+                ["hh", "hihat"],
+                ["oh", "open hihat"],
+                ["lt", "low tom"],
+                ["mt", "middle tom"],
+                ["ht", "high tom"],
+                ["rd", "ride cymbal"],
+                ["cr", "crash cymbal"],
+                ["cp", "clap"],
+            ].map(([abbr, def]) => (
+                <div class="flex gap-2">
+                    <dt class="font-bold">{abbr}</dt>
+                    <dd class="text-text-muted">{def}</dd>
+                </div>
+            ))}
+        </dl>
         <p>
             <SlideButton dialogId="slide-beat" minutes={5}>
                 Explore the beats shown below, modify them in your editor,
@@ -673,75 +730,111 @@ stack(
             </SlideButton>
         </p>
         <section class="flex flex-col gap-4 mb-8">
-            {drums.map((d) => <StrudelEditor code={d} />)}
+            {drums.map((d) => (
+                <StrudelEditor code={d} />
+            ))}
         </section>
-        <h1>Patterns</h1>
+        <h1>Step 2: Patterns!</h1>
         <p>
-            You don't <em>really</em> need to know all the music theory to make something
-            that sounds good. Sometimes you just need <a href="https://www.hooktheory.com/cheat-sheet/key/a/minor">cheatsheets.</a>
+            You don't <em>really</em> need to know all the music theory to make
+            something that sounds good. Sometimes you just need{" "}
+            <a href="https://www.hooktheory.com/cheat-sheet/key/a/minor">
+                cheatsheets
+            </a>{" "}
+            or look up the chords to a song you like.
         </p>
-        <p>
-            Slow down using <code>/</code>, Alternate using <code>{"<>"}</code>,
-            Elongate using <code>@</code>, Replicate using <code>!</code>,
-            Parallel using <code>,</code>, Speed up using <code>*</code>,
-            Sub-sequence using <code>[]</code>, Rest using <code>~</code>.
-        </p>
+        <dl class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1">
+            {[
+                ["/", "slow down"],
+                ["<>", "alternate"],
+                ["@", "elongate"],
+                ["!", "replicate"],
+                [",", "parallel"],
+                ["*", "speed up"],
+                ["[]", "sub-sequence"],
+                ["~", "rest"],
+            ].map(([sym, def]) => (
+                <div class="flex gap-2">
+                    <dt class="font-bold">{sym}</dt>
+                    <dd class="text-text-muted">{def}</dd>
+                </div>
+            ))}
+        </dl>
         <p>
             <SlideButton dialogId="slide-patterns" minutes={5}>
-                Add a melody or chords, modify the patterns, listen to them.
+                Add notes to the rhythm. Change the scale, the chord, the sound.
             </SlideButton>
         </p>
         <section class="flex flex-col gap-4 mb-8">
-            {melodies.map((d) => <StrudelEditor code={d} />)}
+            {melodies.map((d) => (
+                <StrudelEditor code={d} />
+            ))}
         </section>
-        <h1>Patches I have written</h1>
-        <section class="grid grid-cols-2 gap-4 mb-8">
-            {my_patches.map((d) => <StrudelEditor code={d} />)}
-        </section>
-        <h1>Build your own patch!</h1>
-        <SlideButton dialogId="slide-share" minutes={20}>
-            Remix and change existing patches on this page or build sounds by yourself.
-        </SlideButton>
-        <p>
-            Share what you made at <a
-                href="https://cryptpad.fr/form/#/2/form/view/8qmJbMnElcUByjbgWqNbPMziJ3POsHDrbZX2hWy0eFU/"
-                >https://cryptpad.fr/form/#/2/form/view/8qmJbMnElcUByjbgWqNbPMziJ3POsHDrbZX2hWy0eFU/</a
+        <h1>
+            Step 3: Build your own patch!
+            <SlideButton dialogId="slide-share" minutes={10}>
+                Your turn. Remix or build from scratch at strudel.cc.
+            </SlideButton>
+        </h1>
+        <p class="flex justify-center my-8">
+            <a
+                class="btn"
+                target="_blank"
+                href="https://cryptpad.fr/form/#/2/form/view/GhtsHwFEtB+4t0bkA7gVN98q6S-nPhu-Yq7HOlOaAcg/"
             >
+                Submit your patch!{" "}
+            </a>
         </p>
+        <hr class="h-84 mb-80" />
+        <h1>Patches I have written</h1>
+        <section class="flex flex-col gap-4 mb-8">
+            {my_patches.map((d) => (
+                <StrudelEditor code={d} />
+            ))}
+        </section>
         <h1>Patches I have found</h1>
         <p>
-            From personal websites, strudel’s Codeberg issues, and friends. I
-            like these because each patch shows a different way of thinking
-            about and playing with Strudel. The <a
-                href="https://strudel.cc/intro/showcase/">strudel.cc Showcase</a
-            > is also great to look at.
+            Each of these patches comes from a personal website, strudel’s
+            Codeberg issues, or a friend and have been included because they each show a
+            different approach of playing. The{" "}
+            <a target="_blank" href="https://strudel.cc/intro/showcase/">strudel.cc showcase</a>{" "}
+            is also worth a look, along with these live performances:{" "}
+            <a target="_blank" href="https://www.youtube.com/watch?v=WyPodcrCQng">1</a>,{" "}
+            <a target="_blank" href="https://www.youtube.com/watch?v=9W7Kqi88KhA">2</a>,{" "}
+            <a target="_blank" href="https://www.youtube.com/watch?v=Uw8z1efMacI">3</a>.
         </p>
         <section class="flex flex-col gap-4 mb-8">
-            {found_patches.map((p) => <StrudelEditor code={p} />)}
+            {found_patches.map((p) => (
+                <StrudelEditor code={p} />
+            ))}
         </section>
 
         <h1>Community and playing together!</h1>
         <p>
-            I've enjoyed playing with other people using <a
-                href="https://flok.cc">flok.cc</a
-            >, and sometimes taking turns to write a line on the same computer
-            feels much better.
+            I've enjoyed playing with other people using{" "}
+            <a href="https://flok.cc">flok.cc</a>, and sometimes taking turns to
+            write a line on the same computer feels much better.
         </p>
         <p>
-            Communities like <a href="https://www.instagram.com/algorave_india"
-                >Algorave India</a
-            >, <a href="https://www.instagram.com/livecode.blr">livecode.blr</a> are
-            active in Bangalore. <a href="https://blog.toplap.org/">TOPLAP</a> is
-            quite an old organization operating around livecoding and they have an
-            active discord server. The <a
-                href="https://tidalcycles.org/docs/community/"
-                >TidalCycles community</a
-            > also has a very active forum and discord server. You can stay connected
-            with all other participants on our <a
-                href="https://chat.whatsapp.com/Lmz1301mzroIfiN9kvOyDk"
-                >WhatsApp group</a
-            >.
+            Communities like{" "}
+            <a href="https://www.instagram.com/algorave_india">
+                Algorave India
+            </a>
+            , <a href="https://www.instagram.com/livecode.blr">livecode.blr</a>{" "}
+            are active in Bangalore. <br />
+            <a href="https://blog.toplap.org/">TOPLAP</a> is quite an old
+            organization operating around livecoding and they have an active
+            discord server. The{" "}
+            <a href="https://tidalcycles.org/docs/community/">
+                TidalCycles community
+            </a>{" "}
+            also has a very active forum and discord server. You can stay
+            connected with all other participants on our{" "}
+            <a href="https://chat.whatsapp.com/Lmz1301mzroIfiN9kvOyDk">
+                WhatsApp group
+            </a>
+            .
         </p>
-        <p>Go out there and play!</p>
+        <h1>Step 4: Go out there and play!</h1>
     </article>
 </Layout>
