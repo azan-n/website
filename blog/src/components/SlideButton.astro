@@ -11,7 +11,7 @@ const { dialogId, minutes } = Astro.props;
 ---
 
 <button
-    class="btn"
+    class="btn presenter-only"
     onclick={`document.getElementById('${dialogId}')?.showModal()`}
     aria-label="Open slide"
 >
@@ -105,4 +105,21 @@ const { dialogId, minutes } = Astro.props;
         resetBtn.addEventListener("click", reset);
         timerEl.closest("dialog")?.addEventListener("close", reset);
     });
+</script>
+
+<style is:global>
+    .presenter-only {
+        display: none;
+    }
+
+    :root.is-presenter .presenter-only {
+        display: inline-flex;
+    }
+</style>
+
+<script>
+    const params = new URLSearchParams(location.search);
+    if (params.has("presenter")) {
+        document.documentElement.classList.add("is-presenter");
+    }
 </script>
